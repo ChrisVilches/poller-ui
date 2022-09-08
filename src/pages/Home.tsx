@@ -1,3 +1,4 @@
+import React from "react";
 import { EndpointList } from "../components/EndpointList";
 
 export const Home = () => (
@@ -5,4 +6,4 @@ export const Home = () => (
     Home page
     <EndpointList/>
   </div>
-)
+);

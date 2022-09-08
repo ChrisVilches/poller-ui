@@ -11,6 +11,6 @@ export class Endpoint {
   arguments: (string | boolean | number)[];
   navigations: string[];
   url: string;
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  type: 'HTML' | 'DHTML' | 'JSON';
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  type: "HTML" | "DHTML" | "JSON";
 }

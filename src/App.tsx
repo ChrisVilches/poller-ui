@@ -1,21 +1,21 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { About } from './pages/About';
-import { Home } from './pages/Home';
-import { Nav } from './components/Nav';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { Nav } from "./components/Nav";
+import { About } from "./pages/About";
+import { Home } from "./pages/Home";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <div>
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
+        autoClose={ 5000 }
+        hideProgressBar={ false }
+        newestOnTop={ false }
         closeOnClick
-        rtl={false}
+        rtl={ false }
         pauseOnFocusLoss
         draggable
         pauseOnHover
@@ -24,8 +24,8 @@ function App() {
       <Nav />
       <hr />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
+        <Route path="/" element={ <Home /> } />
+        <Route path="about" element={ <About /> } />
       </Routes>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Button, Modal } from "flowbite-react";
 import React from "react";
-import { Endpoint } from "../../models/Endpoint";
 import { EndpointForm } from "./EndpointForm";
+import { Endpoint } from "../../models/Endpoint";
 
 interface NewModalProps {
   show: boolean;
@@ -10,26 +10,26 @@ interface NewModalProps {
 }
 
 export const NewModal = ({ show, closeModal, itemAdded }: NewModalProps) => {
-  const endpoint = new Endpoint()
+  const endpoint = new Endpoint();
 
   return (
     <React.Fragment>
       <Modal
-        show={show}
-        onClose={closeModal}
+        show={ show }
+        onClose={ closeModal }
       >
         <Modal.Header>
           Create Endpoint
         </Modal.Header>
         <Modal.Body>
           <EndpointForm
-            endpoint={endpoint}
+            endpoint={ endpoint }
             formType="create"
-            onEndpointUpserted={itemAdded} />
+            onEndpointUpserted={ itemAdded } />
         </Modal.Body>
         <Modal.Footer>
           <Button
-            onClick={closeModal}
+            onClick={ closeModal }
             color="gray"
           >
             Cancel
@@ -37,5 +37,5 @@ export const NewModal = ({ show, closeModal, itemAdded }: NewModalProps) => {
         </Modal.Footer>
       </Modal>
     </React.Fragment>
-  )
-}
+  );
+};

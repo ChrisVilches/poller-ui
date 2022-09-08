@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler } from "react";
 
 interface CheckboxProps {
   checked: boolean;
@@ -10,8 +10,12 @@ interface CheckboxProps {
 export const Checkbox = ({ checked, label, onChange, disabled }: CheckboxProps) => (
   <div>
     <label>
-      <input className="px-2 py-2 rounded-full mr-2" disabled={disabled} type="checkbox" defaultChecked={checked} onChange={onChange} />
-      {label}
+      <input className="px-2 py-2 rounded-full mr-2"
+        disabled={ disabled }
+        type="checkbox"
+        defaultChecked={ checked }
+        onChange={ onChange } />
+      { label }
     </label>
   </div>
-)
+);
