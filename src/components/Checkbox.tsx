@@ -2,20 +2,24 @@ import React, { ChangeEventHandler } from "react";
 
 interface CheckboxProps {
   checked: boolean;
-  disabled: boolean;
+  disabled?: boolean;
   label: string;
+  loading?: boolean;
   onChange: ChangeEventHandler
 }
 
-export const Checkbox = ({ checked, label, onChange, disabled }: CheckboxProps) => (
+export const Checkbox = ({ checked, label, onChange, disabled = false, loading = false }: CheckboxProps) => (
   <div>
     <label>
-      <input className="px-2 py-2 rounded-full mr-2"
+      <input className="w-4 h-4 text-teal-600 bg-gray-100 rounded border-gray-300 focus:ring-teal-500"
         disabled={ disabled }
         type="checkbox"
         defaultChecked={ checked }
         onChange={ onChange } />
-      { label }
+      <span className={ disabled ? "ml-2 text-sm font-medium text-gray-400" : "ml-2 text-sm font-medium text-gray-900" }>
+        { label }
+        { loading ? "Loading..." : "" }
+      </span>
     </label>
   </div>
 );

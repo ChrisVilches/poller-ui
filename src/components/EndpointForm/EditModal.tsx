@@ -6,7 +6,7 @@ import { Endpoint } from "../../models/Endpoint";
 interface EditModalProps {
   endpoint: Endpoint;
   show: boolean;
-  closeModal: any; // TODO: any
+  closeModal: () => void;
   itemEdited: (e: Endpoint) => void;
 }
 

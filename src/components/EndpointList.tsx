@@ -1,138 +1,61 @@
-import { plainToInstance } from "class-transformer";
 import { Button } from "flowbite-react";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { EditModal } from "./EndpointForm/EditModal";
 import { NewModal } from "./EndpointForm/NewModal";
 import { EndpointItem } from "./EndpointItem";
+import { EndpointOptions } from "./EndpointOptions";
 import { Endpoint } from "../models/Endpoint";
-import { EndpointService } from "../services/EndpointService";
-
-enum EndpointReducerActions {
-  SET_ALL,
-  UPDATE_ENABLED,
-  REPLACE_ITEM,
-  ADD_ITEM
-}
-
-const updateEnabled = (state, { endpointId, enabled }) => {
-  const newState = [...state];
-  newState.find((e: Endpoint) => e.id === endpointId).enabled = enabled;
-  return newState;
-};
-
-const replaceItem = (state, { endpointId, newEndpoint }) => {
-  const newState = [...state];
-  const idx = newState.findIndex((e: Endpoint) => e.id === endpointId);
-  newState[idx] = plainToInstance(Endpoint, newEndpoint);
-  return newState;
-};
-
-const addItem = (state, { newEndpoint }) => {
-  const newState = [...state];
-  newState.push(newEndpoint);
-  return newState;
-};
-
-const endpointsReducer = (state: any, action: any) => {
-  switch (action.type) {
-  case EndpointReducerActions.SET_ALL:
-    return action.payload;
-  case EndpointReducerActions.UPDATE_ENABLED:
-    return updateEnabled(state, action.payload);
-  case EndpointReducerActions.REPLACE_ITEM:
-    return replaceItem(state, action.payload);
-  case EndpointReducerActions.ADD_ITEM:
-    return addItem(state, action.payload);
-  default:
-    throw new Error("Incorrect reducer action");
-  }
-};
+import { addItem, fetchAllEndpoints, updateEnabled } from "../slices/endpointListSlice";
+import { RootState } from "../store";
+import { EndpointOptionModals } from "./EndpointOptionModals";
 
 export const EndpointList = () => {
-  const [endpoints, dispatch] = useReducer(endpointsReducer, []);
-
-  const fetchEndpoints = async () => {
-    console.log("Fetching endpoints...");
-    const endpoints = await EndpointService.findAll();
-    dispatch({
-      payload: endpoints,
-      type: EndpointReducerActions.SET_ALL
-    });
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchEndpoints();
+    dispatch((fetchAllEndpoints as any)()); // TODO: Doesn't work without any, but seems to be correct.
   }, []);
 
-  const toggleEnable = (endpointId: number) => (enabled: boolean) => dispatch({
-    payload: {
-      enabled,
-      endpointId
-    },
-    type: EndpointReducerActions.UPDATE_ENABLED
-  });
+  const updateEnabledCallback = (endpointId: number) => (enabled: boolean) => dispatch(updateEnabled({
+    endpointId, enabled
+  }));
 
-  const replaceItem = (endpointId: number) => (newEndpoint: Endpoint) => dispatch({
-    payload: {
-      endpointId,
-      newEndpoint
-    },
-    type: EndpointReducerActions.REPLACE_ITEM
-  });
-
-  const addItem = (newEndpoint: Endpoint) => dispatch({
-    payload: { newEndpoint },
-    type: EndpointReducerActions.ADD_ITEM
-  });
-
-  const [editModalShow, setEditModalShow] = useState(false);
   const [newModalShow, setNewModalShow] = useState(false);
-  const [editingEndpoint, setEditingEndpoint] = useState(null);
-
-  const onClickEditEndpoint = (endpointId: number) => {
-    setEditingEndpoint(endpoints.find((e: Endpoint) => e.id === endpointId));
-    setEditModalShow(true);
-  };
-
-  const onItemWasUpdated = (endpoint: Endpoint) => {
-    replaceItem(endpoint.id)(endpoint);
-    toast.success("Edited!");
-    setEditModalShow(false);
-  };
 
   const onItemWasAdded = (endpoint: Endpoint) => {
-    addItem(endpoint);
+    dispatch(addItem({ endpoint }));
     toast.success("Added!");
     setNewModalShow(false);
   };
+
+  const { endpoints, isLoading } = useSelector((state: RootState) => state.endpointList);
+
+  if(isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <h2>Endpoints ({ endpoints.length })</h2>
 
       { endpoints.map(endpoint => (
-        <div key={ endpoint.id } className="my-10 border-slate-500 border-2 p-4">
-          <Button onClick={ () => onClickEditEndpoint(endpoint.id) }>
-            Edit
-          </Button>
+        <div key={ endpoint.id } className="my-8 border-gray-200 shadow-lg border-2 rounded-md p-4">
+          <div className="float-right">
+            <EndpointOptions endpoint={ endpoint }/>
+          </div>
+
           <EndpointItem
             endpoint={ endpoint }
-            toggleEnable={ toggleEnable(endpoint.id) } />
+            toggleEnable={ updateEnabledCallback(endpoint.id) } />
         </div>
       )) }
-
-      { editingEndpoint ? (
-        <EditModal
-          endpoint={ editingEndpoint }
-          show={ editModalShow }
-          closeModal={ () => setEditModalShow(false) }
-          itemEdited={ onItemWasUpdated } />
-      ) : <></> }
 
       <Button onClick={ () => setNewModalShow(true) }>
         Create
       </Button>
+
+      <EndpointOptionModals/>
 
       <NewModal
         show={ newModalShow }
@@ -142,3 +65,7 @@ export const EndpointList = () => {
     </div>
   );
 };
+function reloadTagMenu() {
+  throw new Error("Function not implemented.");
+}
+

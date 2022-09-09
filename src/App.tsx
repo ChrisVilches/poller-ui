@@ -1,14 +1,17 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Nav } from "./components/Nav";
+import { TagMenu } from "./components/TagMenu";
 import { About } from "./pages/About";
 import { Home } from "./pages/Home";
+import { store } from "./store";
 import "react-toastify/dist/ReactToastify.css";
 
-function App() {
+const App = () => {
   return (
-    <div>
+    <Provider store={ store }>
       <ToastContainer
         position="bottom-right"
         autoClose={ 5000 }
@@ -23,12 +26,15 @@ function App() {
       />
       <Nav />
       <hr />
-      <Routes>
-        <Route path="/" element={ <Home /> } />
-        <Route path="about" element={ <About /> } />
-      </Routes>
-    </div>
+      <TagMenu/>
+      <div className="container mx-auto px-4">
+        <Routes>
+          <Route path="/" element={ <Home /> } />
+          <Route path="about" element={ <About /> } />
+        </Routes>
+      </div>
+    </Provider>
   );
-}
+};
 
 export default App;

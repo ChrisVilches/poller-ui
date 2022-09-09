@@ -1,8 +1,7 @@
-import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
-import { Tooltip } from "flowbite-react";
 import React , { useState } from "react";
 import { Checkbox } from "./Checkbox";
 import { EndpointTitle } from "./EndpointTitle";
+import { RuleLabel } from "./RuleLabel";
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
 
@@ -10,6 +9,13 @@ interface EndpointItemProps {
   endpoint: Endpoint;
   toggleEnable: Function;
 }
+
+const PairLabelValueCols = ({ left, right }) => (
+  <>
+    <div className="text-slate-600 md:text-right">{ left }</div>
+    <div className="text-slate-600 md:text-left">{ right }</div>
+  </>
+);
 
 export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
   const [loading, setLoading] = useState(false);
@@ -26,18 +32,20 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
   };
 
   return (
-    <div className="my-4">
-      <div><EndpointTitle title={ endpoint.title }/></div>
-      <div>
-        Wait (minutes) after notification:
-        <Tooltip content="After a notification has been dispatched, wait until the next polling.">
-          <QuestionMarkCircleIcon className="w-5 h-5"/>
-        </Tooltip>
-        { endpoint.waitAfterNotificationMinutes }
+    <div className="mt-2">
+      <div className="mb-8 font-bold"><EndpointTitle title={ endpoint.title }/></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+        <PairLabelValueCols left="Wait after notification (minutes)" right={ endpoint.waitAfterNotificationMinutes }/>
+
+        { endpoint.timeout ? (
+          <PairLabelValueCols left="Timeout" right={ endpoint.timeout.toLocaleString() }/>
+        ) : "" }
+        <PairLabelValueCols left="Inverted" right={ endpoint.not ? "Yes" : "No" }/>
+        <PairLabelValueCols left="Enabled" right={ <Checkbox loading={ loading } disabled={ loading } checked={ endpoint.enabled } onChange={ toggleEnableAux } label=""/> }/>
       </div>
-      <div>Rule: { endpoint.rule }</div>
-      <div>
-        <Checkbox disabled={ loading } checked={ endpoint.enabled } onChange={ toggleEnableAux } label="Enabled"/>
+
+      <div className="flex justify-end">
+        <RuleLabel label={ endpoint.rule }/>
       </div>
     </div>
   );
