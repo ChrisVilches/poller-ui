@@ -1,41 +1,37 @@
 import { Button, Modal } from "flowbite-react";
-import React from "react";
+import React, { ReactElement } from "react";
 import { EndpointForm } from "./EndpointForm";
 import { Endpoint } from "../../models/Endpoint";
 
 interface NewModalProps {
   show: boolean;
-  closeModal: any; // TODO: any
+  closeModal: () => void;
   itemAdded: (e: Endpoint) => void;
 }
 
-export const NewModal = ({ show, closeModal, itemAdded }: NewModalProps) => {
-  const endpoint = new Endpoint();
-
-  return (
-    <React.Fragment>
+export const NewModal = ({ show, closeModal, itemAdded }: NewModalProps) => (
+  <EndpointForm endpoint={new Endpoint()} onEndpointUpserted={itemAdded} formType="create">
+    {(form: ReactElement, saveButton: ReactElement): ReactElement => (
       <Modal
-        show={ show }
-        onClose={ closeModal }
+        show={show}
+        onClose={closeModal}
       >
         <Modal.Header>
           Create Endpoint
         </Modal.Header>
         <Modal.Body>
-          <EndpointForm
-            endpoint={ endpoint }
-            formType="create"
-            onEndpointUpserted={ itemAdded } />
+          {form}
         </Modal.Body>
         <Modal.Footer>
+          {saveButton}
           <Button
-            onClick={ closeModal }
+            onClick={closeModal}
             color="gray"
           >
             Cancel
           </Button>
         </Modal.Footer>
       </Modal>
-    </React.Fragment>
-  );
-};
+    )}
+  </EndpointForm>
+);

@@ -11,7 +11,9 @@ export const store = configureStore({
     getDefaultMiddleware({
       // TODO: Without this, it fails because some states are classes (which are not serializable)
       serializableCheck: false
-    }).concat(tagSlice.middleware),
+    })
+      .concat(tagSlice.middleware)
+      .concat(endpointSlice.middleware),
 
   reducer: {
     [tagSlice.reducerPath]: tagSlice.reducer,

@@ -9,6 +9,8 @@ import { EndpointOptions } from "./EndpointOptions";
 import { Endpoint } from "../models/Endpoint";
 import { addItem, fetchAllEndpoints, updateEnabled } from "../slices/endpointListSlice";
 import { RootState } from "../store";
+import { Checkbox } from "./Checkbox";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export const EndpointList = () => {
   const dispatch = useDispatch();
@@ -31,15 +33,36 @@ export const EndpointList = () => {
 
   const { endpoints, isLoading } = useSelector((state: RootState) => state.endpointList);
 
+  const [onlyEnabled, setOnlyEnabled] = useState(true)
+
   if(isLoading) {
     return <div>Loading...</div>;
+  }
+
+
+  const applyFilters = (initialList: Endpoint[]) => {
+    const filters: ((e: Endpoint) => boolean)[] = []
+
+    if(onlyEnabled) {
+      filters.push((e: Endpoint) => e.enabled)
+    }
+
+    const reducer = (accum: Endpoint[], fn: ((e: Endpoint) => boolean)) => accum.filter(fn)
+
+    return filters.reduce(reducer, initialList)
   }
 
   return (
     <div>
       <h2>Endpoints ({ endpoints.length })</h2>
 
-      { endpoints.map(endpoint => (
+      <Checkbox label="Only enabled" checked={onlyEnabled} onChange={() => setOnlyEnabled(!onlyEnabled)}/>
+
+      <Button onClick={ () => setNewModalShow(true) }>
+        Create
+      </Button>
+
+      { applyFilters(endpoints).map(endpoint => (
         <div key={ endpoint.id } className="my-8 border-gray-200 shadow-lg border-2 rounded-md p-4">
           <div className="float-right">
             <EndpointOptions endpoint={ endpoint }/>
@@ -51,17 +74,12 @@ export const EndpointList = () => {
         </div>
       )) }
 
-      <Button onClick={ () => setNewModalShow(true) }>
-        Create
-      </Button>
-
       <EndpointOptionModals/>
 
       <NewModal
         show={ newModalShow }
         closeModal={ () => setNewModalShow(false) }
         itemAdded={ onItemWasAdded } />
-
     </div>
   );
 };

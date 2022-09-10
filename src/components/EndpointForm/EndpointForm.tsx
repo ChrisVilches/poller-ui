@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { Component, useEffect, useState, ReactElement } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
 import { RequiredFields } from "./RequiredFields";
 import { TagsConfig } from "./TagsConfig";
@@ -14,11 +14,12 @@ interface EditFormProps {
   endpoint: Endpoint;
   onEndpointUpserted: (e: Endpoint) => void;
   formType: "create" | "edit"
+  children: (form: ReactElement, button: ReactElement) => ReactElement
 }
 
 // TODO: This file shouldn't be called "Edit"
 
-export const EndpointForm = ({ endpoint, onEndpointUpserted, formType }: EditFormProps) => {
+export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -97,7 +98,7 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType }: EditFor
     setRule(ruleName);
   };
 
-  return (
+  const form = (
     <div className="my-4">
       <RequiredFields
         { ...{
@@ -134,9 +135,13 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType }: EditFor
         />
       ) : <></>}
 
-      <Button onClick={ sendEndpoint } disabled={ loading }>{ formType === "create" ? "Create" : "Update" }</Button>
-
       <ErrorList className="mt-8" errors={ errors } />
     </div>
-  );
+  )
+
+  const saveButton = (
+    <Button onClick={ sendEndpoint } disabled={ loading }>{ formType === "create" ? "Create" : "Update" }</Button>
+  )
+
+  return children(form, saveButton)
 };
