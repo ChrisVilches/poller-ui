@@ -1,36 +1,24 @@
 import { Button } from "flowbite-react";
-import React, { createContext, useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Checkbox } from "./Checkbox";
 import { NewModal } from "./EndpointForm/NewModal";
 import { EndpointItem } from "./EndpointItem";
 import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
+import { EndpointListContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
-import { addItem, updateEnabled } from "../slices/endpointListSlice";
-import { ListContext } from "../pages/Home";
 
-interface EndpointListProps {
-  endpoints: Endpoint[];
-  isLoading: boolean;
-}
 
-export const EndpointList = ({ isLoading, endpoints }: EndpointListProps) => {
-  const contextRes = useContext(ListContext);
-  console.log(contextRes)
+export const EndpointList = () => {
+  const { isLoading, endpoints, dispatch } = useContext(EndpointListContext);
 
-  const dispatch = useDispatch();
   const [onlyEnabled, setOnlyEnabled] = useState(true);
-
-  const updateEnabledCallback = (endpointId: number) => (enabled: boolean) => dispatch(updateEnabled({
-    enabled, endpointId
-  }));
 
   const [newModalShow, setNewModalShow] = useState(false);
 
   const onItemWasAdded = (endpoint: Endpoint) => {
-    dispatch(addItem({ endpoint }));
+    dispatch({ payload: endpoint, type: "add_item" });
     toast.success("Added!");
     setNewModalShow(false);
   };
@@ -57,7 +45,7 @@ export const EndpointList = ({ isLoading, endpoints }: EndpointListProps) => {
 
       <Checkbox label="Only enabled" checked={ onlyEnabled } onChange={ () => setOnlyEnabled(!onlyEnabled) }/>
 
-      {/* TODO: This button/modal/functionality is unrelated to the concern of this component. */}
+      { /* TODO: This button/modal/functionality is unrelated to the concern of this component. */ }
       <Button onClick={ () => setNewModalShow(true) }>
         Create
       </Button>
@@ -70,7 +58,7 @@ export const EndpointList = ({ isLoading, endpoints }: EndpointListProps) => {
 
           <EndpointItem
             endpoint={ endpoint }
-            toggleEnable={ updateEnabledCallback(endpoint.id) } />
+            toggleEnable={ (enabled: boolean) => dispatch({ payload: { enabled, endpointId: endpoint.id }, type: "update_enabled" }) } />
         </div>
       )) }
 

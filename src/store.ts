@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { endpointListSlice } from "./slices/endpointListSlice";
 import { endpointOptionsSlice } from "./slices/endpointOptionsSlice";
 import { endpointSlice } from "./slices/endpointSlice";
 import { tagSlice } from "./slices/tagSlice";
@@ -18,7 +17,6 @@ export const store = configureStore({
   reducer: {
     [tagSlice.reducerPath]: tagSlice.reducer,
     [endpointSlice.reducerPath]: endpointSlice.reducer,
-    endpointList: endpointListSlice.reducer,
     endpointOptions: endpointOptionsSlice.reducer
   }
 });

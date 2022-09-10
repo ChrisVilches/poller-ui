@@ -7,5 +7,5 @@ export class Tag {
   endpointsCount: number;
 
   @Type(() => Endpoint)
-    endpoints: Endpoint[]
+    endpoints: Endpoint[];
 }

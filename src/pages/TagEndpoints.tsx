@@ -1,9 +1,11 @@
-import { plainToClass } from 'class-transformer';
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
-import { EndpointList } from '../components/EndpointList';
-import { Tag } from '../models/Tag';
-import { useFindOneQuery } from '../slices/tagSlice';
+import { plainToClass } from "class-transformer";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { EndpointList } from "../components/EndpointList";
+import { EndpointListContextProvider } from "../contexts/EndpointListContext";
+import { Endpoint } from "../models/Endpoint";
+import { Tag } from "../models/Tag";
+import { useFindOneQuery } from "../slices/tagSlice";
 
 export const TagEndpoints = () => {
   const { id: tagId } = useParams();
@@ -23,13 +25,16 @@ export const TagEndpoints = () => {
   }
 
   // TODO: Should come from the service, but it's a RTK Query result... So, how?
-  const tag: Tag = plainToClass(Tag, rawTag)
+  const tag: Tag = plainToClass(Tag, rawTag);
+
+  //<EndpointList endpoints={tag.endpoints} isLoading={false}/>
 
   return (
     <div>
-      #{tag?.name}
-
-      <EndpointList endpoints={tag.endpoints} isLoading={false}/>
+      #{ tag?.name }
+      <EndpointListContextProvider endpointsFetch={() => tag.endpoints as Endpoint[]}>
+        <EndpointList/>
+      </EndpointListContextProvider>
     </div>
-  )
-}
+  );
+};

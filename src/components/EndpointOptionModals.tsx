@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { EditModal } from "./EndpointForm/EditModal";
 import { RemoveConfirmDialog } from "./RemoveConfirmDialog";
 import { TriggerPollingConfirmDialog } from "./TriggerPollingConfirmDialog";
+import { EndpointListContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
-import { removeItem, updateItem } from "../slices/endpointListSlice";
 import { toggleEditModal, togglePollDialog, toggleRemoveDialog } from "../slices/endpointOptionsSlice";
 import { useFindAllQuery } from "../slices/tagSlice";
 import { RootState } from "../store";
@@ -17,6 +17,8 @@ export const EndpointOptionModals = () => {
   //       It's "tag menu", but the name doesn't say anything.
   const { refetch: reloadTagMenu } = useFindAllQuery();
 
+  const { dispatch: endpointListContextDispatch } = useContext(EndpointListContext);
+
   const {
     selectedEndpoint,
     showEditModal,
@@ -25,7 +27,7 @@ export const EndpointOptionModals = () => {
   } = useSelector((state: RootState) => state.endpointOptions);
 
   const onItemWasUpdated = (endpoint: Endpoint) => {
-    dispatch(updateItem({ endpoint, endpointId: endpoint.id }));
+    endpointListContextDispatch({ payload: { endpoint, endpointId: endpoint.id }, type: "update_item" });
     toast.success("Updated!");
     dispatch(toggleEditModal());
     reloadTagMenu();
@@ -39,7 +41,7 @@ export const EndpointOptionModals = () => {
   const onRemoved = (endpoint: Endpoint) => {
     dispatch(toggleRemoveDialog());
     toast.success("Removed!");
-    dispatch(removeItem({ endpoint }));
+    endpointListContextDispatch({ payload: { endpointId: endpoint.id }, type: "remove_item" });
     reloadTagMenu();
   };
 

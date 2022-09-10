@@ -38,7 +38,7 @@ export class EndpointService {
     }
   }
 
-  static async setEnabled(endpointId: number, enabled: boolean) {
+  static async setEnabled(endpointId: number, enabled: boolean): Promise<boolean> {
     const operation = enabled ? "enable" : "disable";
     const { data } = await http.patch(`/endpoints/${endpointId}/${operation}`);
     return data;

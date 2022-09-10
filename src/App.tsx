@@ -6,10 +6,10 @@ import { Nav } from "./components/Nav";
 import { TagMenu } from "./components/TagMenu";
 import { About } from "./pages/About";
 import { Home } from "./pages/Home";
-import { store } from "./store";
 import "react-toastify/dist/ReactToastify.css";
 import { NotFound } from "./pages/NotFound";
 import { TagEndpoints } from "./pages/TagEndpoints";
+import { store } from "./store";
 
 const App = () => {
   return (
