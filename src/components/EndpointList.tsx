@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { NewModal } from "./EndpointForm/NewModal";
 import { EndpointItem } from "./EndpointItem";
+import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
 import { Endpoint } from "../models/Endpoint";
 import { addItem, fetchAllEndpoints, updateEnabled } from "../slices/endpointListSlice";
 import { RootState } from "../store";
-import { EndpointOptionModals } from "./EndpointOptionModals";
 
 export const EndpointList = () => {
   const dispatch = useDispatch();
@@ -65,7 +65,3 @@ export const EndpointList = () => {
     </div>
   );
 };
-function reloadTagMenu() {
-  throw new Error("Function not implemented.");
-}
-

@@ -3,12 +3,12 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
 import { RequiredFields } from "./RequiredFields";
+import { TagsConfig } from "./TagsConfig";
 import { Endpoint } from "../../models/Endpoint";
 import { Tag } from "../../models/Tag";
 import { EndpointService } from "../../services/EndpointService";
-import { useEndpointTagsQuery } from "../../slices/endpointSlice";
-import { useFindAllQuery } from "../../slices/tagSlice";
 import { ErrorList } from "../ErrorList";
+import { Set } from "immutable"
 
 interface EditFormProps {
   endpoint: Endpoint;
@@ -49,37 +49,7 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType }: EditFor
     setWaitAfterNotificationMinutes(waitAfterNotificationMinutes || 0);
   }, [endpoint]);
 
-  const { data: allTags = [], isLoading: allLoading } = useFindAllQuery();
-
-  const { data: endpointTags = [], isLoading: endpointTagsLoading, fulfilledTimeStamp } = useEndpointTagsQuery(endpoint.id, {
-    skip: !endpoint.id
-  });
-
-  const [selectedTags, setSelectedTags] = useState([] as Tag[]);
-
-  useEffect(() => {
-    setSelectedTags(endpointTags);
-  }, [fulfilledTimeStamp]);
-
-  const isTagSelected = (tagId: number) => !!selectedTags.find((t: Tag) => t.id === tagId);
-
-  const toggleSelectTag = (tagId: number) => {
-    if(isTagSelected(tagId)) {
-      setSelectedTags(state => {
-        const newState = [...state];
-        return newState.filter((t: Tag) => t.id !== tagId);
-      });
-      return;
-    }
-    setSelectedTags(state => {
-      const newState = [...state];
-      const t = new Tag();
-      t.id = tagId;
-      newState.push(t);
-      return newState;
-    });
-  };
-
+  const [selectedTagIds, setSelectedTagIds] = useState(Set());
 
   const collectPayload = () => formType === "create" ? {
     method,
@@ -94,7 +64,7 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType }: EditFor
     not,
     notificationMessage,
     rule,
-    tags: selectedTags,
+    tags: selectedTagIds.toArray(),
     title,
     type: requestType,
     url,
@@ -129,34 +99,40 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType }: EditFor
 
   return (
     <div className="my-4">
-      {
-        !allLoading && !endpointTagsLoading ? (
-          <div className="space-x-2 mb-2">
-            { allTags.map((tag: Tag) => (
-              <button key={ tag.id } onClick={ () => toggleSelectTag(tag.id) }>
-                <span className={ `${isTagSelected(tag.id) ? "bg-slate-400" : "bg-slate-300"} text-white rounded-md p-2 unselectable` }>
-                  { tag.name }
-                </span>
-              </button>
-            )) }
-          </div>
-        ) : (
-          <div>Loading</div>
-        )
-      }
       <RequiredFields
-        { ...{ method, onChangeRule, requestType, rule, setMethod, setRequestType, setTitle, setUrl, title, url } }
+        { ...{
+          method,
+          onChangeRule,
+          requestType,
+          rule,
+          setMethod,
+          setRequestType,
+          setTitle,
+          setUrl,
+          title,
+          url
+        } }
       />
 
-      {
-        formType === "edit" ? (
-          <AdvancedConfiguration
-            { ...{
-              args, navs, not, notificationMessage, rule, setArgs, setNavs, setNot, setNotificationMessage, setWaitAfterNotificationMinutes, waitAfterNotificationMinutes
-            } }
-          />
-        ) : <></>
-      }
+      {formType === "edit" ? (
+        <AdvancedConfiguration
+          { ...{
+            args,
+            endpoint,
+            navs,
+            not,
+            notificationMessage,
+            rule,
+            setArgs,
+            setNavs,
+            setNot,
+            setNotificationMessage,
+            setSelectedTagIds,
+            setWaitAfterNotificationMinutes,
+            waitAfterNotificationMinutes
+          } }
+        />
+      ) : <></>}
 
       <Button onClick={ sendEndpoint } disabled={ loading }>{ formType === "create" ? "Create" : "Update" }</Button>
 

@@ -29,7 +29,6 @@ export const endpointOptionsSlice = createSlice({
       state.showRemoveDialog = !state.showRemoveDialog;
     },
     setSelectedEndpoint: (state, { payload: { endpoint } }) => {
-      console.log(endpoint)
       state.selectedEndpoint = endpoint;
     }
   }

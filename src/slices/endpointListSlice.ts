@@ -42,14 +42,11 @@ export const endpointListSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder
       .addCase(fetchAllEndpoints.pending, (state) => {
-        console.log("Pending");
         state.isLoading = true;
       })
       .addCase(fetchAllEndpoints.fulfilled, (state, action) => {
-        console.log("Fulfilled");
         state.endpoints = action.payload;
         state.isLoading = false;
       });

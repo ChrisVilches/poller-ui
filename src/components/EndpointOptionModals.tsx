@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Endpoint } from "../models/Endpoint";
-import { updateItem, removeItem } from "../slices/endpointListSlice";
-import { toggleEditModal, togglePollDialog, toggleRemoveDialog } from "../slices/endpointOptionsSlice";
-import { useFindAllQuery } from "../slices/tagSlice";
-import { RootState } from "../store";
 import { EditModal } from "./EndpointForm/EditModal";
 import { RemoveConfirmDialog } from "./RemoveConfirmDialog";
 import { TriggerPollingConfirmDialog } from "./TriggerPollingConfirmDialog";
+import { Endpoint } from "../models/Endpoint";
+import { removeItem, updateItem } from "../slices/endpointListSlice";
+import { toggleEditModal, togglePollDialog, toggleRemoveDialog } from "../slices/endpointOptionsSlice";
+import { useFindAllQuery } from "../slices/tagSlice";
+import { RootState } from "../store";
 
 export const EndpointOptionModals = () => {
   const dispatch = useDispatch();
@@ -22,24 +22,24 @@ export const EndpointOptionModals = () => {
   const onItemWasUpdated = (endpoint: Endpoint) => {
     dispatch(updateItem({ endpointId: endpoint.id, endpoint }));
     toast.success("Updated!");
-    dispatch(toggleEditModal())
+    dispatch(toggleEditModal());
     reloadTagMenu();
   };
 
   const onPollingTriggered = () => {
-    dispatch(togglePollDialog())
+    dispatch(togglePollDialog());
     toast.success("Site was polled");
   };
 
   const onRemoved = (endpoint: Endpoint) => {
-    dispatch(toggleRemoveDialog())
+    dispatch(toggleRemoveDialog());
     toast.success("Removed!");
     dispatch(removeItem({ endpoint }));
     reloadTagMenu();
   };
 
   if(!selectedEndpoint) {
-    return <></>
+    return <></>;
   }
 
   return (
@@ -62,5 +62,5 @@ export const EndpointOptionModals = () => {
         closeModal={ () => dispatch(toggleRemoveDialog()) }
         onRemoved={ onRemoved } />
     </>
-  )
-}
+  );
+};
