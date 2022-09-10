@@ -32,7 +32,7 @@ export const TagEndpoints = () => {
   return (
     <div>
       #{ tag?.name }
-      <EndpointListContextProvider endpointsFetch={() => tag.endpoints as Endpoint[]}>
+      <EndpointListContextProvider endpointsFetch={ () => tag.endpoints as Endpoint[] }>
         <EndpointList/>
       </EndpointListContextProvider>
     </div>

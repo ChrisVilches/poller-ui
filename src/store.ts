@@ -2,11 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { endpointOptionsSlice } from "./slices/endpointOptionsSlice";
 import { endpointSlice } from "./slices/endpointSlice";
+import { pollingsSlice } from "./slices/pollingsSlice";
 import { tagSlice } from "./slices/tagSlice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
-    // TODO: Should I concat more middlewares like endpointSlice.middleware???
     getDefaultMiddleware({
       // TODO: Without this, it fails because some states are classes (which are not serializable)
       serializableCheck: false
@@ -17,6 +17,7 @@ export const store = configureStore({
   reducer: {
     [tagSlice.reducerPath]: tagSlice.reducer,
     [endpointSlice.reducerPath]: endpointSlice.reducer,
+    [pollingsSlice.reducerPath]: pollingsSlice.reducer,
     endpointOptions: endpointOptionsSlice.reducer
   }
 });

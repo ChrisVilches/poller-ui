@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Endpoint } from "../models/Endpoint";
 import { Tag } from "../models/Tag";
 
 export const endpointSlice = createApi({
@@ -6,9 +7,12 @@ export const endpointSlice = createApi({
   endpoints: (builder) => ({
     endpointTags: builder.query<Tag[], number>({
       query: (id: number) => `/${id}/tags`
+    }),
+    findAll: builder.query<Endpoint[], void>({
+      query: () => "/"
     })
   }),
   reducerPath: "endpointSlice"
 });
 
-export const { useEndpointTagsQuery } = endpointSlice;
+export const { useFindAllQuery, useEndpointTagsQuery } = endpointSlice;

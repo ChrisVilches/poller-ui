@@ -1,4 +1,5 @@
 import React , { useState } from "react";
+import { Link } from "react-router-dom";
 import { Checkbox } from "./Checkbox";
 import { EndpointTitle } from "./EndpointTitle";
 import { PairLabelValueCols } from "./PairLabelValueCols";
@@ -46,6 +47,10 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
               label=""/>
           ) }/>
       </div>
+
+      <Link to={ `/pollings/${endpoint.id}` }>
+        Activity
+      </Link>
 
       <div className="flex justify-end">
         <RuleLabel label={ endpoint.rule }/>

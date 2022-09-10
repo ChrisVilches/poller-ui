@@ -1,6 +1,6 @@
 import { CloudArrowDownIcon, EllipsisVerticalIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Dropdown } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Endpoint } from "../models/Endpoint";
 import {
@@ -16,6 +16,10 @@ interface EndpointOptionsProps {
 
 export const EndpointOptions = ({ endpoint }: EndpointOptionsProps) => {
   const dispatch = useDispatch();
+
+  useEffect(() => () => {
+    dispatch(setSelectedEndpoint({ endpoint: null }));
+  }, [dispatch]);
 
   return (
     <>

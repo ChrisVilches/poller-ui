@@ -24,6 +24,7 @@ export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps
   }, [fulfilledTimeStamp, endpointTags]);
 
   useEffect(() => {
+    console.log("refetching, endpoint ID", endpoint.id);
     refetch();
   }, [endpoint.id, refetch]);
 

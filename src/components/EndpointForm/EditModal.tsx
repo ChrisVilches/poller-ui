@@ -13,7 +13,7 @@ interface EditModalProps {
 export const EditModal = ({ endpoint, show, closeModal, itemEdited }: EditModalProps) => (
   <EndpointForm endpoint={ endpoint } onEndpointUpserted={ itemEdited } formType="edit">
     {
-      (form: ReactElement, saveButton: ReactElement): ReactElement => (
+      (form: ReactElement, onEndpointSave: () => void, saveLoading: boolean): ReactElement => (
         <Modal
           show={ show }
           onClose={ closeModal }
@@ -25,11 +25,10 @@ export const EditModal = ({ endpoint, show, closeModal, itemEdited }: EditModalP
             { form }
           </Modal.Body>
           <Modal.Footer>
-            { saveButton }
-            <Button
-              onClick={ closeModal }
-              color="gray"
-            >
+            <Button onClick={ onEndpointSave } disabled={ saveLoading }>
+              Update
+            </Button>
+            <Button onClick={ closeModal } color="gray">
               Cancel
             </Button>
           </Modal.Footer>

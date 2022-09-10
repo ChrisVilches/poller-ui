@@ -8,6 +8,7 @@ import { About } from "./pages/About";
 import { Home } from "./pages/Home";
 import "react-toastify/dist/ReactToastify.css";
 import { NotFound } from "./pages/NotFound";
+import { Pollings } from "./pages/Pollings";
 import { TagEndpoints } from "./pages/TagEndpoints";
 import { store } from "./store";
 
@@ -34,6 +35,8 @@ const App = () => {
           <Route path="/" element={ <Home /> } />
           <Route path="about" element={ <About /> } />
           <Route path="tag/:id" element={ <TagEndpoints /> } />
+          <Route path="pollings" element={ <Pollings /> } />
+          <Route path="pollings/:endpointId" element={ <Pollings /> } />
           <Route path="*" element={ <NotFound /> } />
         </Routes>
       </div>

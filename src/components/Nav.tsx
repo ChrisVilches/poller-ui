@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export const Nav = () => (
   <div>
     <Link to="/">Home</Link>
+    <Link to="/pollings">Polling Activity</Link>
     <Link to="/about">About</Link>
   </div>
 );

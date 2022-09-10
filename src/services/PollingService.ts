@@ -10,11 +10,7 @@ export class PollingService {
   }
 
   static async enqueuePolling(endpointId: number): Promise<Endpoint> {
-    try {
-      const { data } = await http.post(`/pollings/${endpointId}/enqueue`);
-      return plainToInstance(Endpoint, data);
-    } catch(e) {
-      throw e.response.data;
-    }
+    const { data } = await http.post(`/pollings/${endpointId}/enqueue`);
+    return plainToInstance(Endpoint, data);
   }
 }

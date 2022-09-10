@@ -9,11 +9,7 @@ export class TagService {
   }
 
   static async endpointTags(endpointId: number) {
-    try {
-      const { data } = await http.get(`/endpoints/${endpointId}/tags`);
-      return data.map((d: any) => plainToInstance(Tag, d));
-    } catch(e) {
-      throw e.response.data;
-    }
+    const { data } = await http.get(`/endpoints/${endpointId}/tags`);
+    return data.map((d: any) => plainToInstance(Tag, d));
   }
 }

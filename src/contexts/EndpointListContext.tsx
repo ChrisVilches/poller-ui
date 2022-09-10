@@ -15,9 +15,6 @@ import { Endpoint } from "../models/Endpoint";
 // TODO: This initial state is weird. Shouldn't be defined here I think, because the data isn't used anyway.
 //       Should be defined only in the context provider, not in the createContext. (I THINK, CONFIRM!!!)
 
-
-
-
 const initialState = {
   dispatch: (() => {}) as Dispatch<any>,
   endpoints: [] as Endpoint[],
@@ -30,6 +27,9 @@ const reducer = (draft, action) => {
   const { type, payload } = action;
 
   switch (type) {
+  case "set_loading":
+    draft.isLoading = true;
+    break;
   case "set_all":
     draft.endpoints = payload;
     draft.isLoading = false;
@@ -62,10 +62,10 @@ interface EndpointListContextProviderProps {
 }
 
 export const EndpointListContextProvider = ({ children, endpointsFetch }: EndpointListContextProviderProps) => {
-  const [state, dispatch] = useImmerReducer(reducer, initialState);
-  const { endpoints, isLoading } = state;
-
+  const [{ endpoints, isLoading }, dispatch] = useImmerReducer(reducer, initialState);
+  
   const fetchEndpoints = useCallback(async () => {
+    dispatch({ type: "set_loading" });
     dispatch({ payload: await endpointsFetch(), type: "set_all" });
   }, [dispatch, endpointsFetch]);
 

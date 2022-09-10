@@ -1,5 +1,4 @@
 import { plainToInstance } from "class-transformer";
-import { Button } from "flowbite-react";
 import { Set } from "immutable";
 import React, { ReactElement, useEffect, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
@@ -12,7 +11,7 @@ interface EditFormProps {
   endpoint: Endpoint;
   onEndpointUpserted: (e: Endpoint) => void;
   formType: "create" | "edit"
-  children: (form: ReactElement, button: ReactElement) => ReactElement
+  children: (form: ReactElement, onEndpointSave: () => void, saveLoading: boolean) => ReactElement
 }
 
 export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {
@@ -135,9 +134,5 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
     </div>
   );
 
-  const saveButton = (
-    <Button onClick={ sendEndpoint } disabled={ loading }>{ formType === "create" ? "Create" : "Update" }</Button>
-  );
-
-  return children(form, saveButton);
+  return children(form, sendEndpoint, loading);
 };
