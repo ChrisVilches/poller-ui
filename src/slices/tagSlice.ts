@@ -6,9 +6,12 @@ export const tagSlice = createApi({
   endpoints: (builder) => ({
     findAll: builder.query<Tag[], void>({
       query: () => "/"
+    }),
+    findOne: builder.query<Tag, number>({
+      query: (id: number) => `/${id}`
     })
   }),
   reducerPath: "tagSlice"
 });
 
-export const { useFindAllQuery } = tagSlice;
+export const { useFindAllQuery, useFindOneQuery } = tagSlice;

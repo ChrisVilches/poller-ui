@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { createContext, useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Checkbox } from "./Checkbox";
 import { NewModal } from "./EndpointForm/NewModal";
@@ -8,15 +8,20 @@ import { EndpointItem } from "./EndpointItem";
 import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
 import { Endpoint } from "../models/Endpoint";
-import { addItem, fetchAllEndpoints, updateEnabled } from "../slices/endpointListSlice";
-import { RootState } from "../store";
+import { addItem, updateEnabled } from "../slices/endpointListSlice";
+import { ListContext } from "../pages/Home";
 
-export const EndpointList = () => {
+interface EndpointListProps {
+  endpoints: Endpoint[];
+  isLoading: boolean;
+}
+
+export const EndpointList = ({ isLoading, endpoints }: EndpointListProps) => {
+  const contextRes = useContext(ListContext);
+  console.log(contextRes)
+
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch((fetchAllEndpoints as any)()); // TODO: Doesn't work without any, but seems to be correct.
-  }, [dispatch]);
+  const [onlyEnabled, setOnlyEnabled] = useState(true);
 
   const updateEnabledCallback = (endpointId: number) => (enabled: boolean) => dispatch(updateEnabled({
     enabled, endpointId
@@ -29,10 +34,6 @@ export const EndpointList = () => {
     toast.success("Added!");
     setNewModalShow(false);
   };
-
-  const { endpoints, isLoading } = useSelector((state: RootState) => state.endpointList);
-
-  const [onlyEnabled, setOnlyEnabled] = useState(true);
 
   if(isLoading) {
     return <div>Loading...</div>;
@@ -56,6 +57,7 @@ export const EndpointList = () => {
 
       <Checkbox label="Only enabled" checked={ onlyEnabled } onChange={ () => setOnlyEnabled(!onlyEnabled) }/>
 
+      {/* TODO: This button/modal/functionality is unrelated to the concern of this component. */}
       <Button onClick={ () => setNewModalShow(true) }>
         Create
       </Button>
@@ -81,3 +83,4 @@ export const EndpointList = () => {
     </div>
   );
 };
+

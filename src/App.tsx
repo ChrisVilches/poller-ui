@@ -8,6 +8,8 @@ import { About } from "./pages/About";
 import { Home } from "./pages/Home";
 import { store } from "./store";
 import "react-toastify/dist/ReactToastify.css";
+import { NotFound } from "./pages/NotFound";
+import { TagEndpoints } from "./pages/TagEndpoints";
 
 const App = () => {
   return (
@@ -31,6 +33,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={ <Home /> } />
           <Route path="about" element={ <About /> } />
+          <Route path="tag/:id" element={ <TagEndpoints /> } />
+          <Route path="*" element={ <NotFound /> } />
         </Routes>
       </div>
     </Provider>

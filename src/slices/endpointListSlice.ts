@@ -13,6 +13,7 @@ const initialState: EndpointListState = {
   isLoading: true
 };
 
+// TODO: Learn how to properly abort thunks.
 export const fetchAllEndpoints = createAsyncThunk(
   "whatshouldgohere", // TODO: What should go here?
   () => EndpointService.findAll()
