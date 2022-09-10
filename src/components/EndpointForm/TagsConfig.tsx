@@ -1,10 +1,9 @@
-import { plainToInstance } from "class-transformer";
+import { Set } from "immutable";
 import React, { useEffect, useState } from "react";
 import { Endpoint } from "../../models/Endpoint";
 import { Tag } from "../../models/Tag";
 import { useEndpointTagsQuery } from "../../slices/endpointSlice";
 import { useFindAllQuery } from "../../slices/tagSlice";
-import { Set } from "immutable"
 
 interface TagsConfigProps {
   endpoint: Endpoint;
@@ -22,15 +21,15 @@ export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps
 
   useEffect(() => {
     setSelectedTagIds(Set(endpointTags.map((t: Tag) => t.id)));
-  }, [fulfilledTimeStamp]);
+  }, [fulfilledTimeStamp, endpointTags]);
 
   useEffect(() => {
     refetch();
-  }, [endpoint.id]);
+  }, [endpoint.id, refetch]);
 
   useEffect(() => {
     onSelectedTagIdsChange(selectedTagIds);
-  }, [selectedTagIds])
+  }, [selectedTagIds, onSelectedTagIdsChange]);
 
   const toggleSelectTag = (tagId: number) => {
 

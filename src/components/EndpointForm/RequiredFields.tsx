@@ -61,7 +61,11 @@ export const RequiredFields = ({
     
     { requestTypeOptions.map((type: string, idx: number) => (
       <label key={ idx } className="mr-6">
-        <input type="radio" className="mr-2 checkbox" checked={ requestType === type } onChange={ () => setRequestType(type) }/>
+        <input
+          type="radio"
+          className="mr-2 checkbox"
+          checked={ requestType === type }
+          onChange={ () => setRequestType(type) }/>
         { type }
       </label>
     )) }

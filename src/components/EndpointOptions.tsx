@@ -3,7 +3,12 @@ import { Dropdown } from "flowbite-react";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Endpoint } from "../models/Endpoint";
-import { setSelectedEndpoint, toggleEditModal, togglePollDialog, toggleRemoveDialog } from "../slices/endpointOptionsSlice";
+import {
+  setSelectedEndpoint,
+  toggleEditModal,
+  togglePollDialog,
+  toggleRemoveDialog
+} from "../slices/endpointOptionsSlice";
 
 interface EndpointOptionsProps {
   endpoint: Endpoint;

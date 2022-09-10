@@ -86,7 +86,7 @@ module.exports = {
         code: 120
       }
     ],
-    "no-console": "warn",
+    // "no-console": "warn",
     "no-duplicate-imports": "warn",
     "no-restricted-imports": [
       "error",

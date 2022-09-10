@@ -11,7 +11,12 @@ interface TriggerPollingConfirmDialogProps {
   onTriggerComplete: (e: Endpoint) => void
 }
 
-export const TriggerPollingConfirmDialog = ({ show, closeModal, endpoint, onTriggerComplete }: TriggerPollingConfirmDialogProps) => {
+export const TriggerPollingConfirmDialog = ({
+  show,
+  closeModal,
+  endpoint,
+  onTriggerComplete
+}: TriggerPollingConfirmDialogProps) => {
   const [loading, setLoading] = useState(false);
   
   const triggerPolling = async () => {

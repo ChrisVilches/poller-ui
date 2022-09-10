@@ -1,12 +1,12 @@
 import { ArrowTrendingDownIcon, Cog6ToothIcon, CubeIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { Tabs } from "flowbite-react";
+import { Set } from "immutable";
 import React from "react";
 import { ArgumentsForm } from "./ArgumentsForm";
 import { NavigationsForm } from "./NavigationsForm";
-import { Checkbox } from "../Checkbox";
 import { TagsConfig } from "./TagsConfig";
 import { Endpoint } from "../../models/Endpoint";
-import { Set } from 'immutable'
+import { Checkbox } from "../Checkbox";
 
 // TODO: This can be improved by also adding description, and
 // storing this data in a localization system (along with the other texts.)
@@ -65,7 +65,7 @@ export const AdvancedConfiguration = ({
     >
       <Tabs.Item
         title="Settings"
-        icon= {Cog6ToothIcon}
+        icon= { Cog6ToothIcon }
       >
         <label className="block mb-4 text-sm font-medium text-gray-900">
           <div className="mb-4">
@@ -112,7 +112,7 @@ export const AdvancedConfiguration = ({
       </Tabs.Item>
       <Tabs.Item
         title="Tags"
-        icon={HashtagIcon}
+        icon={ HashtagIcon }
       >
         <TagsConfig endpoint={ endpoint } onSelectedTagIdsChange={ setSelectedTagIds }/>
       </Tabs.Item>

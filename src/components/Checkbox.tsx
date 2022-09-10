@@ -16,7 +16,8 @@ export const Checkbox = ({ checked, label, onChange, disabled = false, loading =
         type="checkbox"
         defaultChecked={ checked }
         onChange={ onChange } />
-      <span className={ disabled ? "ml-2 text-sm font-medium text-gray-400" : "ml-2 text-sm font-medium text-gray-900" }>
+      <span
+        className={ disabled ? "ml-2 text-sm font-medium text-gray-400" : "ml-2 text-sm font-medium text-gray-900" }>
         { label }
         { loading ? "Loading..." : "" }
       </span>

@@ -1,6 +1,7 @@
 import React , { useState } from "react";
 import { Checkbox } from "./Checkbox";
 import { EndpointTitle } from "./EndpointTitle";
+import { PairLabelValueCols } from "./PairLabelValueCols";
 import { RuleLabel } from "./RuleLabel";
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
@@ -9,13 +10,6 @@ interface EndpointItemProps {
   endpoint: Endpoint;
   toggleEnable: Function;
 }
-
-const PairLabelValueCols = ({ left, right }) => (
-  <>
-    <div className="text-slate-600 md:text-right">{ left }</div>
-    <div className="text-slate-600 md:text-left">{ right }</div>
-  </>
-);
 
 export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
   const [loading, setLoading] = useState(false);
@@ -41,7 +35,16 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
           <PairLabelValueCols left="Timeout" right={ endpoint.timeout.toLocaleString() }/>
         ) : "" }
         <PairLabelValueCols left="Inverted" right={ endpoint.not ? "Yes" : "No" }/>
-        <PairLabelValueCols left="Enabled" right={ <Checkbox loading={ loading } disabled={ loading } checked={ endpoint.enabled } onChange={ toggleEnableAux } label=""/> }/>
+        <PairLabelValueCols
+          left="Enabled"
+          right={ (
+            <Checkbox
+              loading={ loading }
+              disabled={ loading }
+              checked={ endpoint.enabled }
+              onChange={ toggleEnableAux }
+              label=""/>
+          ) }/>
       </div>
 
       <div className="flex justify-end">

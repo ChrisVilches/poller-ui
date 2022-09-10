@@ -16,9 +16,12 @@ const initialState: EndpointOptionsState = {
 };
 
 export const endpointOptionsSlice = createSlice({
-  name: "endpointList",
   initialState,
+  name: "endpointList",
   reducers: {
+    setSelectedEndpoint: (state, { payload: { endpoint } }) => {
+      state.selectedEndpoint = endpoint;
+    },
     toggleEditModal: (state) => {
       state.showEditModal = !state.showEditModal;
     },
@@ -27,11 +30,13 @@ export const endpointOptionsSlice = createSlice({
     },
     toggleRemoveDialog: (state) => {
       state.showRemoveDialog = !state.showRemoveDialog;
-    },
-    setSelectedEndpoint: (state, { payload: { endpoint } }) => {
-      state.selectedEndpoint = endpoint;
     }
   }
 });
 
-export const { toggleEditModal, togglePollDialog, toggleRemoveDialog, setSelectedEndpoint } = endpointOptionsSlice.actions;
+export const {
+  toggleEditModal,
+  togglePollDialog,
+  toggleRemoveDialog,
+  setSelectedEndpoint
+} = endpointOptionsSlice.actions;

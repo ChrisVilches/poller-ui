@@ -1,14 +1,12 @@
 import { plainToInstance } from "class-transformer";
 import { Button } from "flowbite-react";
-import React, { Component, useEffect, useState, ReactElement } from "react";
+import { Set } from "immutable";
+import React, { ReactElement, useEffect, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
 import { RequiredFields } from "./RequiredFields";
-import { TagsConfig } from "./TagsConfig";
 import { Endpoint } from "../../models/Endpoint";
-import { Tag } from "../../models/Tag";
 import { EndpointService } from "../../services/EndpointService";
 import { ErrorList } from "../ErrorList";
-import { Set } from "immutable"
 
 interface EditFormProps {
   endpoint: Endpoint;
@@ -16,8 +14,6 @@ interface EditFormProps {
   formType: "create" | "edit"
   children: (form: ReactElement, button: ReactElement) => ReactElement
 }
-
-// TODO: This file shouldn't be called "Edit"
 
 export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {
   const [errors, setErrors] = useState([]);
@@ -115,7 +111,7 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
         } }
       />
 
-      {formType === "edit" ? (
+      { formType === "edit" ? (
         <AdvancedConfiguration
           { ...{
             args,
@@ -133,15 +129,15 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
             waitAfterNotificationMinutes
           } }
         />
-      ) : <></>}
+      ) : <></> }
 
       <ErrorList className="mt-8" errors={ errors } />
     </div>
-  )
+  );
 
   const saveButton = (
     <Button onClick={ sendEndpoint } disabled={ loading }>{ formType === "create" ? "Create" : "Update" }</Button>
-  )
+  );
 
-  return children(form, saveButton)
+  return children(form, saveButton);
 };

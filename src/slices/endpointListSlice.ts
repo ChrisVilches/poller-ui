@@ -19,28 +19,6 @@ export const fetchAllEndpoints = createAsyncThunk(
 );
 
 export const endpointListSlice = createSlice({
-  name: "endpointList",
-  initialState,
-  reducers: {
-    addItem: (state, { payload: { endpoint } }) => {
-      state.endpoints.push(endpoint);
-    },
-    removeItem: (state, { payload: { endpoint } }) => {
-      const idx = state.endpoints.findIndex((e: Endpoint) => e.id === endpoint.id);
-      state.endpoints.splice(idx, 1);
-    },
-    updateItem: (state, { payload: { endpointId, endpoint } }) => {
-      const idx = state.endpoints.findIndex((e: Endpoint) => e.id === endpointId);
-      state.endpoints[idx] = plainToInstance(Endpoint, endpoint);
-    },
-    updateEnabled: (state, { payload: { endpointId, enabled } }) => {
-      const endpoint: Endpoint | undefined = state.endpoints?.find((e: Endpoint) => e.id === endpointId);
-    
-      if(endpoint) {
-        endpoint.enabled = enabled;
-      }
-    }
-  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllEndpoints.pending, (state) => {
@@ -50,7 +28,29 @@ export const endpointListSlice = createSlice({
         state.endpoints = action.payload;
         state.isLoading = false;
       });
-  }
+  },
+  initialState,
+  name: "endpointList",
+  reducers: {
+    addItem: (state, { payload: { endpoint } }) => {
+      state.endpoints.push(endpoint);
+    },
+    removeItem: (state, { payload: { endpoint } }) => {
+      const idx = state.endpoints.findIndex((e: Endpoint) => e.id === endpoint.id);
+      state.endpoints.splice(idx, 1);
+    },
+    updateEnabled: (state, { payload: { endpointId, enabled } }) => {
+      const endpoint: Endpoint | undefined = state.endpoints?.find((e: Endpoint) => e.id === endpointId);
+    
+      if(endpoint) {
+        endpoint.enabled = enabled;
+      }
+    },
+    updateItem: (state, { payload: { endpointId, endpoint } }) => {
+      const idx = state.endpoints.findIndex((e: Endpoint) => e.id === endpointId);
+      state.endpoints[idx] = plainToInstance(Endpoint, endpoint);
+    }
+  } 
 });
 
 export const { addItem, removeItem, updateItem, updateEnabled } = endpointListSlice.actions;

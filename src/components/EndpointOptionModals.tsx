@@ -17,10 +17,15 @@ export const EndpointOptionModals = () => {
   //       It's "tag menu", but the name doesn't say anything.
   const { refetch: reloadTagMenu } = useFindAllQuery();
 
-  const { selectedEndpoint, showEditModal, showPollDialog, showRemoveDialog } = useSelector((state: RootState) => state.endpointOptions);
+  const {
+    selectedEndpoint,
+    showEditModal,
+    showPollDialog,
+    showRemoveDialog
+  } = useSelector((state: RootState) => state.endpointOptions);
 
   const onItemWasUpdated = (endpoint: Endpoint) => {
-    dispatch(updateItem({ endpointId: endpoint.id, endpoint }));
+    dispatch(updateItem({ endpoint, endpointId: endpoint.id }));
     toast.success("Updated!");
     dispatch(toggleEditModal());
     reloadTagMenu();

@@ -10,28 +10,28 @@ interface NewModalProps {
 }
 
 export const NewModal = ({ show, closeModal, itemAdded }: NewModalProps) => (
-  <EndpointForm endpoint={new Endpoint()} onEndpointUpserted={itemAdded} formType="create">
-    {(form: ReactElement, saveButton: ReactElement): ReactElement => (
+  <EndpointForm endpoint={ new Endpoint() } onEndpointUpserted={ itemAdded } formType="create">
+    { (form: ReactElement, saveButton: ReactElement): ReactElement => (
       <Modal
-        show={show}
-        onClose={closeModal}
+        show={ show }
+        onClose={ closeModal }
       >
         <Modal.Header>
           Create Endpoint
         </Modal.Header>
         <Modal.Body>
-          {form}
+          { form }
         </Modal.Body>
         <Modal.Footer>
-          {saveButton}
+          { saveButton }
           <Button
-            onClick={closeModal}
+            onClick={ closeModal }
             color="gray"
           >
             Cancel
           </Button>
         </Modal.Footer>
       </Modal>
-    )}
+    ) }
   </EndpointForm>
 );
