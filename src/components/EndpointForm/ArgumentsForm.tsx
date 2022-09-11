@@ -1,4 +1,5 @@
 import React from "react";
+
 interface ArgumentsFormProps {
   // TODO: Operator type missing
   // TODO: Create enum

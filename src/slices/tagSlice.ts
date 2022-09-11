@@ -4,14 +4,14 @@ import { Tag } from "../models/Tag";
 export const tagSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/tags" }),
   endpoints: (builder) => ({
-    findAll: builder.query<Tag[], void>({
+    findAllTags: builder.query<Tag[], void>({
       query: () => "/"
     }),
-    findOne: builder.query<Tag, number>({
+    findOneTag: builder.query<Tag, number>({
       query: (id: number) => `/${id}`
     })
   }),
   reducerPath: "tagSlice"
 });
 
-export const { useFindAllQuery, useFindOneQuery } = tagSlice;
+export const { useFindAllTagsQuery, useFindOneTagQuery } = tagSlice;

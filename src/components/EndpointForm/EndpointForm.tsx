@@ -1,4 +1,3 @@
-import { plainToInstance } from "class-transformer";
 import { Set } from "immutable";
 import React, { ReactElement, useEffect, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
@@ -74,9 +73,9 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
 
     try {
       const result: Endpoint = formType === "create" ? (
-        await EndpointService.create(plainToInstance(Endpoint, partialEndpoint))
+        await EndpointService.create(partialEndpoint)
       ) : (
-        await EndpointService.update(endpoint.id, plainToInstance(Endpoint, partialEndpoint))
+        await EndpointService.update(endpoint.id, partialEndpoint)
       );
 
       onEndpointUpserted(result);

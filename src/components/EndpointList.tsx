@@ -1,27 +1,17 @@
-import { Button } from "flowbite-react";
+import { AnimatePresence } from "framer-motion";
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
 import { Checkbox } from "./Checkbox";
-import { NewModal } from "./EndpointForm/NewModal";
 import { EndpointItem } from "./EndpointItem";
 import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
-import { EndpointListContext } from "../contexts/EndpointListContext";
+import { EndpointListContext, EndpointListDispatchContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
 
-
 export const EndpointList = () => {
-  const { isLoading, endpoints, dispatch } = useContext(EndpointListContext);
+  const dispatch = useContext(EndpointListDispatchContext);
+  const { isLoading, endpoints } = useContext(EndpointListContext);
 
   const [onlyEnabled, setOnlyEnabled] = useState(true);
-
-  const [newModalShow, setNewModalShow] = useState(false);
-
-  const onItemWasAdded = (endpoint: Endpoint) => {
-    dispatch({ payload: endpoint, type: "add_item" });
-    toast.success("Added!");
-    setNewModalShow(false);
-  };
 
   if(isLoading) {
     return <div>Loading...</div>;
@@ -42,32 +32,25 @@ export const EndpointList = () => {
   return (
     <div>
       <h2>Endpoints ({ endpoints.length })</h2>
+      <h2>Enabled ({ endpoints.filter((e: Endpoint) => e.enabled).length })</h2>
 
       <Checkbox label="Only enabled" checked={ onlyEnabled } onChange={ () => setOnlyEnabled(!onlyEnabled) }/>
 
-      { /* TODO: This button/modal/functionality is unrelated to the concern of this component. */ }
-      <Button onClick={ () => setNewModalShow(true) }>
-        Create
-      </Button>
+      <AnimatePresence>
+        { applyFilters(endpoints).map(endpoint => (
+          <div key={ endpoint.id } className="my-8 border-gray-200 shadow-lg border-2 rounded-md p-4">
+            <div className="float-right">
+              <EndpointOptions endpoint={ endpoint }/>
+            </div>
 
-      { applyFilters(endpoints).map(endpoint => (
-        <div key={ endpoint.id } className="my-8 border-gray-200 shadow-lg border-2 rounded-md p-4">
-          <div className="float-right">
-            <EndpointOptions endpoint={ endpoint }/>
+            <EndpointItem
+              endpoint={ endpoint }
+              toggleEnable={ (enabled: boolean) => dispatch({ payload: { enabled, endpointId: endpoint.id }, type: "update_enabled" }) } />
           </div>
-
-          <EndpointItem
-            endpoint={ endpoint }
-            toggleEnable={ (enabled: boolean) => dispatch({ payload: { enabled, endpointId: endpoint.id }, type: "update_enabled" }) } />
-        </div>
-      )) }
+        )) }
+      </AnimatePresence>
 
       <EndpointOptionModals/>
-
-      <NewModal
-        show={ newModalShow }
-        closeModal={ () => setNewModalShow(false) }
-        itemAdded={ onItemWasAdded } />
     </div>
   );
 };

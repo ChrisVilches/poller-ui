@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Endpoint } from "../../models/Endpoint";
 import { Tag } from "../../models/Tag";
 import { useEndpointTagsQuery } from "../../slices/endpointSlice";
-import { useFindAllQuery } from "../../slices/tagSlice";
+import { useFindAllTagsQuery } from "../../slices/tagSlice";
 
 interface TagsConfigProps {
   endpoint: Endpoint;
@@ -13,7 +13,7 @@ interface TagsConfigProps {
 export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps) => {
   const [selectedTagIds, setSelectedTagIds] = useState(Set<number>());
 
-  const { data: allTags = [], isLoading: allLoading } = useFindAllQuery();
+  const { data: allTags = [], isLoading: allLoading } = useFindAllTagsQuery();
 
   const { data: endpointTags = [], refetch, isFetching, fulfilledTimeStamp } = useEndpointTagsQuery(endpoint.id, {
     skip: !endpoint.id
@@ -21,6 +21,7 @@ export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps
 
   useEffect(() => {
     setSelectedTagIds(Set(endpointTags.map((t: Tag) => t.id)));
+    // TODO: Do I still need this?
   }, [fulfilledTimeStamp, endpointTags]);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps
     <div className="space-x-2 mb-2">
       { allTags.map((tag: Tag) => (
         <button key={ tag.id } onClick={ () => toggleSelectTag(tag.id) }>
-          <span className={ `${selectedTagIds.has(tag.id) ? "bg-slate-400" : "bg-slate-300"} text-white rounded-md p-2 unselectable` }>
+          <span className={ `${selectedTagIds.has(tag.id) ? "bg-slate-400" : "bg-slate-300"} text-white rounded-md p-2 select-none` }>
             { tag.name }
           </span>
         </button>

@@ -21,7 +21,7 @@ export const RuleLabel = ({ label, bold = false }: RuleLabelProps) => {
 
   return (
     <>
-      <div className={ `${bgClass} rounded-md text-white inline-block text-sm p-2 unselectable` }>
+      <div className={ `${bgClass} rounded-md text-white inline-block text-sm p-2 select-none` }>
         { label }
       </div>
     </>

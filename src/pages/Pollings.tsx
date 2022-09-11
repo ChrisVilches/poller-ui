@@ -1,22 +1,20 @@
 import {
-  ColumnDef,
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable
+  ColumnDef
 } from "@tanstack/react-table";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
+import { EndpointItemReadonly } from "../components/EndpointItemReadonly";
 import { ResponseCode } from "../components/ResponseCode";
 import { Table } from "../components/Table";
 import { Endpoint } from "../models/Endpoint";
 import { Polling } from "../models/Polling";
-import { useFindAllQuery } from "../slices/endpointSlice";
+import { useFindAllEndpointsQuery } from "../slices/endpointSlice";
 import { useFindPollingsQuery } from "../slices/pollingsSlice";
 
 // TODO: This component is messy (it works though!). Massive refactor needed.
 
 export const Pollings = () => {
-  const { data: endpoints, isLoading: loadingEndpoints } = useFindAllQuery();
+  const { data: endpoints, isFetching: fetchingEndpoints, refetch: refetchEndpoints } = useFindAllEndpointsQuery();
   
   const { endpointId } = useParams();
   
@@ -24,15 +22,11 @@ export const Pollings = () => {
   
   const { data: pollings = [], refetch, isLoading, isFetching } = useFindPollingsQuery(Number(endpointId));
   
-  const defaultColumns: ColumnDef<Polling>[] = useMemo(() => [
+  const columns: ColumnDef<Polling>[] = useMemo(() => [
     {
-      accessorKey: "error",
-      cell: info => info.getValue() ? (
-        <span className="text-red-500">{ info.getValue() as string }</span> 
-      ) : (
-        <i className="text-gray-400">None</i>
-      ),
-      header: "Error"
+      accessorKey: "responseCode",
+      cell: info => <ResponseCode code={ Number(info.getValue()) }/>,
+      header: "Response code"
     },
     {
       accessorKey: "shouldNotify",
@@ -40,13 +34,20 @@ export const Pollings = () => {
       header: "Should notify?"
     },
     {
-      accessorKey: "computedMessage",
+      cell: info => {
+        const { error, computedMessage } = info.row.original;
+
+        if (computedMessage) {
+          return <div>{ computedMessage }</div>;
+        }
+
+        if (error) {
+          return <span className="text-red-500">{ error }</span>; 
+        }
+
+        return <i className="text-gray-400">None</i>;
+      },
       header: "Message"
-    },
-    {
-      accessorKey: "responseCode",
-      cell: info => <ResponseCode code={ Number(info.getValue()) }/>,
-      header: "Response code"
     },
     {
       accessorKey: "manual",
@@ -54,6 +55,7 @@ export const Pollings = () => {
       header: "Manual Trigger"
     },
     {
+      // TODO: Add the sorting by default on this column.
       accessorKey: "createdAt",
       cell: info => (new Date(info.getValue() as string)).toLocaleString(),
       header: "Date"
@@ -65,37 +67,30 @@ export const Pollings = () => {
     }
   ], [endpointTitle]);
 
-
   useEffect(() => {
+    refetchEndpoints();
     refetch();
-  }, [endpointId, refetch]);
+  }, [endpointId, refetch, refetchEndpoints]);
 
-  // Create the table and pass your options
-  const table = useReactTable({
-    columns: defaultColumns,
-    data: pollings,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
-  });
 
-  // Manage your own state
-  const [state, setState] = useState(table.initialState);
-
-  // Override the state managers for the table to your own
-  table.setOptions(prev => ({
-    ...prev,
-    onStateChange: setState,
-    state
-  }));
-
-  if(isLoading || loadingEndpoints) {
+  if(isLoading || fetchingEndpoints) {
     return <>Loading...</>;
   }
 
   const allPollings = !endpointId;
 
+  const endpoint: Endpoint | undefined = endpoints?.find((e: Endpoint) => e.id === Number(endpointId));
+
+  if(!allPollings && !endpoint) {
+    return <>Not found</>;
+  }
+
   return (
     <div className="p-2">
+      { !allPollings ? (
+        <EndpointItemReadonly endpoint={ endpoint! } showActivityLink={ false }/>
+      ) : <></> }
+
       { allPollings ? (
         <div>
           All Activity
@@ -107,8 +102,8 @@ export const Pollings = () => {
         </div>
       ) }
 
-      {isFetching ? "Fetching..." : ""}
-      <Table table={ table }/>
+      { isFetching ? "Fetching..." : "" }
+      <Table<Polling> data={ pollings } columns={ columns }/>
     </div>
   );
 };

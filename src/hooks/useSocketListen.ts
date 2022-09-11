@@ -4,11 +4,6 @@ import { io } from "socket.io-client";
 export const useSocketListen = (eventName: string) => {
   const socket = useMemo(() => {
     console.log("Connecting to Socket (useMemo)");
-    // TODO: Does this reuse the same connection (or memoize, etc)
-    //       if the hook is used multiple times???? (Note: the console.log
-    //       in the initialization is printed multiple times, so I worry this may
-    //       be creating several connections.) The documentation says it "reuses"
-    //       the instance, but what does that mean exactly?
     return io("ws://localhost:3000");
   }, []);
 

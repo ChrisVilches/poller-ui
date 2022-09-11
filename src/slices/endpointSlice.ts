@@ -8,11 +8,11 @@ export const endpointSlice = createApi({
     endpointTags: builder.query<Tag[], number>({
       query: (id: number) => `/${id}/tags`
     }),
-    findAll: builder.query<Endpoint[], void>({
+    findAllEndpoints: builder.query<Endpoint[], void>({
       query: () => "/"
     })
   }),
   reducerPath: "endpointSlice"
 });
 
-export const { useFindAllQuery, useEndpointTagsQuery } = endpointSlice;
+export const { useFindAllEndpointsQuery, useEndpointTagsQuery } = endpointSlice;

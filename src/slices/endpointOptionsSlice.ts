@@ -17,7 +17,7 @@ const initialState: EndpointOptionsState = {
 
 export const endpointOptionsSlice = createSlice({
   initialState,
-  name: "endpointList",
+  name: "endpointOptionsSlice",
   reducers: {
     setSelectedEndpoint: (state, { payload: { endpoint } }) => {
       state.selectedEndpoint = endpoint;
