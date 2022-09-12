@@ -15,17 +15,15 @@ export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps
 
   const { data: allTags = [], isLoading: allLoading } = useFindAllTagsQuery();
 
-  const { data: endpointTags = [], refetch, isFetching, fulfilledTimeStamp } = useEndpointTagsQuery(endpoint.id, {
+  const { data: endpointTags = [], refetch, isFetching } = useEndpointTagsQuery(endpoint.id, {
     skip: !endpoint.id
   });
 
   useEffect(() => {
     setSelectedTagIds(Set(endpointTags.map((t: Tag) => t.id)));
-    // TODO: Do I still need this?
-  }, [fulfilledTimeStamp, endpointTags]);
+  }, [endpointTags]);
 
   useEffect(() => {
-    console.log("refetching, endpoint ID", endpoint.id);
     refetch();
   }, [endpoint.id, refetch]);
 

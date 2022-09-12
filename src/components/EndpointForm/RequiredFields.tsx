@@ -1,24 +1,7 @@
 import React from "react";
 import { methodOptions, requestTypeOptions, ruleOptions } from "./options";
+import { RuleDescription } from "../RuleDescription";
 import { RuleLabel } from "../RuleLabel";
-
-const ruleDescription = {
-  ContentEqualsRule: (
-    <div>
-      This rule checks exact content.
-    </div>
-  ),
-  HasOccurrencesRule: (
-    <div>
-      This rule counts the occurrences of a string.
-    </div>
-  )
-};
-
-const ruleTokens = {
-  ContentEqualsRule: ["content"],
-  HasOccurrencesRule: ["count"]
-};
 
 interface RequiredFieldsProps {
   title: string
@@ -79,11 +62,7 @@ export const RequiredFields = ({
     </div>
 
     <div className="text-slate-600 my-4 text-sm">
-      { ruleDescription[rule] }
-      Tokens available in the notification message:
-      <div className="rounded-md bg-gray-200 inline-block p-2 m-2 text-gray-700 text-sm font-mono">
-        { ruleTokens[rule].map(s => `%${s}%`).join(", ") }
-      </div>
+      <RuleDescription ruleName={ rule }/>
     </div>
   </>
 );

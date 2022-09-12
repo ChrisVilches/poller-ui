@@ -8,15 +8,20 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface TableProps<T> {
   columns: ColumnDef<T>[];
   data: T[];
+  defaultSorting: { id: string, desc: boolean }
 }
 
-export const Table = <T,>({ columns, data }: TableProps<T>) => {
+export const Table = <T,>({ columns, data, defaultSorting }: TableProps<T>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+
+  useEffect(() => {
+    setSorting([defaultSorting]);
+  }, [defaultSorting]);
 
   const table = useReactTable({
     columns,

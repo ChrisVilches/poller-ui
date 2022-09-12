@@ -1,8 +1,8 @@
-import {
-  ColumnDef
-} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
+import TimeAgo from "react-timeago";
+import { NotFound } from "./NotFound";
 import { EndpointItemReadonly } from "../components/EndpointItemReadonly";
 import { ResponseCode } from "../components/ResponseCode";
 import { Table } from "../components/Table";
@@ -55,9 +55,9 @@ export const Pollings = () => {
       header: "Manual Trigger"
     },
     {
-      // TODO: Add the sorting by default on this column.
       accessorKey: "createdAt",
-      cell: info => (new Date(info.getValue() as string)).toLocaleString(),
+      //cell: info => (new Date(info.getValue() as string)).toLocaleString(),
+      cell: info => <TimeAgo date={ info.getValue() }/>,
       header: "Date"
     },
     {
@@ -82,8 +82,11 @@ export const Pollings = () => {
   const endpoint: Endpoint | undefined = endpoints?.find((e: Endpoint) => e.id === Number(endpointId));
 
   if(!allPollings && !endpoint) {
-    return <>Not found</>;
+    return <NotFound/>;
   }
+
+  // TODO: Doing this with pagination would be awesome. Then, I don't have to load all endpoints to know their names.
+  //       I can just load using JOIN from the backend (database), because there won't be many.
 
   return (
     <div className="p-2">
@@ -103,7 +106,7 @@ export const Pollings = () => {
       ) }
 
       { isFetching ? "Fetching..." : "" }
-      <Table<Polling> data={ pollings } columns={ columns }/>
+      <Table<Polling> data={ pollings } columns={ columns } defaultSorting={ { id: "createdAt", desc: true } }/>
     </div>
   );
 };

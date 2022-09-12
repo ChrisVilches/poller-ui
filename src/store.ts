@@ -7,9 +7,7 @@ import { tagSlice } from "./slices/tagSlice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      // serializableCheck: false
-    })
+    getDefaultMiddleware()
       .concat(tagSlice.middleware)
       .concat(endpointSlice.middleware),
 

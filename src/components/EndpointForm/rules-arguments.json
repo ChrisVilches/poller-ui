@@ -1,0 +1,32 @@
+{
+  "names": {
+    "ContentEqualsRule": [
+      "Content"
+    ],
+    "HasOccurrencesRule": [
+      "Text",
+      "Occurrences",
+      "Operator"
+    ]
+  },
+  "descriptions": {
+    "ContentEqualsRule": [
+      "Content to match with."
+    ],
+    "HasOccurrencesRule": [
+      "Text to search",
+      "How many occurrences",
+      "How to compare the actual amount of occurrences with the expected amount."
+    ]
+  },
+  "types": {
+    "ContentEqualsRule": [
+      "string"
+    ],
+    "HasOccurrencesRule": [
+      "string",
+      "number",
+      "comparisonOperator"
+    ]
+  }
+}

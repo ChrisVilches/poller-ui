@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { CreateTag } from "./CreateTag";
 import { Tag } from "../models/Tag";
 import { useFindAllTagsQuery } from "../slices/tagSlice";
 
@@ -22,6 +23,7 @@ export const TagMenu = () => {
           </Link>
         </div>
       )) }
+      <CreateTag/>
     </div>
   );
 };

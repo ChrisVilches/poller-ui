@@ -24,7 +24,6 @@ export const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) =
     onChange(newSelectors);
   };
 
-  // TODO: Improve the inputs (must support all types), including operators
   return (
     <div>
       { selectors.map((selector: string, idx: number) => (
