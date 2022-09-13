@@ -8,12 +8,12 @@ interface RuleLabelProps {
 export const RuleLabel = ({ label, bold = false }: RuleLabelProps) => {
   const colors = {
     ContentEqualsRule: {
-      bold: "bg-violet-500",
-      normal: "bg-violet-300"
+      bold: "bg-violet-700 font-bold",
+      normal: "bg-violet-500"
     },
     HasOccurrencesRule: {
-      bold: "bg-blue-500",
-      normal: "bg-blue-300"
+      bold: "bg-green-700 font-bold",
+      normal: "bg-green-500"
     }
   };
 

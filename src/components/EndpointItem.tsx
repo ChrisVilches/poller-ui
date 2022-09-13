@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React , { useState } from "react";
 import { Link } from "react-router-dom";
+import TimeAgo from "react-timeago";
 import { Checkbox } from "./Checkbox";
 import { EndpointTitle } from "./EndpointTitle";
 import { PairLabelValueCols } from "./PairLabelValueCols";
@@ -40,7 +41,7 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
         <PairLabelValueCols left="Wait after notification (minutes)" right={ endpoint.waitAfterNotificationMinutes }/>
 
         { endpoint.timeout ? (
-          <PairLabelValueCols left="Timeout" right={ endpoint.timeout.toLocaleString() }/>
+          <PairLabelValueCols left="Timeout" right={ <TimeAgo date={ endpoint.timeout }/> }/>
         ) : "" }
         <PairLabelValueCols left="Inverted" right={ endpoint.not ? "Yes" : "No" }/>
         <PairLabelValueCols
@@ -55,12 +56,16 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
           ) }/>
       </div>
 
-      <Link to={ `/pollings/${endpoint.id}` }>
-        Activity
-      </Link>
-
-      <div className="flex justify-end">
-        <RuleLabel label={ endpoint.rule }/>
+      <div className="flex flex-row">
+        <div className="grow">
+          <Link className="endpoint-item-link" to={ `/pollings/${endpoint.id}` }>
+            Activity
+          </Link>
+        </div>
+        
+        <div className="">
+          <RuleLabel label={ endpoint.rule }/>
+        </div>
       </div>
     </motion.div>
   );

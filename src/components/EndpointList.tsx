@@ -1,6 +1,5 @@
 import { AnimatePresence } from "framer-motion";
 import React, { useContext, useState } from "react";
-import { Checkbox } from "./Checkbox";
 import { EndpointItem } from "./EndpointItem";
 import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
@@ -31,14 +30,20 @@ export const EndpointList = () => {
 
   return (
     <div>
-      <h2>Endpoints ({ endpoints.length })</h2>
-      <h2>Enabled ({ endpoints.filter((e: Endpoint) => e.enabled).length })</h2>
-
-      <Checkbox label="Only enabled" checked={ onlyEnabled } onChange={ () => setOnlyEnabled(!onlyEnabled) }/>
+      <section className="filters-container">
+        <button onClick={ () => setOnlyEnabled(false) }
+          className={ `filters-item ${onlyEnabled ? "" : "filters-item-active"}` }>
+          All ({ endpoints.length })
+        </button>
+        <button onClick={ () => setOnlyEnabled(true) }
+          className={ `filters-item ${onlyEnabled ? "filters-item-active" : ""}` }>
+          Enabled ({ endpoints.filter((e: Endpoint) => e.enabled).length })
+        </button>
+      </section>
 
       <AnimatePresence>
         { applyFilters(endpoints).map(endpoint => (
-          <div key={ endpoint.id } className="my-8 border-gray-200 shadow-lg border-2 rounded-md p-4">
+          <div key={ endpoint.id } className="my-8 bg-slate-700 shadow-lg rounded-xl p-5  ">
             <div className="float-right">
               <EndpointOptions endpoint={ endpoint }/>
             </div>

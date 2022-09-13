@@ -1,14 +1,13 @@
 import { http } from "./http";
-import { Tag } from "../models/Tag";
 
 export class TagService {
-  static async create(name: string): Promise<Tag> {
-    const { data } = await http.post("/tags", { name });
+  static async remove(tagId: number) {
+    const { data } = await http.delete(`/tags/${tagId}`);
     return data;
   }
 
-  static async remove(tagId: number) {
-    const { data } = await http.delete(`/tags/${tagId}`);
+  static async update(tagId: number, name: string) {
+    const { data } = await http.patch(`/tags/${tagId}`, { name });
     return data;
   }
 }

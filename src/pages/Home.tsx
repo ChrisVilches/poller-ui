@@ -1,9 +1,10 @@
-import { Button } from "flowbite-react";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { NewModal } from "../components/EndpointForm/NewModal";
 import { EndpointList } from "../components/EndpointList";
 import { EventLogger } from "../components/EventLogger";
+import { HelmetTitle } from "../components/HelmetTitle";
 import { EndpointListContextProvider, EndpointListDispatchContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
@@ -20,9 +21,12 @@ const EndpointListAux = () => {
 
   return (
     <>
-      <Button onClick={ () => setNewModalShow(true) }>
-        Create
-      </Button>
+      <div className="float-right">
+        <button className="btn btn-primary" onClick={ () => setNewModalShow(true) }>
+          <PlusIcon className="w-6 h-6 inline mr-2"/>Create
+        </button>
+
+      </div>
 
       <EndpointList />
 
@@ -36,7 +40,10 @@ const EndpointListAux = () => {
 
 export const Home = () => (
   <>
-    <EventLogger />
+    <HelmetTitle subtitles={ [] }/>
+    <div className="mb-8">
+      <EventLogger />
+    </div>
 
     <EndpointListContextProvider endpointsFetch={ EndpointService.findAll }>
       <EndpointListAux />

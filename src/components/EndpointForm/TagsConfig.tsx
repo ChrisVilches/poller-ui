@@ -1,9 +1,11 @@
+import { Spinner } from "flowbite-react";
 import { Set } from "immutable";
 import React, { useEffect, useState } from "react";
 import { Endpoint } from "../../models/Endpoint";
 import { Tag } from "../../models/Tag";
 import { useEndpointTagsQuery } from "../../slices/endpointSlice";
 import { useFindAllTagsQuery } from "../../slices/tagSlice";
+import { TagLabel } from "../TagLabel";
 
 interface TagsConfigProps {
   endpoint: Endpoint;
@@ -38,16 +40,16 @@ export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps
   };
 
   if(allLoading || isFetching) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   return (
-    <div className="space-x-2 mb-2">
+    <div className="mb-2">
       { allTags.map((tag: Tag) => (
-        <button key={ tag.id } onClick={ () => toggleSelectTag(tag.id) }>
-          <span className={ `${selectedTagIds.has(tag.id) ? "bg-slate-400" : "bg-slate-300"} text-white rounded-md p-2 select-none` }>
-            { tag.name }
-          </span>
+        <button key={ tag.id } className="mr-2" onClick={ () => toggleSelectTag(tag.id) }>
+          <div className={ `${selectedTagIds.has(tag.id) ? "bg-slate-800" : "bg-slate-400"} text-slate-100 rounded-md px-2 select-none text-sm` }>
+            <TagLabel name={tag.name}/>
+          </div>
         </button>
       )) }
     </div>

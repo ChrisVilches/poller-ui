@@ -1,9 +1,8 @@
 import axios from "axios";
-
-const API_PORT = 3000;
+import { API_HOST, API_PORT } from "../config";
 
 export const http = axios.create({
-  baseURL: `http://localhost:${API_PORT}`,
+  baseURL: `${API_HOST}:${API_PORT}`,
   timeout: 2000
 });
 

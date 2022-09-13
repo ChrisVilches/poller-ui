@@ -1,112 +1,56 @@
-import { ColumnDef } from "@tanstack/react-table";
-import React, { useCallback, useEffect, useMemo } from "react";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+// TODO: I'm only using the Spinner from Flowbite, so if I use my own spinner, then I can remove the library.
+//       I'm also using the skeleton, but is that really imported from Flowbite? I think it's not, but confirm.
+import { Spinner } from "flowbite-react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
-import TimeAgo from "react-timeago";
 import { NotFound } from "./NotFound";
 import { EndpointItemReadonly } from "../components/EndpointItemReadonly";
-import { ResponseCode } from "../components/ResponseCode";
-import { Table } from "../components/Table";
-import { Endpoint } from "../models/Endpoint";
-import { Polling } from "../models/Polling";
-import { useFindAllEndpointsQuery } from "../slices/endpointSlice";
-import { useFindPollingsQuery } from "../slices/pollingsSlice";
-
-// TODO: This component is messy (it works though!). Massive refactor needed.
+import { HelmetTitle } from "../components/HelmetTitle";
+import { PollingsTable } from "../components/PollingsTable";
+import { useFindOneEndpointQuery } from "../slices/endpointSlice";
 
 export const Pollings = () => {
-  const { data: endpoints, isFetching: fetchingEndpoints, refetch: refetchEndpoints } = useFindAllEndpointsQuery();
-  
   const { endpointId } = useParams();
-  
-  const endpointTitle = useCallback((id: number) => endpoints?.find((e: Endpoint) => e.id === id)?.title, [endpoints]);
-  
-  const { data: pollings = [], refetch, isLoading, isFetching } = useFindPollingsQuery(Number(endpointId));
-  
-  const columns: ColumnDef<Polling>[] = useMemo(() => [
-    {
-      accessorKey: "responseCode",
-      cell: info => <ResponseCode code={ Number(info.getValue()) }/>,
-      header: "Response code"
-    },
-    {
-      accessorKey: "shouldNotify",
-      cell: info => info.getValue() ? "YES" : "NO",
-      header: "Should notify?"
-    },
-    {
-      cell: info => {
-        const { error, computedMessage } = info.row.original;
 
-        if (computedMessage) {
-          return <div>{ computedMessage }</div>;
-        }
+  const { data: endpoint, isFetching, error } = useFindOneEndpointQuery(Number(endpointId), {
+    skip: !endpointId
+  });
 
-        if (error) {
-          return <span className="text-red-500">{ error }</span>; 
-        }
-
-        return <i className="text-gray-400">None</i>;
-      },
-      header: "Message"
-    },
-    {
-      accessorKey: "manual",
-      cell: info => info.getValue() ? "YES" : "NO",
-      header: "Manual Trigger"
-    },
-    {
-      accessorKey: "createdAt",
-      //cell: info => (new Date(info.getValue() as string)).toLocaleString(),
-      cell: info => <TimeAgo date={ info.getValue() }/>,
-      header: "Date"
-    },
-    {
-      accessorKey: "endpointId",
-      cell: info => <Link to={ `/pollings/${info.getValue()}` }>{ endpointTitle(info.getValue() as number) }</Link>,
-      header: "Endpoint"
+  if(endpointId) {
+    if(isFetching) {
+      return <div><Spinner/></div>;
     }
-  ], [endpointTitle]);
 
-  useEffect(() => {
-    refetchEndpoints();
-    refetch();
-  }, [endpointId, refetch, refetchEndpoints]);
-
-
-  if(isLoading || fetchingEndpoints) {
-    return <>Loading...</>;
+    if(error) {
+      return <NotFound/>;
+    }
   }
-
-  const allPollings = !endpointId;
-
-  const endpoint: Endpoint | undefined = endpoints?.find((e: Endpoint) => e.id === Number(endpointId));
-
-  if(!allPollings && !endpoint) {
-    return <NotFound/>;
-  }
-
-  // TODO: Doing this with pagination would be awesome. Then, I don't have to load all endpoints to know their names.
-  //       I can just load using JOIN from the backend (database), because there won't be many.
 
   return (
-    <div className="p-2">
-      { !allPollings ? (
-        <EndpointItemReadonly endpoint={ endpoint! } showActivityLink={ false }/>
-      ) : <></> }
+    <>
+      <div className="mb-10">
+        { endpointId ? (
+          <>
+            <HelmetTitle subtitles={ ["Activity", endpoint!.title] }/>
+            
+            <div className="mb-4">
+              <Link to="/pollings"><ChevronLeftIcon className="w-3 h-3 inline"/> See all activity</Link>
+            </div>
+            <EndpointItemReadonly endpoint={ endpoint! } showActivityLink={ false }/>
+          </>
+        ) : (
+          <>
+            <HelmetTitle subtitles={ ["Activity"] }/>
+            <div className="mb-10">
+              Showing all activity
+            </div>
+          </>
+        ) }
 
-      { allPollings ? (
-        <div>
-          All Activity
-        </div>
-      ) : (
-        <div>
-          { endpointTitle(Number(endpointId)) }
-          <Link to="/pollings">(See all)</Link>
-        </div>
-      ) }
-
-      { isFetching ? "Fetching..." : "" }
-      <Table<Polling> data={ pollings } columns={ columns } defaultSorting={ { id: "createdAt", desc: true } }/>
-    </div>
+      </div>
+        
+      <PollingsTable endpointId={ Number(endpointId) } defaultSorting={ { id: "createdAt", desc: true } }/>
+    </>
   );
 };

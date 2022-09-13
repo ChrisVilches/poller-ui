@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 
-export const useSocketListen = (eventName: string) => {
+export const useSocketListen = (eventNames: string[]) => {
   const socket = useMemo(() => {
     console.log("Connecting to Socket (useMemo)");
     return io("ws://localhost:3000");
@@ -23,6 +23,7 @@ export const useSocketListen = (eventName: string) => {
       setIsConnected(false);
     });
     
+    /*
     socket.on(eventName, (data) => {
       console.log(`Event received: ${eventName}`); 
       console.log(data);
@@ -33,15 +34,33 @@ export const useSocketListen = (eventName: string) => {
         return newState;
       });
     });
+    */
+
+    eventNames.forEach((name: string) => {
+      socket.on(name, data => {
+        console.log(`Event received: ${name}`); 
+        console.log(data);
+        
+        setEvents((state: any[]) => {
+          const newState: any[] = [...state];
+          newState.push(data);
+          return newState;
+        });
+      });
+    });
 
     return () => {
       console.log("Disconnecting.");
-      socket.disconnect();
       socket.off("connect");
       socket.off("disconnect");
-      socket.off("pong");
+      
+      eventNames.forEach((name: string) => {
+        socket.off(name);
+      });
+
+      socket.disconnect();
     };
-  }, [socket, eventName]);
+  }, [socket, eventNames]);
 
   return {
     events,

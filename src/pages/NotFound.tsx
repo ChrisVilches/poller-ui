@@ -1,7 +1,11 @@
 import React from "react";
+import { HelmetTitle } from "../components/HelmetTitle";
 
 export const NotFound = () => (
-  <div>
-    Not found!
-  </div>
+  <>
+    <HelmetTitle subtitles={ ["Not Found"] }/>
+    <div>
+      Not found!
+    </div>
+  </>
 );

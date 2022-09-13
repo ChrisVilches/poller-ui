@@ -92,28 +92,34 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
     setRule(ruleName);
   };
 
+  const requiredFields = (
+    <RequiredFields
+      { ...{
+        method,
+        onChangeRule,
+        requestType,
+        rule,
+        setMethod,
+        setRequestType,
+        setTitle,
+        setUrl,
+        title,
+        url
+      } }
+    />
+  );
+
+  // TODO: Should respond to enter key (when the user wants to send the form).
   const form = (
-    <div className="my-4">
-      <RequiredFields
-        { ...{
-          method,
-          onChangeRule,
-          requestType,
-          rule,
-          setMethod,
-          setRequestType,
-          setTitle,
-          setUrl,
-          title,
-          url
-        } }
-      />
+    <div className="mb-2">
+      { formType === "create" ? requiredFields : <></> }
 
       { formType === "edit" ? (
         <AdvancedConfiguration
           { ...{
             args,
             endpoint,
+            mainTab: requiredFields,
             navs,
             not,
             notificationMessage,

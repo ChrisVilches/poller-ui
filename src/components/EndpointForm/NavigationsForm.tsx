@@ -1,5 +1,5 @@
+import { PlusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import { Button } from "flowbite-react";
 import React from "react";
 
 interface NavigationsFormProps {
@@ -25,17 +25,22 @@ export const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) =
   };
 
   return (
-    <div>
-      { selectors.map((selector: string, idx: number) => (
-        <div key={ idx }>
-          <input type="text"
-            placeholder=".some-class"
-            value={ selector || "" }
-            onChange={ (ev) => onChangeHandler(idx, ev.currentTarget.value) } />
-          <TrashIcon className="w-4 h-4" onClick={ () => remove(idx) } />
-        </div>
-      )) }
-      <Button onClick={ addNew }>+</Button>
-    </div>
+    <>
+      <div className="mb-4 max-h-60 overflow-y-auto">
+        { selectors.map((selector: string, idx: number) => (
+          <div className="flex space-x-4 mb-4" key={ idx }>
+            <input type="text"
+              className="grow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+              placeholder=".some-class"
+              value={ selector || "" }
+              onChange={ (ev) => onChangeHandler(idx, ev.currentTarget.value) } />
+            <button className="btn btn-danger" onClick={ () => remove(idx) }>
+              <TrashIcon className="w-4 h-4" />
+            </button>
+          </div>
+        )) }
+      </div>
+      <button className="btn btn-secondary" onClick={ addNew }><PlusIcon className="w-4 h-4"/></button>
+    </>
   );
 };

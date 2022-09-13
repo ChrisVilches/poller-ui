@@ -27,18 +27,27 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-      <Nav />
-      <hr />
-      <TagMenu/>
-      <div className="container mx-auto px-4">
-        <Routes>
-          <Route path="/" element={ <Home /> } />
-          <Route path="about" element={ <About /> } />
-          <Route path="tag/:id" element={ <TagEndpoints /> } />
-          <Route path="pollings" element={ <Pollings /> } />
-          <Route path="pollings/:endpointId" element={ <Pollings /> } />
-          <Route path="*" element={ <NotFound /> } />
-        </Routes>
+      <div className="mb-8">
+        <Nav />
+      </div>
+
+      <div className="container mx-auto mb-8">
+        <div className="grid grid-cols-6">
+          <div className="col-span-12 md:col-span-1">
+            <TagMenu/>
+          </div>
+
+          <main className="col-span-12 md:col-span-5 container mx-auto px-4">
+            <Routes>
+              <Route path="/" element={ <Home /> } />
+              <Route path="about" element={ <About /> } />
+              <Route path="tag/:id" element={ <TagEndpoints /> } />
+              <Route path="pollings" element={ <Pollings /> } />
+              <Route path="pollings/:endpointId" element={ <Pollings /> } />
+              <Route path="*" element={ <NotFound /> } />
+            </Routes>
+          </main>
+        </div>
       </div>
     </Provider>
   );

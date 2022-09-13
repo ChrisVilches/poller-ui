@@ -20,13 +20,13 @@ export const RequiredFields = ({
   title, url, rule, method, setMethod, setTitle, setUrl, onChangeRule, setRequestType, requestType
 }: RequiredFieldsProps) => (
   <>
-    <label className="block mb-4 text-sm font-medium text-gray-900">
+    <label className="block mb-4 text-sm font-medium text-slate-100">
       <div className="mb-4">
         Title
       </div>
       <input type="text" value={ title } onChange={ (ev) => setTitle(ev.currentTarget.value) } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="My Favorite URL" required/>
     </label>
-    <label className="block mb-4 text-sm font-medium text-gray-900">
+    <label className="block mb-4 text-sm font-medium text-slate-100">
       <div className="mb-4">
         URL
       </div>
@@ -42,16 +42,18 @@ export const RequiredFields = ({
       </div>
     </label>
     
-    { requestTypeOptions.map((type: string, idx: number) => (
-      <label key={ idx } className="mr-6">
-        <input
-          type="radio"
-          className="mr-2 checkbox"
-          checked={ requestType === type }
-          onChange={ () => setRequestType(type) }/>
-        { type }
-      </label>
-    )) }
+    <div className="my-8">
+      { requestTypeOptions.map((type: string, idx: number) => (
+        <label key={ idx } className="mr-6">
+          <input
+            type="radio"
+            className="mr-2 checkbox"
+            checked={ requestType === type }
+            onChange={ () => setRequestType(type) }/>
+          { type }
+        </label>
+      )) }
+    </div>
 
     <div className="space-x-2 mt-4">
       { ruleOptions.map((ruleName: string, idx: number) => (
@@ -61,7 +63,7 @@ export const RequiredFields = ({
       )) }
     </div>
 
-    <div className="text-slate-600 my-4 text-sm">
+    <div className="text-slate-200 my-4 text-sm">
       <RuleDescription ruleName={ rule }/>
     </div>
   </>

@@ -1,9 +1,34 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { API_HOST, API_PORT } from "../config";
 import { Tag } from "../models/Tag";
 
 export const tagSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/tags" }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${API_HOST}:${API_PORT}/tags` }),
   endpoints: (builder) => ({
+    createTag: builder.mutation<Tag, string>({
+      query: (name: string) => ({
+        url: "/",
+        method: "post",
+        body: { name }
+      }),
+      onQueryStarted(name: string, { dispatch, queryFulfilled }) {
+        const postResult = dispatch(
+          tagSlice.util.updateQueryData("findAllTags", undefined, draft => {
+            draft.push({
+              id: 0,
+              name
+            } as Tag);
+          })
+        );
+        queryFulfilled.catch(postResult.undo);
+      },
+      async onCacheEntryAdded(_arg: string, { cacheDataLoaded, dispatch }) {
+        const tag: Tag = (await cacheDataLoaded).data;
+        dispatch(tagSlice.util.updateQueryData("findAllTags", undefined, draft => {
+          draft[draft.length - 1] = tag;
+        }));
+      }
+    }),
     findAllTags: builder.query<Tag[], void>({
       query: () => "/"
     }),
@@ -14,4 +39,4 @@ export const tagSlice = createApi({
   reducerPath: "tagSlice"
 });
 
-export const { useFindAllTagsQuery, useFindOneTagQuery } = tagSlice;
+export const { useCreateTagMutation, useFindAllTagsQuery, useFindOneTagQuery } = tagSlice;

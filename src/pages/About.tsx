@@ -1,7 +1,10 @@
 import React from "react";
+import { HelmetTitle } from "../components/HelmetTitle";
 
 export const About = () => (
   <div>
+    <HelmetTitle subtitles={ ["About"] }/>
+
     <h1>About</h1>
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit.

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TimeAgo from "react-timeago";
 import { EndpointTitle } from "./EndpointTitle";
 import { PairLabelValueCols } from "./PairLabelValueCols";
 import { RuleLabel } from "./RuleLabel";
@@ -17,7 +18,7 @@ export const EndpointItemReadonly = ({ endpoint, showActivityLink }: EndpointIte
       <PairLabelValueCols left="Wait after notification (minutes)" right={ endpoint.waitAfterNotificationMinutes } />
 
       { endpoint.timeout ? (
-        <PairLabelValueCols left="Timeout" right={ endpoint.timeout.toLocaleString() } />
+        <PairLabelValueCols left="Timeout" right={ <TimeAgo date={ endpoint.timeout }/> } />
       ) : "" }
       <PairLabelValueCols left="Inverted" right={ endpoint.not ? "Yes" : "No" } />
     </div>

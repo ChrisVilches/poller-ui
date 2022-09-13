@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 body {
+  @apply bg-slate-900;
+  @apply text-slate-200;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -18,11 +20,12 @@ code {
 .checkbox {
   @apply w-4;
   @apply h-4;
-  @apply text-teal-600;
+  @apply p-2;
+  @apply text-blue-500;
   @apply bg-gray-100;
   @apply rounded-full;
   @apply border-gray-300;
-  @apply focus:ring-teal-500;
+  @apply focus:text-blue-600;
 }
 
 table {
@@ -45,4 +48,102 @@ tfoot {
 
 tfoot th {
   font-weight: normal;
+}
+
+.btn {
+  @apply rounded-md;
+  @apply px-8;
+  @apply py-3;
+  transition-duration: 0.5s;
+}
+
+.btn-primary {
+  @apply bg-blue-700;
+  @apply hover:bg-blue-500;
+  @apply disabled:bg-blue-400;
+}
+
+.btn-secondary {
+  border: 1px solid;
+  @apply border-slate-400;
+  @apply hover:border-slate-100;
+  @apply text-slate-400;
+  @apply hover:text-slate-100;
+}
+
+.btn-danger {
+  @apply bg-red-600;
+  @apply hover:bg-red-500;
+  @apply disabled:bg-red-400;
+}
+
+.tag-button {
+  @apply block;
+  @apply py-0.5;
+  @apply my-1;
+  @apply hover:bg-blue-900;
+  @apply rounded-md;
+  transition-duration: 0.5s;
+}
+
+.tag-button-active {
+  @apply font-bold;
+  @apply text-white;
+  @apply bg-blue-900;
+}
+
+.endpoint-item-link {
+  @apply text-slate-300;
+  @apply hover:text-white;
+}
+
+.filters-container {
+  @apply text-sm;
+  @apply space-x-2;
+}
+
+.filters-item {
+  @apply bg-slate-200;
+  @apply py-2;
+  @apply px-4;
+  @apply rounded-md;
+  @apply text-gray-700;
+}
+
+.filters-item-active {
+  @apply font-bold;
+  @apply bg-slate-100;
+}
+
+.pollings-table,
+.pollings-table td,
+.pollings-table th,
+.pollings-table tr,
+.pollings-table tfoot,
+.pollings-table thead,
+.pollings-table tbody {
+  border: 0;
+  @apply border-collapse;
+}
+
+.pollings-table td,
+.pollings-table th {
+  @apply p-2;
+
+}
+
+.pollings-table td {
+  @apply text-sm;
+  @apply text-center;
+}
+
+.pollings-table {
+  @apply rounded-md;
+}
+
+.pollings-table-loading {
+  pointer-events: none;
+  opacity: 0.7;
+  @apply blur-sm;
+  transition-duration: 0.01s;
 }

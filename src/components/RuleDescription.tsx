@@ -8,15 +8,15 @@ export const RuleDescription = ({ ruleName }: RuleDescriptionProps) => {
   switch (ruleName) {
   case "ContentEqualsRule":
     return (
-      <div>
+      <i>
         This rule checks exact content.
-      </div>
+      </i>
     );
   case "HasOccurrencesRule":
     return (
-      <div>
+      <i>
         This rule counts the occurrences of a string.
-      </div>
+      </i>
     );
   default:
     throw new Error(`Invalid rule name (${ruleName})`);

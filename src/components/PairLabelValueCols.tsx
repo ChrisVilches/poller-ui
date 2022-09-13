@@ -7,7 +7,7 @@ interface PairLabelValueColsProps {
 
 export const PairLabelValueCols = ({ left, right }: PairLabelValueColsProps) => (
   <>
-    <div className="text-slate-600 md:text-right">{ left }</div>
-    <div className="text-slate-600 md:text-left">{ right }</div>
+    <div className="text-slate-300 md:text-right">{ left }</div>
+    <div className="text-slate-200 md:text-left font-semibold">{ right }</div>
   </>
 );

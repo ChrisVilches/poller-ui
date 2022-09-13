@@ -53,7 +53,6 @@ interface EndpointListContextProviderProps {
 //       3) From the components that use this component, pass the data using RTK Query, because it's cuter than axios.
 export const EndpointListContextProvider = ({ children, endpointsFetch }: EndpointListContextProviderProps) => {
   const [{ endpoints, isLoading }, dispatch] = useImmerReducer(reducer, initialState);
-  console.log(endpoints);
 
   const fetchEndpoints = useCallback(async () => {
     dispatch({ type: "set_loading" });
