@@ -40,7 +40,7 @@ const EndpointListAux = () => {
 
 export const Home = () => (
   <>
-    <HelmetTitle subtitles={ [] }/>
+    <HelmetTitle subtitles={ [] } />
     <div className="mb-8">
       <EventLogger />
     </div>

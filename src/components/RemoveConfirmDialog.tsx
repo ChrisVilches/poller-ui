@@ -1,9 +1,9 @@
+import { Dialog, Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { EndpointTitle } from "./EndpointTitle";
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
-import { Dialog, Transition } from '@headlessui/react'
 
 interface RemoveConfirmDialogProps {
   show: boolean;
@@ -30,10 +30,10 @@ export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: R
 
   return (
     <>
-      <Transition appear show={show} as={React.Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Transition appear show={ show } as={ React.Fragment }>
+        <Dialog as="div" className="relative z-10" onClose={ closeModal }>
           <Transition.Child
-            as={React.Fragment}
+            as={ React.Fragment }
             enter="ease-out duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
@@ -47,7 +47,7 @@ export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: R
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
-                as={React.Fragment}
+                as={ React.Fragment }
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 scale-95"
                 enterTo="opacity-100 scale-100"
@@ -65,11 +65,11 @@ export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: R
                   </Dialog.Title>
                   
                   <div className="flex justify-center gap-4">
-                    <button disabled={loading} onClick={executeRemove} className="btn btn-danger">
+                    <button disabled={ loading } onClick={ executeRemove } className="btn btn-danger">
                       Yes
                     </button>
 
-                    <button onClick={closeModal} className="btn btn-secondary">
+                    <button onClick={ closeModal } className="btn btn-secondary">
                       Cancel
                     </button>
                   </div>
@@ -80,5 +80,5 @@ export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: R
         </Dialog>
       </Transition>
     </>
-  )
+  );
 };

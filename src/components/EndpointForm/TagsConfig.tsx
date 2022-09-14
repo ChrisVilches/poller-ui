@@ -1,57 +1,46 @@
-import { Spinner } from "flowbite-react";
 import { Set } from "immutable";
-import React, { useEffect, useState } from "react";
-import { Endpoint } from "../../models/Endpoint";
+import React from "react";
 import { Tag } from "../../models/Tag";
-import { useEndpointTagsQuery } from "../../slices/endpointSlice";
 import { useFindAllTagsQuery } from "../../slices/tagSlice";
 import { TagLabel } from "../TagLabel";
 
 interface TagsConfigProps {
-  endpoint: Endpoint;
+  selectedTagIds: Set<number>;
   onSelectedTagIdsChange: (ids: Set<number>) => void;
 }
 
-export const TagsConfig = ({ endpoint, onSelectedTagIdsChange }: TagsConfigProps) => {
-  const [selectedTagIds, setSelectedTagIds] = useState(Set<number>());
+// TODO: Should use a localization library.
+const tagsSelectedLabel = (count: number) => {
+  switch(count){
+  case 0:
+    return "No tags selected."
+  case 1:
+    return "One tag selected."
+  default:
+    return `${count} tags selected.`
+  }
+}
 
-  const { data: allTags = [], isLoading: allLoading } = useFindAllTagsQuery();
-
-  const { data: endpointTags = [], refetch, isFetching } = useEndpointTagsQuery(endpoint.id, {
-    skip: !endpoint.id
-  });
-
-  useEffect(() => {
-    setSelectedTagIds(Set(endpointTags.map((t: Tag) => t.id)));
-  }, [endpointTags]);
-
-  useEffect(() => {
-    refetch();
-  }, [endpoint.id, refetch]);
-
-  useEffect(() => {
-    onSelectedTagIdsChange(selectedTagIds);
-  }, [selectedTagIds, onSelectedTagIdsChange]);
+export const TagsConfig = ({ selectedTagIds, onSelectedTagIdsChange }: TagsConfigProps) => {
+  const { data: allTags = [] } = useFindAllTagsQuery();
 
   const toggleSelectTag = (tagId: number) => {
-
-    setSelectedTagIds((state: Set<number>) =>
-      state.has(tagId) ? state.remove(tagId) : state.add(tagId));
+    onSelectedTagIdsChange(selectedTagIds.has(tagId) ? selectedTagIds.remove(tagId) : selectedTagIds.add(tagId));
   };
-
-  if(allLoading || isFetching) {
-    return <Spinner/>;
-  }
 
   return (
     <div className="mb-2">
       { allTags.map((tag: Tag) => (
         <button key={ tag.id } className="mr-2" onClick={ () => toggleSelectTag(tag.id) }>
-          <div className={ `${selectedTagIds.has(tag.id) ? "bg-slate-800" : "bg-slate-400"} text-slate-100 rounded-md px-2 select-none text-sm` }>
-            <TagLabel name={tag.name}/>
+          <div className={ `${selectedTagIds.has(tag.id) ? "bg-slate-800 font-bold" : "bg-slate-400"} text-slate-100 rounded-md px-2 select-none text-sm` }>
+            <TagLabel name={ tag.name }/>
           </div>
         </button>
       )) }
+
+      <div className="text-slate-100 mt-4 mb-8 text-sm">
+        {tagsSelectedLabel(selectedTagIds.size)}
+      </div>
     </div>
   );
 };

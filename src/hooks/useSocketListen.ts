@@ -43,6 +43,7 @@ export const useSocketListen = (eventNames: string[]) => {
         
         setEvents((state: any[]) => {
           const newState: any[] = [...state];
+          data.eventName = name;
           newState.push(data);
           return newState;
         });

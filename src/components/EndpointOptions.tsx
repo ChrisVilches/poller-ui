@@ -1,3 +1,4 @@
+import { Menu, Transition } from "@headlessui/react";
 import { CloudArrowDownIcon, EllipsisVerticalIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -8,7 +9,6 @@ import {
   togglePollDialog,
   toggleRemoveDialog
 } from "../slices/endpointOptionsSlice";
-import { Menu, Transition } from '@headlessui/react'
 
 interface EndpointOptionsProps {
   endpoint: Endpoint;
@@ -21,20 +21,13 @@ export const EndpointOptions = ({ endpoint }: EndpointOptionsProps) => {
     dispatch(setSelectedEndpoint({ endpoint: null }));
   }, [dispatch]);
 
-  const links = [
-    { href: '/account-settings', label: 'Account settings' },
-    { href: '/support', label: 'Support' },
-    { href: '/license', label: 'License' },
-    { href: '/sign-out', label: 'Sign out' },
-  ]
-
   return (
     <Menu>
-      {({ open }) => (
+      { ({ open }) => (
         <>
           <Menu.Button><EllipsisVerticalIcon className="w-6 h-6" /></Menu.Button>
           <Transition
-            show={open}
+            show={ open }
             enter="transition duration-100 ease-out"
             enterFrom="transform scale-95 opacity-0"
             enterTo="transform scale-100 opacity-100"
@@ -68,7 +61,7 @@ export const EndpointOptions = ({ endpoint }: EndpointOptionsProps) => {
             </Menu.Items>
           </Transition>
         </>
-      )}
+      ) }
     </Menu>
-  )
+  );
 };

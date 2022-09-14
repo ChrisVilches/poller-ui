@@ -1,7 +1,7 @@
+import { Dialog, Transition } from "@headlessui/react";
 import React, { ReactElement } from "react";
 import { EndpointForm } from "./EndpointForm";
 import { Endpoint } from "../../models/Endpoint";
-import { Dialog, Transition } from '@headlessui/react'
 
 interface EditModalProps {
   endpoint: Endpoint;
@@ -11,12 +11,12 @@ interface EditModalProps {
 }
 
 export const EditModal = ({ endpoint, show, closeModal, itemEdited }: EditModalProps) => (
-  <EndpointForm endpoint={endpoint} onEndpointUpserted={itemEdited} formType="edit">
-    {(form: ReactElement, onEndpointSave: () => void, saveLoading: boolean): ReactElement => (
-      <Transition appear show={show} as={React.Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+  <EndpointForm endpoint={ endpoint } onEndpointUpserted={ itemEdited } formType="edit">
+    { (form: ReactElement, saveEndpoint: () => void, saveLoading: boolean): ReactElement => (
+      <Transition appear show={ show } as={ React.Fragment }>
+        <Dialog as="div" className="relative z-10" onClose={ closeModal }>
           <Transition.Child
-            as={React.Fragment}
+            as={ React.Fragment }
             enter="ease-out duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
@@ -30,7 +30,7 @@ export const EditModal = ({ endpoint, show, closeModal, itemEdited }: EditModalP
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
-                as={React.Fragment}
+                as={ React.Fragment }
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 scale-95"
                 enterTo="opacity-100 scale-100"
@@ -46,14 +46,14 @@ export const EditModal = ({ endpoint, show, closeModal, itemEdited }: EditModalP
                     Edit Endpoint
                   </Dialog.Title>
                   <div className="mb-8">
-                    {form}
+                    { form }
                   </div>
 
                   <div className="space-x-4">
-                    <button className="btn btn-primary" onClick={onEndpointSave} disabled={saveLoading}>
+                    <button className="btn btn-primary" onClick={ saveEndpoint } disabled={ saveLoading }>
                       Update
                     </button>
-                    <button className="btn btn-secondary" onClick={closeModal} color="gray">
+                    <button className="btn btn-secondary" onClick={ closeModal } color="gray">
                       Cancel
                     </button>
                   </div>
@@ -63,6 +63,6 @@ export const EditModal = ({ endpoint, show, closeModal, itemEdited }: EditModalP
           </div>
         </Dialog>
       </Transition>
-    )}
+    ) }
   </EndpointForm>
 );

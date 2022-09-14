@@ -15,10 +15,10 @@ export const EndpointItemReadonly = ({ endpoint, showActivityLink }: EndpointIte
   <div className="mt-2">
     <div className="mb-8 font-bold"><EndpointTitle title={ endpoint.title } /></div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-      <PairLabelValueCols left="Wait after notification (minutes)" right={ endpoint.waitAfterNotificationMinutes } />
+      <PairLabelValueCols left="Wait after notification" right={ `${endpoint.waitAfterNotificationMinutes} minutes` } />
 
       { endpoint.timeout ? (
-        <PairLabelValueCols left="Timeout" right={ <TimeAgo date={ endpoint.timeout }/> } />
+        <PairLabelValueCols left="Next Poll" right={ <TimeAgo date={ endpoint.timeout }/> } />
       ) : "" }
       <PairLabelValueCols left="Inverted" right={ endpoint.not ? "Yes" : "No" } />
     </div>

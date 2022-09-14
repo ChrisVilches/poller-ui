@@ -11,6 +11,8 @@ import { TagLabel } from "../components/TagLabel";
 import { EndpointListContextProvider } from "../contexts/EndpointListContext";
 import { TagService } from "../services/TagService";
 import { useFindAllTagsQuery, useFindOneTagQuery } from "../slices/tagSlice";
+import { TagInput } from "../components/TagInput";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 
 export const TagEndpoints = () => {
   const { id: tagId } = useParams();
@@ -28,18 +30,26 @@ export const TagEndpoints = () => {
 
   const { refetch: reloadTagMenu } = useFindAllTagsQuery();
 
+  const reset = () => {
+    setTagName(tag!.name);
+    setEditMode(false);
+  };
+
   useEffect(() => {
     refetch();
   }, [tagId, refetch]);
   
   const autoFocus = () => {
     if(editMode) {
-      inputRef.current!.focus();
+      inputRef.current?.focus();
     }
   };
+
   useEffect(() => {
     autoFocus();
   }, [editMode]);
+
+  useEscapeKey(editMode, reset, inputRef);
 
   useEffect(() => {
     setTagName(tag?.name || "");
@@ -70,6 +80,7 @@ export const TagEndpoints = () => {
       // TODO: How can I autofocus after an error so that the user can continue editing?
       //       This hack is dumb.
       //       For some reason the tag creation form works without setTimeout.
+      // Maybe use some hook for this? How?
       setTimeout(autoFocus, 10);
     } finally {
       setUpdatingTag(false);
@@ -79,11 +90,6 @@ export const TagEndpoints = () => {
   const updateTagName = (ev) => {
     ev.preventDefault();
     updateTag();
-  };
-
-  const reset = () => {
-    setTagName(tag!.name);
-    setEditMode(false);
   };
 
   const canSave = () => {
@@ -102,13 +108,12 @@ export const TagEndpoints = () => {
         { editMode ? (
           <div>
             <form onSubmit={ updateTagName }>
-              <input
-                ref={ inputRef }
-                type="text"
-                value={ tagName }
-                disabled={ updatingTag }
+              <TagInput
+                inputRef={inputRef}
+                isLoading={updatingTag}
+                value={tagName}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                onChange={ (ev) => setTagName(ev.currentTarget.value) }/>
+                onChange={(ev) => setTagName(ev.currentTarget.value)}/>
               { updatingTag ? (
                 <i className="text-gray-300 text-sm">Updating...</i>
               ) : (
@@ -121,15 +126,17 @@ export const TagEndpoints = () => {
             </form>
           </div>
         ) : (
-          <>
-            <button onClick={ () => setEditMode(true) }>
-              <TagLabel name={ tag!.name }/>
-            </button>
-            <div className="float-right">
+          <div className="flex items-center">
+            <div className="grow">
+              <button onClick={ () => setEditMode(true) }>
+                <TagLabel name={ tag!.name }/>
+              </button>
+            </div>
+            <div>
               <button className="btn btn-danger" type="button" onClick={ () => setShowRemoveDialog(true) }>Remove tag</button>
               <RemoveTagConfirmDialog show={ showRemoveDialog } closeModal={ () => setShowRemoveDialog(false) } tag={ tag! }/>
             </div>
-          </>
+          </div>
         ) }
       </div>
 

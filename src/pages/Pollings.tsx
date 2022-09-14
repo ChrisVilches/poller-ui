@@ -19,7 +19,7 @@ export const Pollings = () => {
 
   if(endpointId) {
     if(isFetching) {
-      return <div><Spinner/></div>;
+      return <Spinner/>;
     }
 
     if(error) {

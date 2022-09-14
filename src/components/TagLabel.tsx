@@ -14,7 +14,7 @@ export const TagLabel = ({ name, count }: TagLabelProps) => {
       { name }
 
       { typeof count === "number" ? (
-        <div className="inline-block bg-slate-700 rounded-full ml-3 px-2 text-sm">
+        <div className="tag-label-count inline-block rounded-full ml-3 px-2 text-sm">
           { count }
         </div>
       ) : <></> }

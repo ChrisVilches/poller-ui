@@ -5,6 +5,7 @@ import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
 import { EndpointListContext, EndpointListDispatchContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
+import { Spinner } from "flowbite-react";
 
 export const EndpointList = () => {
   const dispatch = useContext(EndpointListDispatchContext);
@@ -13,7 +14,7 @@ export const EndpointList = () => {
   const [onlyEnabled, setOnlyEnabled] = useState(true);
 
   if(isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   const applyFilters = (initialList: Endpoint[]) => {

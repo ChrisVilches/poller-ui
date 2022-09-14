@@ -52,9 +52,13 @@ tfoot th {
 
 .btn {
   @apply rounded-md;
-  @apply px-8;
   @apply py-3;
+  @apply px-8;
   transition-duration: 0.5s;
+}
+
+.btn-smaller {
+  @apply px-4;
 }
 
 .btn-primary {
@@ -86,10 +90,18 @@ tfoot th {
   transition-duration: 0.5s;
 }
 
+.tag-button .tag-label-count {
+  @apply bg-blue-900;
+}
+
 .tag-button-active {
   @apply font-bold;
   @apply text-white;
   @apply bg-blue-900;
+}
+
+.tag-button-active .tag-label-count {
+  @apply bg-blue-700;
 }
 
 .endpoint-item-link {

@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
+import { CheckBadgeIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, MinusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ColumnDef,
   PaginationState,
@@ -58,7 +58,11 @@ const columns: ColumnDef<Polling>[] = [
   },
   {
     accessorKey: "shouldNotify",
-    cell: info => info.getValue() ? "YES" : "NO",
+    cell: info => info.getValue() ? (
+      <CheckIcon className="text-green-500 mx-auto w-6 h-6"/>
+    ) : (
+      <MinusIcon className="text-gray-600 mx-auto w-6 h-6"/>
+    ),
     header: "Should notify?"
   },
   {
@@ -70,7 +74,7 @@ const columns: ColumnDef<Polling>[] = [
   },
   {
     accessorKey: "manual",
-    cell: info => info.getValue() ? "YES" : "NO",
+    cell: info => info.getValue() ? "Manual" : "Automated",
     header: "Manual Trigger"
   },
   {
@@ -152,7 +156,7 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
         </thead>
         <tbody>
           { table.getRowModel().rows.map(row => (
-            <tr key={ row.id }>
+            <tr key={ row.id } data-polling-id={row.original.id}>
               { row.getVisibleCells().map(cell => (
                 <td key={ cell.id }>
                   { flexRender(cell.column.columnDef.cell, cell.getContext()) }
@@ -163,58 +167,62 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
         </tbody>
       </table>
 
-      <div className="flex justify-center items-center gap-2">
-        <button
-          className="border rounded p-3"
-          onClick={ () => table.setPageIndex(0) }
-          disabled={ !table.getCanPreviousPage() }
-        >
-          { "<<" }
-        </button>
-        <button
-          className="border rounded p-3"
-          onClick={ () => table.previousPage() }
-          disabled={ !table.getCanPreviousPage() }
-        >
-          { "<" }
-        </button>
-        <button
-          className="border rounded p-3"
-          onClick={ () => table.nextPage() }
-          disabled={ !table.getCanNextPage() }
-        >
-          { ">" }
-        </button>
-        <button
-          className="border rounded p-3"
-          onClick={ () => table.setPageIndex(table.getPageCount() - 1) }
-          disabled={ !table.getCanNextPage() }
-        >
-          { ">>" }
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            { table.getState().pagination.pageIndex + 1 } of{ " " }
-            { table.getPageCount() }
-          </strong>
-        </span>
-
-        <select
-          value={ pagination.pageSize }
-          onChange={ e => {
-            setPagination((state: PaginationState) => ({
-              ...state,
-              pageSize: +e.target.value
-            }));
-          } }
-        >
-          { [10, 20, 30, 40, 50].map(pageSize => (
-            <option key={ pageSize } value={ pageSize }>
-              Show { pageSize }
-            </option>
-          )) }
-        </select>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="col-span-2 md:col-span-1 place-self-center md:place-self-end space-x-2">
+          <button
+            className="btn btn-smaller btn-secondary"
+            onClick={ () => table.setPageIndex(0) }
+            disabled={ !table.getCanPreviousPage() }
+          >
+            { "<<" }
+          </button>
+          <button
+            className="btn btn-smaller btn-secondary"
+            onClick={ () => table.previousPage() }
+            disabled={ !table.getCanPreviousPage() }
+          >
+            { "<" }
+          </button>
+          <button
+            className="btn btn-smaller btn-secondary"
+            onClick={ () => table.nextPage() }
+            disabled={ !table.getCanNextPage() }
+          >
+            { ">" }
+          </button>
+          <button
+            className="btn btn-smaller btn-secondary"
+            onClick={ () => table.setPageIndex(table.getPageCount() - 1) }
+            disabled={ !table.getCanNextPage() }
+          >
+            { ">>" }
+          </button>
+        </div>
+        <div className="col-span-2 md:col-span-1 place-self-center md:place-self-start">
+          <div className="inline mr-4">
+            Page{" "}
+            <strong>
+              { table.getState().pagination.pageIndex + 1 } of{ " " }
+              { table.getPageCount() }
+            </strong>
+          </div>
+          <select
+            className="inline bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            value={ pagination.pageSize }
+            onChange={ e => {
+              setPagination((state: PaginationState) => ({
+                ...state,
+                pageSize: +e.target.value
+              }));
+            } }
+          >
+            { [10, 20, 30, 40, 50].map(pageSize => (
+              <option key={ pageSize } value={ pageSize }>
+                Show { pageSize }
+              </option>
+            )) }
+          </select>
+        </div>
       </div>
     </>
   );

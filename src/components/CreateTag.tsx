@@ -1,9 +1,10 @@
-import { PlusCircleIcon, PlusIcon, XCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { Input } from "./EndpointForm/ArgumentsForm";
 import { SmallCancelButton } from "./SmallCancelButton";
 import { useCreateTagMutation } from "../slices/tagSlice";
+import { TagInput } from "./TagInput";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 
 export const CreateTag = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -52,15 +53,17 @@ export const CreateTag = () => {
     autoFocus();
   }, [editMode]);
 
+  useEscapeKey(editMode, reset, inputRef);
+
   if(editMode) {
     return (
       <form onSubmit={ saveTag }>
-        <input ref={ inputRef }
-          disabled={ isLoading }
-          type="text"
+        <TagInput
+          inputRef={inputRef}
+          isLoading={isLoading}
+          value={tagName}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          value={ tagName }
-          onChange={ (ev) => setTagName(ev.currentTarget.value) }/>
+          onChange={(ev) => setTagName(ev.currentTarget.value)}/>
 
         { isLoading ? (
           <span>Saving...</span>

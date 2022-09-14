@@ -29,6 +29,35 @@ const eventNames = [
   "polling.success"
 ];
 
+const EventItem = ({ eventName, data }) => {
+  console.log(data);
+
+  // TODO: Fix this... decide a message/event structure.
+  
+  switch(eventName){
+  case "polling.initialize":
+    return (
+      <span>
+        { data.message }
+      </span>
+    );
+  case "polling.attempt":
+    return (
+      <span>
+        Polling <b>{ data.title }</b>
+      </span>
+    );
+  case "polling.success":
+    return (
+      <span>
+        Not implemented: polling.success
+      </span>
+    );
+  }
+
+  return <span>Unknown event type</span>;
+};
+
 export const EventLogger = () => {
   const { isConnected, events } = useSocketListen(eventNames);
 
@@ -38,15 +67,13 @@ export const EventLogger = () => {
       { isConnected ? <ConnectedDot/> : <DisconnectedDot/> }
       
       <div className="mt-4 max-h-60 h-60 scroll-smooth overflow-y-scroll pr-4">
-        { events.map(({ timestamp, message, ...extra }: any, idx: number) => (
+        { events.map(({ timestamp, eventName, ...data }: any, idx: number) => (
           <div key={ idx } className="bg-yellow-500 rounded-md p-2 my-2 break-words">
             <span className="text-sm float-right ml-8">
               <TimeAgo date={ timestamp } formatter={ formatter }/>
             </span>
-            <span>
-              { message }
-            </span>
-            { JSON.stringify(extra) }
+
+            <EventItem eventName={ eventName } data={ data }/>
           </div>
         )) }
 
