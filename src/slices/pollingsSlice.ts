@@ -15,13 +15,13 @@ export const pollingsSlice = createApi({
   endpoints: (builder) => ({
     findPollings: builder.query<PollingsPaginatedResult, PaginatedQuery>({
       query: ({ id, page, pageSize, sortBy, order }: PaginatedQuery) => ({
-        url: id ? `/${id}` : "/",
         params: {
+          order,
           page,
           pageSize,
-          sortBy,
-          order
-        }
+          sortBy
+        },
+        url: id ? `/${id}` : "/"
       })
     })
   }),

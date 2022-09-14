@@ -8,6 +8,8 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
@@ -33,7 +35,9 @@ module.exports = {
       // ruleset, disable the JS one.
       rules: {
         "@typescript-eslint/no-array-constructor": "warn",
-        "no-array-constructor": "off"
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "no-array-constructor": "off",
+        "no-unused-vars": "off"
       }
     }
   ],

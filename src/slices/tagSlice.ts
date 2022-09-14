@@ -6,11 +6,12 @@ export const tagSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${API_HOST}:${API_PORT}/tags` }),
   endpoints: (builder) => ({
     createTag: builder.mutation<Tag, string>({
-      query: (name: string) => ({
-        url: "/",
-        method: "post",
-        body: { name }
-      }),
+      async onCacheEntryAdded(_arg: string, { cacheDataLoaded, dispatch }) {
+        const tag: Tag = (await cacheDataLoaded).data;
+        dispatch(tagSlice.util.updateQueryData("findAllTags", undefined, draft => {
+          draft[draft.length - 1] = tag;
+        }));
+      },
       onQueryStarted(name: string, { dispatch, queryFulfilled }) {
         const postResult = dispatch(
           tagSlice.util.updateQueryData("findAllTags", undefined, draft => {
@@ -22,12 +23,11 @@ export const tagSlice = createApi({
         );
         queryFulfilled.catch(postResult.undo);
       },
-      async onCacheEntryAdded(_arg: string, { cacheDataLoaded, dispatch }) {
-        const tag: Tag = (await cacheDataLoaded).data;
-        dispatch(tagSlice.util.updateQueryData("findAllTags", undefined, draft => {
-          draft[draft.length - 1] = tag;
-        }));
-      }
+      query: (name: string) => ({
+        body: { name },
+        method: "post",
+        url: "/"
+      })
     }),
     findAllTags: builder.query<Tag[], void>({
       query: () => "/"

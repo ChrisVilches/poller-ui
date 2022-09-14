@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const EndpointListContext = createContext(initialState);
-export const EndpointListDispatchContext = createContext((() => {}) as Dispatch<any>);
+export const EndpointListDispatchContext = createContext<Dispatch<any>>(() => null);
 
 const reducer = (draft, action) => {
   const { type, payload } = action;

@@ -8,6 +8,7 @@ import { NotFound } from "./NotFound";
 import { EndpointItemReadonly } from "../components/EndpointItemReadonly";
 import { HelmetTitle } from "../components/HelmetTitle";
 import { PollingsTable } from "../components/PollingsTable";
+import { Endpoint } from "../models/Endpoint";
 import { useFindOneEndpointQuery } from "../slices/endpointSlice";
 
 export const Pollings = () => {
@@ -32,12 +33,12 @@ export const Pollings = () => {
       <div className="mb-10">
         { endpointId ? (
           <>
-            <HelmetTitle subtitles={ ["Activity", endpoint!.title] }/>
+            <HelmetTitle subtitles={ ["Activity", endpoint?.title] }/>
             
             <div className="mb-4">
               <Link to="/pollings"><ChevronLeftIcon className="w-3 h-3 inline"/> See all activity</Link>
             </div>
-            <EndpointItemReadonly endpoint={ endpoint! } showActivityLink={ false }/>
+            <EndpointItemReadonly endpoint={ endpoint as Endpoint } showActivityLink={ false }/>
           </>
         ) : (
           <>
@@ -49,8 +50,8 @@ export const Pollings = () => {
         ) }
 
       </div>
-        
-      <PollingsTable endpointId={ Number(endpointId) } defaultSorting={ { id: "createdAt", desc: true } }/>
+
+      <PollingsTable endpointId={ Number(endpointId) } defaultSorting={ { desc: true, id: "createdAt" } }/>
     </>
   );
 };

@@ -1,5 +1,5 @@
-import { HashtagIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import { HashtagIcon } from "@heroicons/react/24/outline";
+import React from "react";
 
 interface TagInputProps {
   inputRef: React.RefObject<HTMLInputElement>;
@@ -21,8 +21,8 @@ export const TagInput = ({
     <input ref={ inputRef }
       disabled={ isLoading }
       type="text"
-      className={`indent-4 ${className || ""}`}
+      className={ `indent-4 ${className || ""}` }
       value={ value }
       onChange={ onChange }/>
   </div>
-)
+);

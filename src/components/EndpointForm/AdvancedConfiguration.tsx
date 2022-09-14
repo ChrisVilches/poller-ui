@@ -19,13 +19,15 @@ interface AdvancedConfigurationProps {
   navs: string[]
   not: boolean
   args: (string | number | boolean)[]
-  notificationMessage: string
+  notificationMessage: string;
+  periodMinutes: number;
   waitAfterNotificationMinutes: number
-  setArgs: Function
-  setNavs: Function
+  setArgs: (args: (string | number | boolean)[]) => void
+  setNavs: (navs: string[]) => void
   setNot: (not: boolean) => void;
-  setNotificationMessage: Function
-  setWaitAfterNotificationMinutes: Function
+  setNotificationMessage: (m: string) => void;
+  setPeriodMinutes: (p: number) => void;
+  setWaitAfterNotificationMinutes: (w: number) => void;
   endpoint: Endpoint
   selectedTagIds: Set<number>;
   setSelectedTagIds: (ids: Set<number>) => void
@@ -39,9 +41,11 @@ export const AdvancedConfiguration = ({
   args,
   mainTab,
   notificationMessage,
+  periodMinutes,
   waitAfterNotificationMinutes,
   setNavs,
   setNot,
+  setPeriodMinutes,
   setArgs,
   setNotificationMessage,
   selectedTagIds,
@@ -55,7 +59,14 @@ export const AdvancedConfiguration = ({
           Notification Message
         </div>
 
-        <input type="text" value={ notificationMessage } onChange={ (ev) => setNotificationMessage(ev.currentTarget.value) } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="The website changed!" required />
+        <input
+          type="text"
+          value={ notificationMessage }
+          onChange={ (ev) => setNotificationMessage(ev.currentTarget.value) }
+          placeholder="The website changed!"
+          required
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+          rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
 
         <div className="text-slate-100 my-4 text-sm">
           Tokens available in the notification message:
@@ -67,9 +78,30 @@ export const AdvancedConfiguration = ({
 
       <label className="block mb-4">
         <div className="mb-4 text-sm font-medium text-slate-100">
+          Period (minutes)
+        </div>
+        <input
+          type="number"
+          value={ periodMinutes }
+          onChange={ (ev) => setPeriodMinutes(+ev.currentTarget.value) }
+          placeholder="15"
+          required
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+          rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+      </label>
+
+      <label className="block mb-4">
+        <div className="mb-4 text-sm font-medium text-slate-100">
           Wait after notification (minutes)
         </div>
-        <input type="number" value={ waitAfterNotificationMinutes } onChange={ (ev) => setWaitAfterNotificationMinutes(+ev.currentTarget.value) } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="60" required />
+        <input
+          type="number"
+          value={ waitAfterNotificationMinutes }
+          onChange={ (ev) => setWaitAfterNotificationMinutes(+ev.currentTarget.value) }
+          placeholder="60"
+          required
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+          rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
       </label>
 
       <div className="block mb-4">
@@ -108,7 +140,7 @@ export const AdvancedConfiguration = ({
     <TagsConfig selectedTagIds={ selectedTagIds } onSelectedTagIdsChange={ setSelectedTagIds }/>
   );
 
-  const tabs: any[] = [
+  const tabs: [string, React.ElementType][] = [
     ["URL", GlobeAltIcon],
     ["Settings", Cog6ToothIcon],
     ["Arguments", CubeIcon],
@@ -122,7 +154,8 @@ export const AdvancedConfiguration = ({
         { tabs.map(([name, Icon], idx: number) => (
           <Tab key={ idx } as="div" className="grow">
             { ({ selected }) => (
-              <button className={ `w-full ${idx === 0 ? "rounded-l-md" : (idx === 4 ? "rounded-r-md" : "")} p-3 ${selected ? "bg-slate-800 text-white" : "bg-slate-900 text-slate-100"}` }>
+              <button className={ `w-full ${idx === 0 ? "rounded-l-md" : (idx === 4 ? "rounded-r-md" : "")}
+                p-3 ${selected ? "bg-slate-800 text-white" : "bg-slate-900 text-slate-100"}` }>
                 <>
                   <Icon className="w-4 h-4 inline mr-2"/>
                   <span className="hidden md:inline">

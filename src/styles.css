@@ -61,6 +61,12 @@ tfoot th {
   @apply px-4;
 }
 
+.btn-link {
+  @apply px-0;
+  @apply text-slate-300;
+  @apply hover:text-slate-100;
+}
+
 .btn-primary {
   @apply bg-blue-700;
   @apply hover:bg-blue-500;
@@ -158,4 +164,10 @@ tfoot th {
   opacity: 0.7;
   @apply blur-sm;
   transition-duration: 0.01s;
+}
+
+.footer-link {
+  @apply text-slate-400;
+  @apply hover:text-slate-200;
+  @apply transition;
 }

@@ -25,19 +25,34 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
   const [navs, setNavs] = useState(endpoint.navigations || []);
   const [not, setNot] = useState(endpoint.not || false);
   const [url, setUrl] = useState(endpoint.url || "");
+  const [periodMinutes, setPeriodMinutes] = useState(endpoint.periodMinutes);
   const [selectedTagIds, setSelectedTagIds] = useState(Set<number>());
   const [method, setMethod] = useState(endpoint.method);
   const [requestType, setRequestType] = useState(endpoint.type);
   const [notificationMessage, setNotificationMessage] = useState(endpoint.notificationMessage || "");
-  const [waitAfterNotificationMinutes, setWaitAfterNotificationMinutes] = useState(endpoint.waitAfterNotificationMinutes);
+  const [
+    waitAfterNotificationMinutes,
+    setWaitAfterNotificationMinutes
+  ] = useState(endpoint.waitAfterNotificationMinutes);
 
   useEffect(() => {
     const {
-      method, navigations, not, notificationMessage, arguments: args, type, url, rule, title, waitAfterNotificationMinutes
+      method,
+      navigations,
+      not,
+      notificationMessage,
+      arguments: args,
+      type,
+      url,
+      periodMinutes,
+      rule,
+      title,
+      waitAfterNotificationMinutes
     } = endpoint;
     setTitle(title || "");
     setRule(rule || "ContentEqualsRule");
     setArgs(args || []);
+    setPeriodMinutes(periodMinutes);
     setNavs(navigations || []);
     setNot(not || false);
     setUrl(url || "");
@@ -60,13 +75,12 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
   //
   // Update: Solved by adding "reloadEndpointTags" after the Axios query.
   //         Still needs to confirm if it's fixed or not. Monkey test some more.
-  const { data: endpointTags = [], refetch: reloadEndpointTags } = useEndpointTagsQuery(endpoint.id, {
+  const { data: endpointTags, refetch: reloadEndpointTags } = useEndpointTagsQuery(endpoint.id, {
     skip: !endpoint.id
   });
 
   useEffect(() => {
-    console.log("fetched", endpoint.id, endpointTags.map((t: Tag) => t.id));
-    setSelectedTagIds(Set(endpointTags.map((t: Tag) => t.id)));
+    setSelectedTagIds(Set((endpointTags || []).map((t: Tag) => t.id)));
   }, [endpointTags]);
 
   const collectPayload = () => formType === "create" ? {
@@ -81,6 +95,7 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
     navigations: navs,
     not,
     notificationMessage,
+    periodMinutes,
     rule,
     tags: selectedTagIds.toArray(),
     title,
@@ -148,12 +163,14 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
             navs,
             not,
             notificationMessage,
+            periodMinutes,
             rule,
+            selectedTagIds,
             setArgs,
             setNavs,
             setNot,
             setNotificationMessage,
-            selectedTagIds,
+            setPeriodMinutes,
             setSelectedTagIds,
             setWaitAfterNotificationMinutes,
             waitAfterNotificationMinutes

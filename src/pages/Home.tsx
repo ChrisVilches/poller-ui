@@ -1,6 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import { ButtonIcon } from "../components/ButtonIcon";
 import { NewModal } from "../components/EndpointForm/NewModal";
 import { EndpointList } from "../components/EndpointList";
 import { EventLogger } from "../components/EventLogger";
@@ -22,9 +23,10 @@ const EndpointListAux = () => {
   return (
     <>
       <div className="float-right">
-        <button className="btn btn-primary" onClick={ () => setNewModalShow(true) }>
-          <PlusIcon className="w-6 h-6 inline mr-2"/>Create
-        </button>
+        <ButtonIcon
+          className="btn btn-primary"
+          onClick={ () => setNewModalShow(true) }
+          icon={ PlusIcon }>Create</ButtonIcon>
 
       </div>
 

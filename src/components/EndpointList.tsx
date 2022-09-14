@@ -1,11 +1,12 @@
+import { Spinner } from "flowbite-react";
 import { AnimatePresence } from "framer-motion";
 import React, { useContext, useState } from "react";
+import { CircleCount } from "./CircleCount";
 import { EndpointItem } from "./EndpointItem";
 import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
 import { EndpointListContext, EndpointListDispatchContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
-import { Spinner } from "flowbite-react";
 
 export const EndpointList = () => {
   const dispatch = useContext(EndpointListDispatchContext);
@@ -34,11 +35,21 @@ export const EndpointList = () => {
       <section className="filters-container">
         <button onClick={ () => setOnlyEnabled(false) }
           className={ `filters-item ${onlyEnabled ? "" : "filters-item-active"}` }>
-          All ({ endpoints.length })
+          <div className="flex items-center space-x-4">
+            <span>
+              All
+            </span>
+            <CircleCount className="bg-gray-300" count={ endpoints.length }/>
+          </div>
         </button>
         <button onClick={ () => setOnlyEnabled(true) }
           className={ `filters-item ${onlyEnabled ? "filters-item-active" : ""}` }>
-          Enabled ({ endpoints.filter((e: Endpoint) => e.enabled).length })
+          <div className="flex items-center space-x-4">
+            <span>
+              Enabled
+            </span>
+            <CircleCount className="bg-gray-300" count={ endpoints.filter((e: Endpoint) => e.enabled).length }/>
+          </div>
         </button>
       </section>
 
@@ -51,7 +62,10 @@ export const EndpointList = () => {
 
             <EndpointItem
               endpoint={ endpoint }
-              toggleEnable={ (enabled: boolean) => dispatch({ payload: { enabled, endpointId: endpoint.id }, type: "update_enabled" }) } />
+              toggleEnable={ (enabled: boolean) => dispatch({
+                payload: { enabled, endpointId: endpoint.id },
+                type: "update_enabled" }
+              ) } />
           </div>
         )) }
       </AnimatePresence>

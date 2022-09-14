@@ -22,19 +22,6 @@ export const useSocketListen = (eventNames: string[]) => {
       console.log("Disconnected");
       setIsConnected(false);
     });
-    
-    /*
-    socket.on(eventName, (data) => {
-      console.log(`Event received: ${eventName}`); 
-      console.log(data);
-      
-      setEvents((state: any[]) => {
-        const newState: any[] = [...state];
-        newState.push(data);
-        return newState;
-      });
-    });
-    */
 
     eventNames.forEach((name: string) => {
       socket.on(name, data => {

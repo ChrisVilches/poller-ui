@@ -3,10 +3,11 @@ import { Helmet } from "react-helmet";
 
 const BASE_TITLE = "Poller";
 
-export const title = (subtitles: string[]) => [BASE_TITLE].concat(subtitles).join(" | ");
+export const title = (subtitles: (string | undefined)[]) =>
+  [BASE_TITLE].concat(subtitles.filter(s => s) as string[]).join(" | ");
 
 interface HelmetTitleProps {
-  subtitles: string[];
+  subtitles: (string | undefined)[];
 }
 
 export const HelmetTitle = ({ subtitles = [] }: HelmetTitleProps) => (

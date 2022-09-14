@@ -35,9 +35,11 @@ export const EndpointOptions = ({ endpoint }: EndpointOptionsProps) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Menu.Items className="absolute p-2 right-0 mt-2 w-56 origin-top-right rounded-md bg-black opacity-95 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute p-2 right-0 mt-2 w-56 origin-top-right rounded-md bg-black
+            opacity-95 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item as="button"
-                className="w-full text-left hover:bg-slate-900 p-3 rounded-md ui-active:bg-blue-500 ui-active:text-white ui-not-active:bg-white ui-not-active:text-black"
+                className="w-full text-left hover:bg-slate-900 p-3 rounded-md ui-active:bg-blue-500
+                ui-active:text-white ui-not-active:bg-white ui-not-active:text-black"
                 onClick={ () => {
                   dispatch(setSelectedEndpoint({ endpoint }));
                   dispatch(toggleEditModal());
@@ -45,14 +47,17 @@ export const EndpointOptions = ({ endpoint }: EndpointOptionsProps) => {
                 <PencilIcon className="w-6 h-6 pr-2 inline" /> Edit
               </Menu.Item>
 
-              <Menu.Item onClick={ () => { dispatch(setSelectedEndpoint({ endpoint })); dispatch(togglePollDialog()); } }
+              <Menu.Item
+                onClick={ () => { dispatch(setSelectedEndpoint({ endpoint })); dispatch(togglePollDialog()); } }
                 as="button"
-                className="w-full text-left hover:bg-slate-900 p-3 rounded-md ui-active:bg-blue-500 ui-active:text-white ui-not-active:bg-white ui-not-active:text-black">
+                className="w-full text-left hover:bg-slate-900 p-3 rounded-md ui-active:bg-blue-500
+                ui-active:text-white ui-not-active:bg-white ui-not-active:text-black">
                 <CloudArrowDownIcon className="w-6 h-6 pr-2 inline" /> Trigger polling
               </Menu.Item>
 
               <Menu.Item
-                className="w-full text-left hover:bg-slate-900 p-3 rounded-md ui-active:bg-blue-500 ui-active:text-white ui-not-active:bg-white ui-not-active:text-black"
+                className="w-full text-left hover:bg-slate-900 p-3 rounded-md ui-active:bg-blue-500
+                ui-active:text-white ui-not-active:bg-white ui-not-active:text-black"
                 as="button"
                 onClick={ () => { dispatch(setSelectedEndpoint({ endpoint })); dispatch(toggleRemoveDialog()); } }>
                 <TrashIcon className="w-6 h-6 pr-2 inline" /> Remove

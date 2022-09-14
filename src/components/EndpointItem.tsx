@@ -18,7 +18,7 @@ const transition = {
 
 interface EndpointItemProps {
   endpoint: Endpoint;
-  toggleEnable: Function;
+  toggleEnable: (enabled: boolean) => void;
 }
 
 export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
@@ -35,29 +35,27 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
     }
   };
 
-  // TODO: Error: "<button> cannot appear as a descendant of <button>."
-
   return (
     <motion.div { ...transition } className="mt-2">
       <div className="mb-8 font-bold"><EndpointTitle title={ endpoint.title }/></div>
       <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
         <PairLabelValueCols
-          smallScreenCenterItems={true}
+          smallScreenCenterItems={ true }
           left="Wait after notification"
           right={ `${endpoint.waitAfterNotificationMinutes} minutes` }/>
 
-        { endpoint.timeout ? (
+        { endpoint.timeout && endpoint.enabled ? (
           <PairLabelValueCols
-            smallScreenCenterItems={true}
+            smallScreenCenterItems={ true }
             left="Next Poll"
             right={ <TimeAgo date={ endpoint.timeout }/> }/>
         ) : "" }
         <PairLabelValueCols
-          smallScreenCenterItems={true}
+          smallScreenCenterItems={ true }
           left="Inverted"
           right={ endpoint.not ? "Yes" : "No" }/>
         <PairLabelValueCols
-          smallScreenCenterItems={true}
+          smallScreenCenterItems={ true }
           left="Enabled"
           right={ (
             <>

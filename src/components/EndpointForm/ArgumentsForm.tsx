@@ -1,17 +1,9 @@
+import Tippy from "@tippyjs/react";
 import React, { ChangeEventHandler } from "react";
 import { PairLabelValueCols } from "../PairLabelValueCols";
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css'; // optional
+import "tippy.js/dist/tippy.css"; // optional
 
 export type ArgumentType = "string" | "boolean" | "number" | "comparisonOperator";
-
-interface ArgumentsFormProps {
-  types: ArgumentType[];
-  values: (string | boolean | number)[];
-  names: string[];
-  onChange: Function
-  argDescriptions: string[];
-}
 
 const convertUsingType = (typeName: string, value: string) => {
   switch (typeName) {
@@ -36,14 +28,26 @@ interface InputProps {
   className?: string;
 }
 
-export const Input = ({ className, type, placeholder, value, onChange }: InputProps) => {
+export const Input = ({ className = "", type, placeholder, value, onChange }: InputProps) => {
 
   if(type === "number") {
-    return <input className={ className } type="number" placeholder={ placeholder } value={ value as string || 0 } onChange={ onChange }/>;
+    return (
+      <input className={ className }
+        type="number"
+        placeholder={ placeholder }
+        value={ value as string || 0 }
+        onChange={ onChange }/>
+    );
   }
 
   if(type === "string") {
-    return <input className={ className } type="text" placeholder={ placeholder } value={ value as string || "" } onChange={ onChange }/>;
+    return (
+      <input className={ className }
+        type="text"
+        placeholder={ placeholder }
+        value={ value as string || "" }
+        onChange={ onChange }/>
+    );
   }
 
   if(type === "comparisonOperator") {
@@ -70,8 +74,16 @@ export const Input = ({ className, type, placeholder, value, onChange }: InputPr
   throw new Error(`Invalid operator type (${type})`);
 };
 
+interface ArgumentsFormProps {
+  types: ArgumentType[];
+  values: (string | boolean | number)[];
+  names: string[];
+  onChange: (a: (string | boolean | number)[]) => void;
+  argDescriptions: string[];
+}
+
 export const ArgumentsForm = ({ types, onChange, values, names, argDescriptions }: ArgumentsFormProps) => {
-  const onChangeHandler = (idx: number, value: any) => {
+  const onChangeHandler = (idx: number, value: string) => {
     const newValues = [...values];
     newValues[idx] = convertUsingType(types[idx], value);
     onChange(newValues);
@@ -103,7 +115,8 @@ export const ArgumentsForm = ({ types, onChange, values, names, argDescriptions 
         const input = (
           <div className="w-full">
             <Input
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+              rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type={ types[idx] }
               placeholder={ `${type} | ${names[idx]}` }
               value={ values[idx] }
@@ -114,11 +127,11 @@ export const ArgumentsForm = ({ types, onChange, values, names, argDescriptions 
         return (
           <PairLabelValueCols
             key={ idx }
-            left={(
-              <Tippy content={<span>{argDescriptions[idx]}</span>}>
-                <span>{names[idx]}</span>
+            left={ (
+              <Tippy content={ <span>{ argDescriptions[idx] }</span> }>
+                <span>{ names[idx] }</span>
               </Tippy>
-            )}
+            ) }
             right={ input } />
         );
       }) }

@@ -1,4 +1,4 @@
-import { CheckBadgeIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, MinusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon, MinusIcon } from "@heroicons/react/24/outline";
 import {
   ColumnDef,
   PaginationState,
@@ -95,11 +95,11 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
   const [sorting, setSorting] = useState<SortingState>([defaultSorting]);
   const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
 
-  const { isFetching, data = { data: [] as Polling[], count: 0 } } = useFindPollingsQuery({
+  const { isFetching, data = { count: 0, data: [] as Polling[] } } = useFindPollingsQuery({
     id: endpointId,
+    order: (sorting[0] || defaultSorting).desc ? "desc" : "asc",
     page: pagination.pageIndex + 1,
     pageSize: pagination.pageSize,
-    order: (sorting[0] || defaultSorting).desc ? "desc" : "asc",
     sortBy: (sorting[0] || defaultSorting).id
   });
 
@@ -107,10 +107,10 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
     columns,
     data: data.data,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
     pageCount: Math.ceil(data.count / pagination.pageSize),
-    manualPagination: true,
     state: {
       pagination,
       sorting
@@ -119,53 +119,55 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
 
   return (
     <>
-      <table className={ `w-full bg-slate-700 pollings-table mb-6 ${isFetching ? "pollings-table-loading" : ""}` }>
-        <thead>
-          { table.getHeaderGroups().map(headerGroup => (
-            <tr key={ headerGroup.id }>
-              { headerGroup.headers.map(header => {
-                return (
-                  <th key={ header.id } colSpan={ header.colSpan }>
-                    { header.isPlaceholder ? null : (
-                      <button
-                        type="button"
-                        { ...{
-                          className: header.column.getCanSort()
-                            ? "cursor-pointer select-none w-full"
-                            : "cursor-default select-none w-full",
-                          onClick: header.column.getToggleSortingHandler()
-                        } }
-                      >
-                        { flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        ) }
-                        <span className="float-right w-0">
-                          { {
-                            asc: <ChevronUpIcon className="w-4 h-4" />,
-                            desc: <ChevronDownIcon className="w-4 h-4" />
-                          }[header.column.getIsSorted() as string] ?? null }
-                        </span>
-                      </button>
-                    ) }
-                  </th>
-                );
-              }) }
-            </tr>
-          )) }
-        </thead>
-        <tbody>
-          { table.getRowModel().rows.map(row => (
-            <tr key={ row.id } data-polling-id={row.original.id}>
-              { row.getVisibleCells().map(cell => (
-                <td key={ cell.id }>
-                  { flexRender(cell.column.columnDef.cell, cell.getContext()) }
-                </td>
-              )) }
-            </tr>
-          )) }
-        </tbody>
-      </table>
+      <div className="overflow-x-auto mb-6">
+        <table className={ `w-full bg-slate-700 pollings-table ${isFetching ? "pollings-table-loading" : ""}` }>
+          <thead>
+            { table.getHeaderGroups().map(headerGroup => (
+              <tr key={ headerGroup.id }>
+                { headerGroup.headers.map(header => {
+                  return (
+                    <th key={ header.id } colSpan={ header.colSpan }>
+                      { header.isPlaceholder ? null : (
+                        <button
+                          type="button"
+                          { ...{
+                            className: header.column.getCanSort()
+                              ? "cursor-pointer select-none w-full"
+                              : "cursor-default select-none w-full",
+                            onClick: header.column.getToggleSortingHandler()
+                          } }
+                        >
+                          { flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          ) }
+                          <span className="float-right w-0">
+                            { {
+                              asc: <ChevronUpIcon className="w-4 h-4" />,
+                              desc: <ChevronDownIcon className="w-4 h-4" />
+                            }[header.column.getIsSorted() as string] ?? null }
+                          </span>
+                        </button>
+                      ) }
+                    </th>
+                  );
+                }) }
+              </tr>
+            )) }
+          </thead>
+          <tbody>
+            { table.getRowModel().rows.map(row => (
+              <tr key={ row.id } data-polling-id={ row.original.id }>
+                { row.getVisibleCells().map(cell => (
+                  <td key={ cell.id }>
+                    { flexRender(cell.column.columnDef.cell, cell.getContext()) }
+                  </td>
+                )) }
+              </tr>
+            )) }
+          </tbody>
+        </table>
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2 md:col-span-1 place-self-center md:place-self-end space-x-2">
@@ -200,14 +202,15 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
         </div>
         <div className="col-span-2 md:col-span-1 place-self-center md:place-self-start">
           <div className="inline mr-4">
-            Page{" "}
+            Page{ " " }
             <strong>
               { table.getState().pagination.pageIndex + 1 } of{ " " }
               { table.getPageCount() }
             </strong>
           </div>
           <select
-            className="inline bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            className="inline bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+            focus:ring-blue-500 focus:border-blue-500"
             value={ pagination.pageSize }
             onChange={ e => {
               setPagination((state: PaginationState) => ({

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import TimeAgo from "react-timeago";
 import { useSocketListen } from "../hooks/useSocketListen";
 
@@ -29,7 +29,12 @@ const eventNames = [
   "polling.success"
 ];
 
-const EventItem = ({ eventName, data }) => {
+interface EventItemProps {
+  eventName: string;
+  data: any;
+}
+
+const EventItem = ({ eventName, data }: EventItemProps) => {
   console.log(data);
 
   // TODO: Fix this... decide a message/event structure.

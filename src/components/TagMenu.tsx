@@ -9,9 +9,9 @@ import { useFindAllTagsQuery } from "../slices/tagSlice";
 export const TagMenu = () => {
   const { data: tags, isLoading, isFetching } = useFindAllTagsQuery();
 
-  const match = useMatch("/tag/:id") || {} as any;
+  const match = useMatch("/tag/:id");
 
-  const activeTagId = +match.params?.id;
+  const activeTagId = Number(match?.params?.id);
   
   if(isLoading) {
     return (
@@ -30,15 +30,20 @@ export const TagMenu = () => {
   return (
     <div>
       <Link className="tag-button" to="/">
-        <span className="p-2 m-2">
-          All { isFetching ? <div className="float-right pr-2"><Spinner/></div> : "" }
-        </span>
+        <div className="my-1 flex items-center p-2">
+          <div className="grow">
+            All
+          </div>
+          <Spinner style={ { visibility: isFetching ? "visible" : "hidden" } }/>
+        </div>
       </Link>
       { (tags || []).map((t: Tag) => (
         <div key={ t.id }>
           <Link className={ `tag-button ${activeTagId === t.id ? "tag-button-active" : ""}` }
             to={ `tag/${t.id}` }>
-            <TagLabel name={ t.name } count={ t.endpointsCount || 0 }/>
+            <div className="px-2">
+              <TagLabel name={ t.name } count={ t.endpointsCount || 0 }/>
+            </div>
           </Link>
         </div>
       )) }

@@ -13,13 +13,13 @@ interface TagsConfigProps {
 const tagsSelectedLabel = (count: number) => {
   switch(count){
   case 0:
-    return "No tags selected."
+    return "No tags selected.";
   case 1:
-    return "One tag selected."
+    return "One tag selected.";
   default:
-    return `${count} tags selected.`
+    return `${count} tags selected.`;
   }
-}
+};
 
 export const TagsConfig = ({ selectedTagIds, onSelectedTagIdsChange }: TagsConfigProps) => {
   const { data: allTags = [] } = useFindAllTagsQuery();
@@ -32,14 +32,16 @@ export const TagsConfig = ({ selectedTagIds, onSelectedTagIdsChange }: TagsConfi
     <div className="mb-2">
       { allTags.map((tag: Tag) => (
         <button key={ tag.id } className="mr-2" onClick={ () => toggleSelectTag(tag.id) }>
-          <div className={ `${selectedTagIds.has(tag.id) ? "bg-slate-800 font-bold" : "bg-slate-400"} text-slate-100 rounded-md px-2 select-none text-sm` }>
+          <div
+            className={ `${selectedTagIds.has(tag.id) ? "bg-slate-800 font-bold" : "bg-slate-400"} text-slate-100
+            rounded-md px-2 select-none text-sm` }>
             <TagLabel name={ tag.name }/>
           </div>
         </button>
       )) }
 
       <div className="text-slate-100 mt-4 mb-8 text-sm">
-        {tagsSelectedLabel(selectedTagIds.size)}
+        { tagsSelectedLabel(selectedTagIds.size) }
       </div>
     </div>
   );
