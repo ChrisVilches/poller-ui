@@ -7,7 +7,7 @@ export class EndpointService {
     return data;
   }
 
-  static async update(endpointId: number, endpoint: Endpoint) {
+  static async update(endpointId: number, endpoint: Partial<Endpoint>) {
     const { data } = await http.patch(`/endpoints/${endpointId}`, endpoint);
     return data;
   }
@@ -17,7 +17,7 @@ export class EndpointService {
     return data;
   }
 
-  static async create(endpoint: Endpoint) {
+  static async create(endpoint: Partial<Endpoint>) {
     const { data } = await http.post("/endpoints", endpoint);
     return data;
   }

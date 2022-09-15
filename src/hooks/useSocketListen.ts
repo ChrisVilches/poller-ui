@@ -1,5 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
+import { Endpoint } from "../models/Endpoint";
+import { Polling } from "../models/Polling";
+
+export type EventInitialize = string;
+export type EventAttempt = Endpoint;
+export type EventSuccess = Polling;
+
+export interface SocketEvent {
+  timestamp: Date;
+  type: string;
+  data: EventInitialize | EventAttempt | EventSuccess;
+}
 
 export const useSocketListen = (eventNames: string[]) => {
   const socket = useMemo(() => {
@@ -8,7 +20,7 @@ export const useSocketListen = (eventNames: string[]) => {
   }, []);
 
   const [isConnected, setIsConnected] = useState(false);
-  const [events, setEvents] = useState([] as any[]);
+  const [events, setEvents] = useState<SocketEvent[]>([]);
 
   useEffect(() => {
     console.log("Executing socket useEffect");
@@ -17,7 +29,7 @@ export const useSocketListen = (eventNames: string[]) => {
       console.log("Connected");
       setIsConnected(true);
     });
-    
+
     socket.on("disconnect", () => {
       console.log("Disconnected");
       setIsConnected(false);
@@ -28,10 +40,13 @@ export const useSocketListen = (eventNames: string[]) => {
         console.log(`Event received: ${name}`); 
         console.log(data);
         
-        setEvents((state: any[]) => {
-          const newState: any[] = [...state];
-          data.eventName = name;
+        setEvents((state: SocketEvent[]) => {
+          const newState: SocketEvent[] = [...state];
+          data.type = name;
+          data.timestamp = new Date(data.timestamp);
           newState.push(data);
+          console.log("Event:");
+          console.log(data);
           return newState;
         });
       });

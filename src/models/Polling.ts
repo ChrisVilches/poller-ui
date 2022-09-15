@@ -5,4 +5,6 @@ export class Polling {
   error?: string;
   computedMessage: string;
   endpoint: Endpoint;
+  shouldNotify: boolean;
+  responseCode: number;
 }

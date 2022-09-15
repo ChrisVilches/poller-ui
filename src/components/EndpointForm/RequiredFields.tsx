@@ -42,7 +42,7 @@ export const RequiredFields = ({
         text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4
         focus:outline-none focus:ring-gray-300"
           value={ method }
-          onChange={ (ev) => setMethod(ev.currentTarget.value as any) }>
+          onChange={ (ev) => setMethod(ev.currentTarget.value as MethodType) }>
           { methodOptions.map((methodName: string, idx: number) => (
             <option key={ idx } value={ methodName }>{ methodName }</option>
           )) }

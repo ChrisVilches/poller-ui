@@ -1,6 +1,7 @@
 import React from "react";
 import TimeAgo from "react-timeago";
-import { useSocketListen } from "../hooks/useSocketListen";
+import { PairLabelValueCols } from "./PairLabelValueCols";
+import { EventAttempt, EventInitialize, EventSuccess, SocketEvent, useSocketListen } from "../hooks/useSocketListen";
 
 const formatter = (value, unit, suffix, _epochMilliseconds, nextFormatter) => {
   if(unit === "second" && suffix === "ago" && value < 60) {
@@ -30,34 +31,46 @@ const eventNames = [
 ];
 
 interface EventItemProps {
-  eventName: string;
-  data: any;
+  type: string;
+  data: EventInitialize | EventAttempt | EventSuccess;
 }
 
-const EventItem = ({ eventName, data }: EventItemProps) => {
-  console.log(data);
+const EventInitializeItem = ({ message }: { message: string }) => (
+  <span>
+    { message }
+  </span>
+);
 
-  // TODO: Fix this... decide a message/event structure.
-  
-  switch(eventName){
+const EventAttemptItem = ({ endpoint }: { endpoint: EventAttempt }) => (
+  <span>
+    Polling <b>{ endpoint.title }</b>...
+  </span>
+);
+
+const EventSuccessItem = ({ polling: { endpoint, ...result } }: { polling: EventSuccess }) => (
+  <span>
+    Polled <b>{ endpoint.title }</b>
+    <div className="my-8">
+      <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+        <PairLabelValueCols left={ "Response Code" } right={ result.responseCode }/>
+        <PairLabelValueCols left={ "Should Notify" } right={ result.shouldNotify ? "Yes" : "No" }/>
+      </div>
+      <div className="text-center">
+        { result.computedMessage }
+      </div>
+    </div>
+  </span>
+);
+
+// TODO: Event for error should also be included.
+const EventItem = ({ type, data }: EventItemProps) => {
+  switch(type){
   case "polling.initialize":
-    return (
-      <span>
-        { data.message }
-      </span>
-    );
+    return <EventInitializeItem message={ data as EventInitialize }/>;
   case "polling.attempt":
-    return (
-      <span>
-        Polling <b>{ data.title }</b>
-      </span>
-    );
+    return <EventAttemptItem endpoint={ data as EventAttempt }/>;
   case "polling.success":
-    return (
-      <span>
-        Not implemented: polling.success
-      </span>
-    );
+    return <EventSuccessItem polling={ data as EventSuccess }/>;
   }
 
   return <span>Unknown event type</span>;
@@ -72,13 +85,13 @@ export const EventLogger = () => {
       { isConnected ? <ConnectedDot/> : <DisconnectedDot/> }
       
       <div className="mt-4 max-h-60 h-60 scroll-smooth overflow-y-scroll pr-4">
-        { events.map(({ timestamp, eventName, ...data }: any, idx: number) => (
+        { events.map(({ timestamp, type, data }: SocketEvent, idx: number) => (
           <div key={ idx } className="bg-yellow-500 rounded-md p-2 my-2 break-words">
             <span className="text-sm float-right ml-8">
               <TimeAgo date={ timestamp } formatter={ formatter }/>
             </span>
 
-            <EventItem eventName={ eventName } data={ data }/>
+            <EventItem type={ type } data={ data }/>
           </div>
         )) }
 

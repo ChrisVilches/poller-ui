@@ -105,7 +105,7 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
   };
 
   const saveEndpoint = async () => {
-    const partialEndpoint: any = collectPayload();
+    const partialEndpoint: Partial<Endpoint> = collectPayload();
 
     setLoading(true);
 

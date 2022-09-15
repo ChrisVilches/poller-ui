@@ -7,8 +7,16 @@ const initialState = {
   isLoading: true
 };
 
-export const EndpointListContext = createContext(initialState);
-export const EndpointListDispatchContext = createContext<Dispatch<any>>(() => null);
+type EndpointListReducerAction =
+| { type: "set_loading" }
+| { type: "set_all", payload: Endpoint[] }
+| { type: "add_item", payload: Endpoint }
+| { type: "update_item", payload: { endpointId: number, endpoint: Endpoint } }
+| { type: "update_enabled", payload: { endpointId: number, enabled: boolean } }
+| { type: "remove_item", payload: { endpointId: number } }
+
+export const EndpointListContext = createContext<typeof initialState>(initialState);
+export const EndpointListDispatchContext = createContext<Dispatch<EndpointListReducerAction>>(() => null);
 
 const reducer = (draft, action) => {
   const { type, payload } = action;
@@ -32,7 +40,6 @@ const reducer = (draft, action) => {
     draft.endpoints.find((e: Endpoint) => e.id === payload.endpointId).enabled = payload.enabled;
     break;
   case "remove_item": {
-    console.log(payload);
     const idx = draft.endpoints.findIndex((e: Endpoint) => e.id === payload.endpointId);
     draft.endpoints.splice(idx, 1);
     break;
@@ -52,7 +59,10 @@ interface EndpointListContextProviderProps {
 //       2) Create a useEffect to set the set_all (reducer) to set the endpoints from props
 //       3) From the components that use this component, pass the data using RTK Query, because it's cuter than axios.
 export const EndpointListContextProvider = ({ children, endpointsFetch }: EndpointListContextProviderProps) => {
-  const [{ endpoints, isLoading }, dispatch] = useImmerReducer(reducer, initialState);
+  const [
+    { endpoints, isLoading },
+    dispatch
+  ] = useImmerReducer<typeof initialState, EndpointListReducerAction>(reducer, initialState);
 
   const fetchEndpoints = useCallback(async () => {
     dispatch({ type: "set_loading" });
