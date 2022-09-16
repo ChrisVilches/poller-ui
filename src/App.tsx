@@ -1,7 +1,11 @@
+import { Transition } from "@headlessui/react";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { ButtonIcon } from "./components/ButtonIcon";
+import { Footer } from "./components/Footer";
 import { TagMenu } from "./components/TagMenu";
 import { About } from "./pages/About";
 import { Home } from "./pages/Home";
@@ -10,10 +14,6 @@ import { NotFound } from "./pages/NotFound";
 import { Pollings } from "./pages/Pollings";
 import { TagEndpoints } from "./pages/TagEndpoints";
 import { store } from "./store";
-import { Footer } from "./components/Footer";
-import { Transition } from "@headlessui/react";
-import { Bars3Icon } from "@heroicons/react/24/outline";
-import { ButtonIcon } from "./components/ButtonIcon";
 
 const App = () => {
   const [showMenu, setShowMenu] = React.useState(false);
@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     setShowMenu(false);
-  }, [location.pathname])
+  }, [location.pathname]);
 
   return (
     <Provider store={ store }>
@@ -70,7 +70,11 @@ const App = () => {
           >
             <div className="bg-black h-screen px-4 py-8 opacity-95 mobile-sidebar">
               <div className="flex flex-col h-full">
-                <ButtonIcon className="p-2 rounded-md bg-blue-900" icon={Bars3Icon} onClick={() => { setShowMenu(false) }}>Close Menu</ButtonIcon>
+                <ButtonIcon className="p-2 rounded-md bg-blue-900"
+                  icon={ Bars3Icon }
+                  onClick={ () => { setShowMenu(false); } }>
+                  Close Menu
+                </ButtonIcon>
                 <div className="grow">
                   <TagMenu/>
                 </div>
@@ -81,7 +85,7 @@ const App = () => {
         </Transition>
 
         <div className="md:hidden flex justify-end p-4">
-          <button type="button" onClick={() => setShowMenu(true)} className="p-4 rounded-md bg-blue-900">
+          <button type="button" onClick={ () => setShowMenu(true) } className="p-4 rounded-md bg-blue-900">
             <Bars3Icon className="w-6 h-6"/>
           </button>
         </div>

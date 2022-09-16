@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const GithubIcon = () => (
   <>
@@ -27,4 +27,4 @@ export const Footer = () => (
     </a>
     <Link to="/about" className="footer-link">About</Link>
   </div>
-)
+);
