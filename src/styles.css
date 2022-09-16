@@ -50,6 +50,10 @@ tfoot th {
   font-weight: normal;
 }
 
+h1 {
+  font-size: 2em;
+}
+
 .btn {
   @apply rounded-md;
   @apply py-3;
@@ -170,4 +174,14 @@ tfoot th {
   @apply text-slate-400;
   @apply hover:text-slate-200;
   @apply transition;
+}
+
+.mobile-sidebar {
+  width: 320px;
+}
+
+@media only screen and (max-width: 480px) {
+  .mobile-sidebar {
+    width: 100%;
+  }
 }
