@@ -47,7 +47,7 @@ const App = () => {
           <Footer/>
         </div>
 
-        <Transition as={React.Fragment} show={ showMenu }>
+        <Transition as={ React.Fragment } show={ showMenu }>
           <Dialog as="div" className="z-50 fixed inset-0 block md:hidden" onClose={ () => setShowMenu(false) }>
             <Transition.Child
               as={ React.Fragment }
