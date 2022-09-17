@@ -1,4 +1,4 @@
-import { Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
@@ -48,52 +48,49 @@ const App = () => {
         </div>
 
         <Transition show={ showMenu } className="z-50 fixed inset-0 block md:hidden">
-          <Transition.Child
-            as={ React.Fragment }
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm w-screen h-screen"/>
-          </Transition.Child>
+          <Dialog as="div" className="relative z-10" onClose={ () => setShowMenu(false) }>
+            <Transition.Child
+              as={ React.Fragment }
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm w-screen h-screen"/>
+            </Transition.Child>
 
-          <Transition.Child
-            enter="transition ease-in-out duration-300 transform"
-            enterFrom="-translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition ease-in-out duration-300 transform"
-            leaveFrom="translate-x-0"
-            leaveTo="-translate-x-full"
-          >
-            { /**
-             * Close the menu when the user clicks outside of it.
-             *
-             * This button must have a margin-left such that the region outside
-             * the sidebar becomes clickable.
-             *
-             * Other solutions involving DOM operations are trickier.
-            */ }
-            <button type="button"
-              className="ml-80 w-screen h-screen absolute cursor-default"
-              onClick={ () => setShowMenu(false) }/>
-
-            <div className="bg-black h-screen px-4 py-8 opacity-95 mobile-sidebar">
-              <div className="flex flex-col h-full">
-                <ButtonIcon className="p-2 rounded-md bg-blue-900"
-                  icon={ Bars3Icon }
-                  onClick={ () => { setShowMenu(false); } }>
-                  Close Menu
-                </ButtonIcon>
-                <div className="grow">
-                  <TagMenu/>
-                </div>
-                <Footer/>
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="">
+                <Transition.Child
+                  as={ React.Fragment }
+                  enter="transition ease-in-out duration-300 transform"
+                  enterFrom="-translate-x-full"
+                  enterTo="translate-x-0"
+                  leave="transition ease-in-out duration-300 transform"
+                  leaveFrom="translate-x-0"
+                  leaveTo="-translate-x-full"
+                >
+                  <Dialog.Panel className="">
+                    <div className="bg-black h-screen px-4 py-8 opacity-95 mobile-sidebar">
+                      <div className="flex flex-col h-full">
+                        <ButtonIcon className="p-2 rounded-md bg-blue-900"
+                          icon={ Bars3Icon }
+                          onClick={ () => { setShowMenu(false); } }>
+                          Close Menu
+                        </ButtonIcon>
+                        <div className="grow">
+                          <TagMenu/>
+                        </div>
+                        <Footer/>
+                      </div>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
               </div>
             </div>
-          </Transition.Child>
+          </Dialog>
         </Transition>
 
         <div className="md:hidden flex justify-end p-4">
