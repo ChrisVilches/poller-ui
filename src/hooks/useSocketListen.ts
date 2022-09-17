@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
+import { WS_ENDPOINT } from "../config";
 import { Endpoint } from "../models/Endpoint";
 import { Polling } from "../models/Polling";
 
@@ -16,7 +17,7 @@ export interface SocketEvent {
 export const useSocketListen = (eventNames: string[]) => {
   const socket = useMemo(() => {
     console.log("Connecting to Socket (useMemo)");
-    return io("ws://localhost:3000");
+    return io(WS_ENDPOINT);
   }, []);
 
   const [isConnected, setIsConnected] = useState(false);
