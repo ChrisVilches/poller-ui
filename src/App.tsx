@@ -47,8 +47,8 @@ const App = () => {
           <Footer/>
         </div>
 
-        <Transition show={ showMenu } className="z-50 fixed inset-0 block md:hidden">
-          <Dialog as="div" className="relative z-10" onClose={ () => setShowMenu(false) }>
+        <Transition as={React.Fragment} show={ showMenu }>
+          <Dialog as="div" className="z-50 fixed inset-0 block md:hidden" onClose={ () => setShowMenu(false) }>
             <Transition.Child
               as={ React.Fragment }
               enter="ease-out duration-300"
@@ -58,38 +58,34 @@ const App = () => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm w-screen h-screen"/>
+              <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm w-screen h-screen md:hidden"/>
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="">
-                <Transition.Child
-                  as={ React.Fragment }
-                  enter="transition ease-in-out duration-300 transform"
-                  enterFrom="-translate-x-full"
-                  enterTo="translate-x-0"
-                  leave="transition ease-in-out duration-300 transform"
-                  leaveFrom="translate-x-0"
-                  leaveTo="-translate-x-full"
-                >
-                  <Dialog.Panel className="">
-                    <div className="bg-black h-screen px-4 py-8 opacity-95 mobile-sidebar">
-                      <div className="flex flex-col h-full">
-                        <ButtonIcon className="p-2 rounded-md bg-blue-900"
-                          icon={ Bars3Icon }
-                          onClick={ () => { setShowMenu(false); } }>
-                          Close Menu
-                        </ButtonIcon>
-                        <div className="grow">
-                          <TagMenu/>
-                        </div>
-                        <Footer/>
-                      </div>
+            <Transition.Child
+              as={ React.Fragment }
+              enter="transition ease-in-out duration-300 transform"
+              enterFrom="-translate-x-full"
+              enterTo="translate-x-0"
+              leave="transition ease-in-out duration-300 transform"
+              leaveFrom="translate-x-0"
+              leaveTo="-translate-x-full"
+            >
+              <div className="fixed inset-0 overflow-y-auto">
+                <Dialog.Panel className="bg-black h-screen px-4 py-8 opacity-95 mobile-sidebar">
+                  <div className="flex flex-col h-full">
+                    <ButtonIcon className="p-2 rounded-md bg-blue-900"
+                      icon={ Bars3Icon }
+                      onClick={ () => { setShowMenu(false); } }>
+                      Close Menu
+                    </ButtonIcon>
+                    <div className="grow">
+                      <TagMenu/>
                     </div>
-                  </Dialog.Panel>
-                </Transition.Child>
+                    <Footer/>
+                  </div>
+                </Dialog.Panel>
               </div>
-            </div>
+            </Transition.Child>
           </Dialog>
         </Transition>
 
