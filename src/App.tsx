@@ -68,15 +68,17 @@ const App = () => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            {/**
+            { /**
              * Close the menu when the user clicks outside of it.
              *
              * This button must have a margin-left such that the region outside
              * the sidebar becomes clickable.
              *
              * Other solutions involving DOM operations are trickier.
-            */}
-            <button type="button" className="ml-80 w-screen h-screen absolute cursor-default" onClick={() => setShowMenu(false)}/>
+            */ }
+            <button type="button"
+              className="ml-80 w-screen h-screen absolute cursor-default"
+              onClick={ () => setShowMenu(false) }/>
 
             <div className="bg-black h-screen px-4 py-8 opacity-95 mobile-sidebar">
               <div className="flex flex-col h-full">
