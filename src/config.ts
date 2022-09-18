@@ -1,13 +1,13 @@
-export const API_HOST = process.env.NODE_ENV === "production" ? (
-  "http://cloud.chrisvilches.com/poller"
-) : (
-  "http://localhost"
-);
+const parseEnvVariable = (varName: string): string => {
+  const value: string | undefined = process.env[varName];
 
-export const API_PORT = process.env.NODE_ENV === "production" ? "" : 3000;
+  if (!value) {
+    throw new Error(`ENV variable ${varName} cannot be empty!`);
+  }
 
-export const WS_ENDPOINT = process.env.NODE_ENV === "production" ? (
-  "http://cloud.chrisvilches.com/poller"
-) : (
-  "ws://localhost:3000"
-);
+  return String(process.env[varName]);
+};
+
+export const API_ENDPOINT = parseEnvVariable("REACT_APP_API_ENDPOINT");
+export const WS_ENDPOINT_BASE = parseEnvVariable("REACT_APP_WS_ENDPOINT_BASE");
+export const WS_ENDPOINT_PATH = parseEnvVariable("REACT_APP_WS_ENDPOINT_PATH");
