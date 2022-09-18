@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { API_HOST, API_PORT } from "../config";
+import { API_ENDPOINT } from "../config";
 import { Tag } from "../models/Tag";
 
 export const tagSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: `${API_HOST}:${API_PORT}/tags` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${API_ENDPOINT}/tags` }),
   endpoints: (builder) => ({
     createTag: builder.mutation<Tag, string>({
       async onCacheEntryAdded(_arg: string, { cacheDataLoaded, dispatch }) {

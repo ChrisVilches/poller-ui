@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PollingsPaginatedResult } from "../components/PollingsTable";
-import { API_HOST, API_PORT } from "../config";
+import { API_ENDPOINT } from "../config";
 
 interface PaginatedQuery {
   id: number | undefined;
@@ -11,7 +11,7 @@ interface PaginatedQuery {
 }
 
 export const pollingsSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: `${API_HOST}:${API_PORT}/pollings` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${API_ENDPOINT}/pollings` }),
   endpoints: (builder) => ({
     findPollings: builder.query<PollingsPaginatedResult, PaginatedQuery>({
       query: ({ id, page, pageSize, sortBy, order }: PaginatedQuery) => ({
