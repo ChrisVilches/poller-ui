@@ -15,6 +15,11 @@ interface EditFormProps {
   children: (form: ReactElement, saveEndpoint: () => void, saveLoading: boolean) => ReactElement
 }
 
+// TODO: The ultimate refactor is to use a better state management technique.
+//       Probably context + reducer. Why? Because:
+//       (1) Avoid "prop drill down"
+//       (2) Object is complex
+
 export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);

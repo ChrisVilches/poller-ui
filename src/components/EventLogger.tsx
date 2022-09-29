@@ -1,7 +1,10 @@
 import React from "react";
 import TimeAgo from "react-timeago";
-import { PairLabelValueCols } from "./PairLabelValueCols";
-import { EventAttempt, EventInitialize, EventSuccess, SocketEvent, useSocketListen } from "../hooks/useSocketListen";
+import { EventAttemptItem } from "./Events/EventAttemptItem";
+import { EventInitializeItem } from "./Events/EventInitializeItem";
+import { EventSuccessItem } from "./Events/EventSuccessItem";
+import { SocketEvent, useSocketListen } from "../hooks/useSocketListen";
+import { EventAttempt, EventInitialize, EventSuccess } from "../interfaces/events";
 
 const formatter = (value, unit, suffix, _epochMilliseconds, nextFormatter) => {
   if(unit === "second" && suffix === "ago" && value < 60) {
@@ -35,32 +38,6 @@ interface EventItemProps {
   data: EventInitialize | EventAttempt | EventSuccess;
 }
 
-const EventInitializeItem = ({ message }: { message: string }) => (
-  <span>
-    { message }
-  </span>
-);
-
-const EventAttemptItem = ({ endpoint }: { endpoint: EventAttempt }) => (
-  <span>
-    Polling <b>{ endpoint.title }</b>...
-  </span>
-);
-
-const EventSuccessItem = ({ polling: { endpoint, ...result } }: { polling: EventSuccess }) => (
-  <span>
-    Polled <b>{ endpoint.title }</b>
-    <div className="my-8">
-      <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-        <PairLabelValueCols left={ "Response Code" } right={ result.responseCode }/>
-        <PairLabelValueCols left={ "Should Notify" } right={ result.shouldNotify ? "Yes" : "No" }/>
-      </div>
-      <div className="text-center">
-        { result.computedMessage }
-      </div>
-    </div>
-  </span>
-);
 
 // TODO: Event for error should also be included.
 const EventItem = ({ type, data }: EventItemProps) => {

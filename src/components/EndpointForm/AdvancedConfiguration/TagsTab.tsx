@@ -1,10 +1,10 @@
 import { Set } from "immutable";
 import React from "react";
-import { Tag } from "../../models/Tag";
-import { useFindAllTagsQuery } from "../../slices/tagSlice";
-import { TagLabel } from "../TagLabel";
+import { Tag } from "../../../models/Tag";
+import { useFindAllTagsQuery } from "../../../slices/tagSlice";
+import { TagLabel } from "../../TagLabel";
 
-interface TagsConfigProps {
+interface TagsTabProps {
   selectedTagIds: Set<number>;
   onSelectedTagIdsChange: (ids: Set<number>) => void;
 }
@@ -21,7 +21,7 @@ const tagsSelectedLabel = (count: number) => {
   }
 };
 
-export const TagsConfig = ({ selectedTagIds, onSelectedTagIdsChange }: TagsConfigProps) => {
+export const TagsTab = ({ selectedTagIds, onSelectedTagIdsChange }: TagsTabProps) => {
   const { data: allTags = [] } = useFindAllTagsQuery();
 
   const toggleSelectTag = (tagId: number) => {

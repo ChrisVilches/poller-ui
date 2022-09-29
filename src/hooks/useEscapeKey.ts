@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
 export const useEscapeKey = (
-  editMode: boolean,
   onEscapePressed: () => void,
-  inputRef: React.RefObject<HTMLInputElement>
+  inputRef: React.RefObject<HTMLInputElement>,
+  editMode = true
 ) => {
   useEffect(() => {
     const handle = (ev: KeyboardEvent) => {

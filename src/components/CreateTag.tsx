@@ -52,7 +52,7 @@ export const CreateTag = () => {
     autoFocus();
   }, [editMode, autoFocus]);
 
-  useEscapeKey(editMode, reset, inputRef);
+  useEscapeKey(reset, inputRef, editMode);
 
   if(editMode) {
     return (

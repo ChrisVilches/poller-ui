@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { EndpointItemReadonly } from "../components/EndpointItemReadonly";
 import { HelmetTitle } from "../components/HelmetTitle";
-import { PollingsTable } from "../components/PollingsTable";
+import { PollingsTable } from "../components/Table/PollingsTable";
 import { Endpoint } from "../models/Endpoint";
 import { useFindOneEndpointQuery } from "../slices/endpointSlice";
 

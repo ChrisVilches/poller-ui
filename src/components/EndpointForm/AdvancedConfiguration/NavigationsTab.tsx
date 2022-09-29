@@ -7,7 +7,7 @@ interface NavigationsFormProps {
   onChange: (s: string[]) => void;
 }
 
-export const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) => {
+const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) => {
   const onChangeHandler = (idx: number, selector: string) => {
     const newSelectors = [...selectors];
     newSelectors[idx] = selector;
@@ -49,3 +49,21 @@ export const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) =
     </>
   );
 };
+
+
+interface NavigationsTabProps {
+  navs: string[];
+  setNavs: (navs: string[]) => void;
+}
+
+export const NavigationsTab = ({
+  navs,
+  setNavs
+}: NavigationsTabProps) => (
+  <>
+    <div className="text-slate-100 my-4 mb-8 text-sm font-medium">
+      Use selectors in order to traverse the DOM before fetching the data.
+    </div>
+    <NavigationsForm selectors={ navs } onChange={ setNavs } />
+  </>
+);

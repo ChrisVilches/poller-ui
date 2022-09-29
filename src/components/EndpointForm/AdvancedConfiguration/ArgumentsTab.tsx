@@ -1,6 +1,8 @@
 import Tippy from "@tippyjs/react";
-import React, { ChangeEventHandler } from "react";
-import { PairLabelValueCols } from "../PairLabelValueCols";
+import React from "react";
+import { Input } from "./Input";
+import { PairLabelValueCols } from "../../PairLabelValueCols";
+import rulesArgs from "../rules-arguments.json";
 import "tippy.js/dist/tippy.css"; // optional
 
 export type ArgumentType = "string" | "boolean" | "number" | "comparisonOperator";
@@ -20,60 +22,6 @@ const convertUsingType = (typeName: string, value: string) => {
   }
 };
 
-interface InputProps {
-  type: string;
-  placeholder: string;
-  value: string | boolean | number;
-  onChange: ChangeEventHandler;
-  className?: string;
-}
-
-export const Input = ({ className = "", type, placeholder, value, onChange }: InputProps) => {
-
-  if(type === "number") {
-    return (
-      <input className={ className }
-        type="number"
-        placeholder={ placeholder }
-        value={ value as string || 0 }
-        onChange={ onChange }/>
-    );
-  }
-
-  if(type === "string") {
-    return (
-      <input className={ className }
-        type="text"
-        placeholder={ placeholder }
-        value={ value as string || "" }
-        onChange={ onChange }/>
-    );
-  }
-
-  if(type === "comparisonOperator") {
-    const options = [
-      // TODO: Consider removing the first empty option, and set the first option as default
-      //       (HTML does this by default), but also make sure that the state (in React) is set
-      //       accordingly as well (HTML Select option = React state during the default initialization)
-      ["", ""],
-      ["=", "=="],
-      ["<", "<"],
-      [">", ">"],
-      ["≥", ">="],
-      ["≤", "<="]
-    ];
-    return (
-      <select className={ className } value={ value as string } onChange={ onChange }>
-        { options.map(([display, value], idx: number) => (
-          <option key={ idx } value={ value }>{ display }</option>
-        )) }
-      </select>
-    );
-  }
-
-  throw new Error(`Invalid operator type (${type})`);
-};
-
 interface ArgumentsFormProps {
   types: ArgumentType[];
   values: (string | boolean | number)[];
@@ -82,7 +30,7 @@ interface ArgumentsFormProps {
   argDescriptions: string[];
 }
 
-export const ArgumentsForm = ({ types, onChange, values, names, argDescriptions }: ArgumentsFormProps) => {
+const ArgumentsForm = ({ types, onChange, values, names, argDescriptions }: ArgumentsFormProps) => {
   const onChangeHandler = (idx: number, value: string) => {
     const newValues = [...values];
     newValues[idx] = convertUsingType(types[idx], value);
@@ -98,13 +46,10 @@ export const ArgumentsForm = ({ types, onChange, values, names, argDescriptions 
   //       (I just got it after updating an endpoint, and then creating a new one.)
   //       Also, in this error reproduction, the new endpoint has the same arguments as the previous one.
   //       ^ First error is because of some null or undefined values in the value (I think, but I
-  //         already fixed it). Second error is because of the first error, so both are fixed.
-  //         Must confirm.
+  //         already fixed it). Second error is because of the first error, so both are fixed. Must confirm.
   //
   // TODO: I think sometimes the arguments from an endpoint disappear randomly (don't know the cause).
-  //       Possibly it's related to the first TODO, but I'm not sure. I haven't reproduced anything like
-  //       this recently.
-
+  //       Possibly it's related to the first TODO, but I'm not sure. I haven't reproduced anything like this recently.
   //
   // I'd say all of these errors are fixed now (note: some fixes are not fully implemented, so confirm),
   // but do some more monkey testing to verify.
@@ -138,3 +83,24 @@ export const ArgumentsForm = ({ types, onChange, values, names, argDescriptions 
     </div>
   );
 };
+
+interface ArgumentsTabProps {
+  rule: string;
+  args: (string | number | boolean)[];
+  setArgs: (args: (string | number | boolean)[]) => void;
+}
+
+export const ArgumentsTab = ({ args, rule, setArgs }: ArgumentsTabProps) => (
+  <>
+    <div className="text-slate-100 mt-4 mb-8 text-sm">
+      Configure what to do with the data once it&apos;s fetched.
+    </div>
+
+    <ArgumentsForm
+      values={ args }
+      names={ rulesArgs.names[rule] }
+      onChange={ setArgs }
+      argDescriptions={ rulesArgs.descriptions[rule] }
+      types={ rulesArgs.types[rule] } />
+  </>
+);

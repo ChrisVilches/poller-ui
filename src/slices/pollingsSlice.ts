@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PollingsPaginatedResult } from "../components/PollingsTable";
 import { API_ENDPOINT } from "../config";
+import { Polling } from "../models/Polling";
+
+interface PollingsPaginatedResult {
+  count: number;
+  data: Polling[];
+}
 
 interface PaginatedQuery {
   id: number | undefined;

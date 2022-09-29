@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 module.exports = {
   env: {
     browser: true, // Browser global variables like `window` etc.
@@ -90,6 +92,7 @@ module.exports = {
         code: 120
       }
     ],
+    "max-lines": ["warn", 100],
     // "no-console": "warn",
     "no-duplicate-imports": "warn",
     "no-restricted-imports": [

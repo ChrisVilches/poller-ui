@@ -1,12 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import { WS_ENDPOINT_BASE, WS_ENDPOINT_PATH } from "../config";
-import { Endpoint } from "../models/Endpoint";
-import { Polling } from "../models/Polling";
-
-export type EventInitialize = string;
-export type EventAttempt = Endpoint;
-export type EventSuccess = Polling;
+import { EventAttempt, EventInitialize, EventSuccess } from "../interfaces/events";
 
 export interface SocketEvent {
   timestamp: Date;
