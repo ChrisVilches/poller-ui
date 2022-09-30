@@ -1,13 +1,8 @@
-import { Set } from "immutable";
-import React from "react";
+import React, { useContext } from "react";
+import { EndpointFormContext, EndpointFormDispatchContext } from "../../../contexts/EndpointFormContext";
 import { Tag } from "../../../models/Tag";
 import { useFindAllTagsQuery } from "../../../slices/tagSlice";
 import { TagLabel } from "../../TagLabel";
-
-interface TagsTabProps {
-  selectedTagIds: Set<number>;
-  onSelectedTagIdsChange: (ids: Set<number>) => void;
-}
 
 // TODO: Should use a localization library.
 const tagsSelectedLabel = (count: number) => {
@@ -21,11 +16,13 @@ const tagsSelectedLabel = (count: number) => {
   }
 };
 
-export const TagsTab = ({ selectedTagIds, onSelectedTagIdsChange }: TagsTabProps) => {
+export const TagsTab = () => {
+  const dispatch = useContext(EndpointFormDispatchContext);
+  const endpoint = useContext(EndpointFormContext);
   const { data: allTags = [] } = useFindAllTagsQuery();
 
   const toggleSelectTag = (tagId: number) => {
-    onSelectedTagIdsChange(selectedTagIds.has(tagId) ? selectedTagIds.remove(tagId) : selectedTagIds.add(tagId));
+    dispatch({ payload: tagId, type: "toggle_tag_id" });
   };
 
   return (
@@ -33,7 +30,7 @@ export const TagsTab = ({ selectedTagIds, onSelectedTagIdsChange }: TagsTabProps
       { allTags.map((tag: Tag) => (
         <button key={ tag.id } className="mr-2" onClick={ () => toggleSelectTag(tag.id) }>
           <div
-            className={ `${selectedTagIds.has(tag.id) ? "bg-slate-800 font-bold" : "bg-slate-400"} text-slate-100
+            className={ `${endpoint.tagIds.has(tag.id) ? "bg-slate-800 font-bold" : "bg-slate-400"} text-slate-100
             rounded-md px-2 select-none text-sm` }>
             <TagLabel name={ tag.name }/>
           </div>
@@ -41,7 +38,7 @@ export const TagsTab = ({ selectedTagIds, onSelectedTagIdsChange }: TagsTabProps
       )) }
 
       <div className="text-slate-100 mt-4 mb-8 text-sm">
-        { tagsSelectedLabel(selectedTagIds.size) }
+        { tagsSelectedLabel(endpoint.tagIds.size) }
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { Spinner } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { EndpointList } from "../components/EndpointList";
@@ -28,6 +28,8 @@ export const TagEndpoints = () => {
     setEditMode(false);
     refetch();
   }, [tagId, refetch]);
+
+  const fetchEndpoints = useCallback(() => tag?.endpoints || [], [tag]);
 
   // TODO: Should be isFetching. The reason is that isLoading doesn't show a spinner
   //       after updating the tag name, which would be good if it wasn't because
@@ -78,7 +80,7 @@ export const TagEndpoints = () => {
         ) }
       </div>
 
-      <EndpointListContextProvider endpointsFetch={ () => tag?.endpoints || [] }>
+      <EndpointListContextProvider endpointsFetch={ fetchEndpoints }>
         <EndpointList/>
       </EndpointListContextProvider>
     </>

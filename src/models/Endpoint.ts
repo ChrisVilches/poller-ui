@@ -1,19 +1,24 @@
+import { immerable } from "immer";
+
 export type MethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type RequestType = "HTML" | "DHTML" | "JSON";
 
 export class Endpoint {
+  [immerable] = true;
+
   id: number;
-  title: string;
-  rule: string;
-  notificationMessage: string;
-  not: boolean;
-  waitAfterNotificationMinutes: number;
+  title = "";
+  rule = "ContentEqualsRule";
+  notificationMessage = "";
+  not = false;
+  waitAfterNotificationMinutes = 30;
   timeout: number;
-  periodMinutes: number;
+  periodMinutes = 15;
   enabled: boolean;
   arguments: (string | boolean | number)[];
   navigations: string[];
-  url: string;
-  method: MethodType;
-  type: RequestType;
+  url = "";
+  method: MethodType = "GET";
+  type: RequestType = "HTML";
+  tagIds: Set<number>;
 }

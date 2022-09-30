@@ -1,11 +1,15 @@
-import { Set } from "immutable";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
 import { RequiredFields } from "./RequiredFields";
+import {
+  EndpointFormContext,
+  EndpointFormContextProvider,
+  EndpointFormDispatchContext
+} from "../../contexts/EndpointFormContext";
 import { Endpoint } from "../../models/Endpoint";
-import { Tag } from "../../models/Tag";
 import { EndpointService } from "../../services/EndpointService";
 import { useEndpointTagsQuery } from "../../slices/endpointSlice";
+import { collectPayload } from "../../util/endpoint";
 import { ErrorList } from "../ErrorList";
 
 interface EditFormProps {
@@ -15,57 +19,9 @@ interface EditFormProps {
   children: (form: ReactElement, saveEndpoint: () => void, saveLoading: boolean) => ReactElement
 }
 
-// TODO: The ultimate refactor is to use a better state management technique.
-//       Probably context + reducer. Why? Because:
-//       (1) Avoid "prop drill down"
-//       (2) Object is complex
-
-export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {
+const EndpointFormAux = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const [title, setTitle] = useState(endpoint.title || "");
-  const [rule, setRule] = useState(endpoint.rule || "ContentEqualsRule");
-  const [args, setArgs] = useState(endpoint.arguments || []);
-  const [navs, setNavs] = useState(endpoint.navigations || []);
-  const [not, setNot] = useState(endpoint.not || false);
-  const [url, setUrl] = useState(endpoint.url || "");
-  const [periodMinutes, setPeriodMinutes] = useState(endpoint.periodMinutes);
-  const [selectedTagIds, setSelectedTagIds] = useState(Set<number>());
-  const [method, setMethod] = useState(endpoint.method);
-  const [requestType, setRequestType] = useState(endpoint.type);
-  const [notificationMessage, setNotificationMessage] = useState(endpoint.notificationMessage || "");
-  const [
-    waitAfterNotificationMinutes,
-    setWaitAfterNotificationMinutes
-  ] = useState(endpoint.waitAfterNotificationMinutes);
-
-  useEffect(() => {
-    const {
-      method,
-      navigations,
-      not,
-      notificationMessage,
-      arguments: args,
-      type,
-      url,
-      periodMinutes,
-      rule,
-      title,
-      waitAfterNotificationMinutes
-    } = endpoint;
-    setTitle(title || "");
-    setRule(rule || "ContentEqualsRule");
-    setArgs(args || []);
-    setPeriodMinutes(periodMinutes);
-    setNavs(navigations || []);
-    setNot(not || false);
-    setUrl(url || "");
-    setMethod(method || "GET");
-    setRequestType(type || "HTML");
-    setNotificationMessage(notificationMessage || "");
-    setWaitAfterNotificationMinutes(waitAfterNotificationMinutes || 0);
-  }, [endpoint]);
 
   // TODO: I think this doesn't reload the correct data for the correct endpoint ID that's currently selected.
   // This is most likely related to RTK Query Cache.
@@ -84,33 +40,15 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
     skip: !endpoint.id
   });
 
-  useEffect(() => {
-    setSelectedTagIds(Set((endpointTags || []).map((t: Tag) => t.id)));
-  }, [endpointTags]);
+  const endpointState = useContext(EndpointFormContext);
+  const dispatch = useContext(EndpointFormDispatchContext);
 
-  const collectPayload = () => formType === "create" ? {
-    method,
-    rule,
-    title,
-    type: requestType,
-    url
-  } : {
-    arguments: args,
-    method,
-    navigations: navs,
-    not,
-    notificationMessage,
-    periodMinutes,
-    rule,
-    tags: selectedTagIds.toArray(),
-    title,
-    type: requestType,
-    url,
-    waitAfterNotificationMinutes
-  };
+  useEffect(() => {
+    dispatch({ payload: endpointTags || [], type: "set_tag_ids" });
+  }, [endpointTags, dispatch]);
 
   const saveEndpoint = async () => {
-    const partialEndpoint: Partial<Endpoint> = collectPayload();
+    const partialEndpoint: Partial<Endpoint> = collectPayload(formType, endpointState);
 
     setLoading(true);
 
@@ -131,61 +69,28 @@ export const EndpointForm = ({ endpoint, onEndpointUpserted, formType, children 
     }
   };
 
-  const onChangeRule = (ruleName: string) => {
-    setArgs([]);
-    setRule(ruleName);
-  };
-
-  const requiredFields = (
-    <RequiredFields
-      { ...{
-        method,
-        onChangeRule,
-        requestType,
-        rule,
-        setMethod,
-        setRequestType,
-        setTitle,
-        setUrl,
-        title,
-        url
-      } }
-    />
-  );
-
-
   // TODO: Should respond to enter key (when the user wants to send the form).
-  const form = (
+  const form = useMemo(() => (
     <div className="mb-2">
-      { formType === "create" ? requiredFields : <></> }
-
-      { formType === "edit" ? (
-        <AdvancedConfiguration
-          { ...{
-            args,
-            endpoint,
-            mainTab: requiredFields,
-            navs,
-            not,
-            notificationMessage,
-            periodMinutes,
-            rule,
-            selectedTagIds,
-            setArgs,
-            setNavs,
-            setNot,
-            setNotificationMessage,
-            setPeriodMinutes,
-            setSelectedTagIds,
-            setWaitAfterNotificationMinutes,
-            waitAfterNotificationMinutes
-          } }
-        />
-      ) : <></> }
-
+      { formType === "create" ? <RequiredFields/> : <AdvancedConfiguration/> }
       <ErrorList className="mt-8" errors={ errors } />
     </div>
-  );
+  ), [formType, errors]);
 
   return children(form, saveEndpoint, loading);
+};
+
+const createBlankEndpoint = () => {
+  const result = new Endpoint();
+  return result;
+};
+
+export const EndpointForm = (props: EditFormProps) => {
+  const endpoint = props.endpoint.id ? props.endpoint : createBlankEndpoint();
+
+  return (
+    <EndpointFormContextProvider endpoint={ endpoint }>
+      <EndpointFormAux { ...props }/>
+    </EndpointFormContextProvider>
+  );
 };

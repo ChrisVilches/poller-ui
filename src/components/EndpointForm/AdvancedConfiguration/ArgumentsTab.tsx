@@ -1,26 +1,13 @@
 import Tippy from "@tippyjs/react";
-import React from "react";
+import React, { useContext } from "react";
 import { Input } from "./Input";
+import { EndpointFormContext, EndpointFormDispatchContext } from "../../../contexts/EndpointFormContext";
 import { PairLabelValueCols } from "../../PairLabelValueCols";
 import rulesArgs from "../rules-arguments.json";
 import "tippy.js/dist/tippy.css"; // optional
+import { convertUsingType } from "../../../util/endpoint";
 
 export type ArgumentType = "string" | "boolean" | "number" | "comparisonOperator";
-
-const convertUsingType = (typeName: string, value: string) => {
-  switch (typeName) {
-  case "number":
-    return +value;
-  case "string":
-    return value;
-  case "boolean":
-    return !!value;
-  case "comparisonOperator":
-    return value;
-  default:
-    throw new Error(`Invalid type name (${typeName})`);
-  }
-};
 
 interface ArgumentsFormProps {
   types: ArgumentType[];
@@ -84,23 +71,22 @@ const ArgumentsForm = ({ types, onChange, values, names, argDescriptions }: Argu
   );
 };
 
-interface ArgumentsTabProps {
-  rule: string;
-  args: (string | number | boolean)[];
-  setArgs: (args: (string | number | boolean)[]) => void;
-}
+export const ArgumentsTab = () => {
+  const dispatch = useContext(EndpointFormDispatchContext);
+  const endpoint = useContext(EndpointFormContext);
 
-export const ArgumentsTab = ({ args, rule, setArgs }: ArgumentsTabProps) => (
-  <>
-    <div className="text-slate-100 mt-4 mb-8 text-sm">
-      Configure what to do with the data once it&apos;s fetched.
-    </div>
+  return (
+    <>
+      <div className="text-slate-100 mt-4 mb-8 text-sm">
+        Configure what to do with the data once it&apos;s fetched.
+      </div>
 
-    <ArgumentsForm
-      values={ args }
-      names={ rulesArgs.names[rule] }
-      onChange={ setArgs }
-      argDescriptions={ rulesArgs.descriptions[rule] }
-      types={ rulesArgs.types[rule] } />
-  </>
-);
+      <ArgumentsForm
+        values={ endpoint.arguments }
+        names={ rulesArgs.names[endpoint.rule] }
+        onChange={ (payload: (string | number | boolean)[]) => dispatch({ payload, type: "set_args" }) }
+        argDescriptions={ rulesArgs.descriptions[endpoint.rule] }
+        types={ rulesArgs.types[endpoint.rule] } />
+    </>
+  );
+};

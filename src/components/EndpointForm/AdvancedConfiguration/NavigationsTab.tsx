@@ -1,6 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { EndpointFormContext, EndpointFormDispatchContext } from "../../../contexts/EndpointFormContext";
 
 interface NavigationsFormProps {
   selectors: string[];
@@ -50,20 +51,18 @@ const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) => {
   );
 };
 
+export const NavigationsTab = () => {
+  const dispatch = useContext(EndpointFormDispatchContext);
+  const endpoint = useContext(EndpointFormContext);
 
-interface NavigationsTabProps {
-  navs: string[];
-  setNavs: (navs: string[]) => void;
-}
-
-export const NavigationsTab = ({
-  navs,
-  setNavs
-}: NavigationsTabProps) => (
-  <>
-    <div className="text-slate-100 my-4 mb-8 text-sm font-medium">
-      Use selectors in order to traverse the DOM before fetching the data.
-    </div>
-    <NavigationsForm selectors={ navs } onChange={ setNavs } />
-  </>
-);
+  return (
+    <>
+      <div className="text-slate-100 my-4 mb-8 text-sm font-medium">
+        Use selectors in order to traverse the DOM before fetching the data.
+      </div>
+      <NavigationsForm
+        selectors={ endpoint.navigations }
+        onChange={ (payload: string[]) => dispatch({ payload, type: "set_navs" }) } />
+    </>
+  );
+};
