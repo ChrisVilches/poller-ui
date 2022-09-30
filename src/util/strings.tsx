@@ -14,4 +14,4 @@ export const includesAny = (text: string, patterns: string[]): boolean => {
   }
 
   return false;
-}
+};

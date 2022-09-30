@@ -1,11 +1,14 @@
+/* eslint-disable max-lines */
+// TODO: Enable max-lines rule (remove comment above)
+
 import Tippy from "@tippyjs/react";
 import React, { useContext } from "react";
 import { Input } from "./Input";
 import { EndpointFormContext, EndpointFormDispatchContext } from "../../../contexts/EndpointFormContext";
+import { convertUsingType } from "../../../util/endpoint";
 import { PairLabelValueCols } from "../../PairLabelValueCols";
 import rulesArgs from "../rules-arguments.json";
 import "tippy.js/dist/tippy.css"; // optional
-import { convertUsingType } from "../../../util/endpoint";
 
 export type ArgumentType = "string" | "boolean" | "number" | "comparisonOperator";
 

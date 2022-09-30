@@ -1,3 +1,6 @@
+/* eslint-disable max-lines */
+// TODO: Enable max-lines rule (remove comment above)
+
 import React, { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
 import { RequiredFields } from "./RequiredFields";

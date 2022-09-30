@@ -92,7 +92,7 @@ module.exports = {
         code: 120
       }
     ],
-    "max-lines": ["warn", 100],
+    "max-lines": ["warn", 90],
     // "no-console": "warn",
     "no-duplicate-imports": "warn",
     "no-restricted-imports": [

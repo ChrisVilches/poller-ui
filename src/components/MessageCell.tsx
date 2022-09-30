@@ -6,7 +6,7 @@ const NETWORK_ERROR_PATTERNS = [
   "net::ERR_NAME_NOT_RESOLVED",
   "getaddrinfo EAI_AGAIN",
   "ERR_CERT_COMMON_NAME_INVALID"
-]
+];
 
 const cleanErrorMessage = (error: string) => {
   // Heuristic to improve the error message.
@@ -15,7 +15,7 @@ const cleanErrorMessage = (error: string) => {
   }
 
   return error;
-}
+};
 
 export const MessageCell = ({ message, error }: { message: string, error?: string}) => {
   if (message) {

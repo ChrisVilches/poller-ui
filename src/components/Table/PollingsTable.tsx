@@ -44,34 +44,29 @@ export const PollingsTable = ({ endpointId, defaultSorting }: PollingsTableProps
           <thead>
             { table.getHeaderGroups().map(headerGroup => (
               <tr key={ headerGroup.id }>
-                { headerGroup.headers.map(header => {
-                  return (
-                    <th key={ header.id } colSpan={ header.colSpan }>
-                      { header.isPlaceholder ? null : (
-                        <button
-                          type="button"
-                          { ...{
-                            className: header.column.getCanSort()
-                              ? "cursor-pointer select-none w-full"
-                              : "cursor-default select-none w-full",
-                            onClick: header.column.getToggleSortingHandler()
-                          } }
-                        >
-                          { flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          ) }
-                          <span className="float-right w-0">
-                            { {
-                              asc: <ChevronUpIcon className="w-4 h-4" />,
-                              desc: <ChevronDownIcon className="w-4 h-4" />
-                            }[header.column.getIsSorted() as string] ?? null }
-                          </span>
-                        </button>
-                      ) }
-                    </th>
-                  );
-                }) }
+                { headerGroup.headers.map(header => (
+                  <th key={ header.id } colSpan={ header.colSpan }>
+                    { header.isPlaceholder ? null : (
+                      <button
+                        type="button"
+                        { ...{
+                          className: header.column.getCanSort()
+                            ? "cursor-pointer select-none w-full"
+                            : "cursor-default select-none w-full",
+                          onClick: header.column.getToggleSortingHandler()
+                        } }
+                      >
+                        { flexRender(header.column.columnDef.header, header.getContext()) }
+                        <span className="float-right w-0">
+                          { {
+                            asc: <ChevronUpIcon className="w-4 h-4" />,
+                            desc: <ChevronDownIcon className="w-4 h-4" />
+                          }[header.column.getIsSorted() as string] ?? null }
+                        </span>
+                      </button>
+                    ) }
+                  </th>
+                )) }
               </tr>
             )) }
           </thead>

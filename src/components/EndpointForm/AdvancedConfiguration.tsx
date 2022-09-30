@@ -18,21 +18,21 @@ const tabs: [string, React.ElementType][] = [
 export const AdvancedConfiguration = () => (
   <Tab.Group>
     <Tab.List className="mb-10 flex">
-      {tabs.map(([name, Icon], idx: number) => (
-        <Tab key={idx} as="div" className="grow">
-          {({ selected }) => (
-            <button className={`w-full ${idx === 0 ? "rounded-l-md" : (idx === 4 ? "rounded-r-md" : "")}
-                p-3 ${selected ? "bg-slate-800 text-white" : "bg-slate-900 text-slate-100"}`}>
+      { tabs.map(([name, Icon], idx: number) => (
+        <Tab key={ idx } as="div" className="grow">
+          { ({ selected }) => (
+            <button className={ `w-full ${idx === 0 ? "rounded-l-md" : (idx === 4 ? "rounded-r-md" : "")}
+                p-3 ${selected ? "bg-slate-800 text-white" : "bg-slate-900 text-slate-100"}` }>
               <>
                 <Icon className="w-4 h-4 inline mr-2" />
                 <span className="hidden md:inline">
-                  {name}
+                  { name }
                 </span>
               </>
             </button>
-          )}
+          ) }
         </Tab>
-      ))}
+      )) }
     </Tab.List>
     <Tab.Panels>
       <Tab.Panel><RequiredFields /></Tab.Panel>
