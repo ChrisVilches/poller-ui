@@ -5,7 +5,7 @@ interface ToggleProps {
   checked: boolean;
   disabled?: boolean;
   loading?: boolean;
-  onChange: (checked: boolean) => void
+  onChange: (checked: boolean) => void;
 }
 
 export const Toggle = ({ checked, disabled, onChange }: ToggleProps) => (

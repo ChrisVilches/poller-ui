@@ -34,7 +34,7 @@ export const Pollings = () => {
         { endpointId ? (
           <>
             <HelmetTitle subtitles={ ["Activity", endpoint?.title] }/>
-            
+
             <div className="mb-4">
               <Link to="/pollings"><ChevronLeftIcon className="w-3 h-3 inline"/> See all activity</Link>
             </div>

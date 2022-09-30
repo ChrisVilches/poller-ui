@@ -2,20 +2,20 @@ import { Endpoint, MethodType, RequestType } from "../models/Endpoint";
 import { Tag } from "../models/Tag";
 
 export type EndpointFormReducerAction =
-| { type: "set_endpoint", payload: Endpoint }
-| { type: "set_title", payload: string }
-| { type: "set_type", payload: RequestType }
-| { type: "set_url", payload: string }
-| { type: "set_method", payload: MethodType }
-| { type: "set_rule", payload: string }
-| { type: "toggle_not", payload?: null }
-| { type: "set_wait", payload: number }
-| { type: "set_period", payload: number }
-| { type: "set_notif_msg", payload: string }
-| { type: "set_args", payload: (string | number | boolean)[] }
-| { type: "set_navs", payload: string[] }
-| { type: "set_tag_ids", payload: Tag[] }
-| { type: "toggle_tag_id", payload: number }
+| { type: "set_endpoint"; payload: Endpoint }
+| { type: "set_title"; payload: string }
+| { type: "set_type"; payload: RequestType }
+| { type: "set_url"; payload: string }
+| { type: "set_method"; payload: MethodType }
+| { type: "set_rule"; payload: string }
+| { type: "toggle_not"; payload?: null }
+| { type: "set_wait"; payload: number }
+| { type: "set_period"; payload: number }
+| { type: "set_notif_msg"; payload: string }
+| { type: "set_args"; payload: (string | number | boolean)[] }
+| { type: "set_navs"; payload: string[] }
+| { type: "set_tag_ids"; payload: Tag[] }
+| { type: "toggle_tag_id"; payload: number }
 
 export const endpointFormReducer = (draft: Endpoint, action: EndpointFormReducerAction) => {
   const { type, payload } = action;

@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ResponseCodeProps {
-  code: number
+  code: number;
 }
 
 export const ResponseCode = ({ code }: ResponseCodeProps) => {

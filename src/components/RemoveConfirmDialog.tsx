@@ -9,12 +9,12 @@ interface RemoveConfirmDialogProps {
   show: boolean;
   closeModal: () => void;
   endpoint: Endpoint;
-  onRemoved: (e: Endpoint) => void
+  onRemoved: (e: Endpoint) => void;
 }
 
 export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: RemoveConfirmDialogProps) => {
   const [loading, setLoading] = useState(false);
-  
+
   const executeRemove = async () => {
     setLoading(true);
 
@@ -65,7 +65,7 @@ export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: R
                     <TrashIcon className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                     Are you sure you want to remove endpoint <b><EndpointTitle title={ endpoint.title }/></b>?
                   </Dialog.Title>
-                  
+
                   <div className="flex justify-center gap-4">
                     <button disabled={ loading } onClick={ executeRemove } className="btn btn-danger">
                       Yes

@@ -33,9 +33,9 @@ export const useSocketListen = (eventNames: string[]) => {
 
     eventNames.forEach((name: string) => {
       socket.on(name, data => {
-        console.log(`Event received: ${name}`); 
+        console.log(`Event received: ${name}`);
         console.log(data);
-        
+
         setEvents((state: SocketEvent[]) => {
           const newState: SocketEvent[] = [...state];
           data.type = name;
@@ -52,7 +52,7 @@ export const useSocketListen = (eventNames: string[]) => {
       console.log("Disconnecting.");
       socket.off("connect");
       socket.off("disconnect");
-      
+
       eventNames.forEach((name: string) => {
         socket.off(name);
       });

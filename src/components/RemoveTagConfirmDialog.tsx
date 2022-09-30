@@ -15,7 +15,7 @@ interface RemoveTagConfirmDialogProps {
 
 export const RemoveTagConfirmDialog = ({ show, tag, closeModal }: RemoveTagConfirmDialogProps) => {
   const [loading, setLoading] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const { refetch: reloadTagMenu } = useFindAllTagsQuery();

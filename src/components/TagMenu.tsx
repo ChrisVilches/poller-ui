@@ -12,7 +12,7 @@ export const TagMenu = () => {
   const match = useMatch("/tag/:id");
 
   const activeTagId = Number(match?.params?.id);
-  
+
   if(isLoading) {
     return (
       <div role="status" className="max-w-sm animate-pulse">

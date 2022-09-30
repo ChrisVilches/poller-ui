@@ -7,7 +7,7 @@ import { Polling } from "../../models/Polling";
 import { useFindPollingsQuery } from "../../slices/pollingsSlice";
 
 interface PollingsTableProps {
-  defaultSorting: { id: string, desc: boolean };
+  defaultSorting: { id: string; desc: boolean };
   endpointId: number | undefined;
 }
 

@@ -18,8 +18,8 @@ import { ErrorList } from "../ErrorList";
 interface EditFormProps {
   endpoint: Endpoint;
   onEndpointUpserted: (e: Endpoint) => void;
-  formType: "create" | "edit"
-  children: (form: ReactElement, saveEndpoint: () => void, saveLoading: boolean) => ReactElement
+  formType: "create" | "edit";
+  children: (form: ReactElement, saveEndpoint: () => void, saveLoading: boolean) => ReactElement;
 }
 
 const EndpointFormAux = ({ endpoint, onEndpointUpserted, formType, children }: EditFormProps) => {

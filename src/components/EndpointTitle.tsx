@@ -1,7 +1,7 @@
 import React from "react";
 
 interface EndpointTitleProps {
-  title: string
+  title: string;
 }
 
 export const EndpointTitle = ({ title }: EndpointTitleProps) => {

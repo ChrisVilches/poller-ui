@@ -2,7 +2,7 @@ import React from "react";
 
 interface RuleLabelProps {
   label: string;
-  bold?: boolean
+  bold?: boolean;
 }
 
 export const RuleLabel = ({ label, bold = false }: RuleLabelProps) => {

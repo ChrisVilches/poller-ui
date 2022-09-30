@@ -8,7 +8,7 @@ interface TriggerPollingConfirmDialogProps {
   show: boolean;
   closeModal: () => void;
   endpoint: Endpoint;
-  onTriggerComplete: (e: Endpoint) => void
+  onTriggerComplete: (e: Endpoint) => void;
 }
 
 export const TriggerPollingConfirmDialog = ({
@@ -18,7 +18,7 @@ export const TriggerPollingConfirmDialog = ({
   onTriggerComplete
 }: TriggerPollingConfirmDialogProps) => {
   const [loading, setLoading] = useState(false);
-  
+
   const triggerPolling = async () => {
     setLoading(true);
 

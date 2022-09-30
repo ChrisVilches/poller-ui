@@ -34,7 +34,7 @@ export const TagEdit = ({ tag, onExitEditMode, onUpdated }: TagEditProps) => {
   useEffect(() => {
     setTagName(tag.name || "");
   }, [tag.name]);
-  
+
   useEscapeKey(reset, inputRef);
 
   const updateTag = async () => {
@@ -79,7 +79,7 @@ export const TagEdit = ({ tag, onExitEditMode, onUpdated }: TagEditProps) => {
           <button type="button" className="ml-4 btn btn-link text-sm" onClick={ reset }>Cancel</button>
         </>
       ) }
-      
+
     </form>
   );
 };

@@ -17,7 +17,7 @@ const cleanErrorMessage = (error: string) => {
   return error;
 };
 
-export const MessageCell = ({ message, error }: { message: string, error?: string}) => {
+export const MessageCell = ({ message, error }: { message: string; error?: string }) => {
   if (message) {
     return <div>{ message }</div>;
   }

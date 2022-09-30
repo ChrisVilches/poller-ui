@@ -10,7 +10,7 @@ import { EndpointListContextProvider, EndpointListDispatchContext } from "../con
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
 
-const EndpointListAux = () => {  
+const EndpointListAux = () => {
   const dispatch = useContext(EndpointListDispatchContext);
   const [newModalShow, setNewModalShow] = useState(false);
 

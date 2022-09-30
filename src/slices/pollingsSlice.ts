@@ -12,7 +12,7 @@ interface PaginatedQuery {
   page: number;
   pageSize: number;
   order: "asc" | "desc";
-  sortBy: string
+  sortBy: string;
 }
 
 export const pollingsSlice = createApi({

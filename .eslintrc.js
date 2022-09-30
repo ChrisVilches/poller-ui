@@ -36,6 +36,19 @@ module.exports = {
       // If you are adding the typescript variant of a rule which is there in the javascript
       // ruleset, disable the JS one.
       rules: {
+        "@typescript-eslint/member-delimiter-style": [
+          "warn",
+          {
+            "multiline": {
+              "delimiter": "semi",
+              "requireLast": true
+            },
+            "singleline": {
+              "delimiter": "semi",
+              "requireLast": false
+            }
+          }
+        ],
         "@typescript-eslint/no-array-constructor": "warn",
         "@typescript-eslint/no-unused-vars": ["error"],
         "no-array-constructor": "off",
@@ -95,6 +108,8 @@ module.exports = {
     "max-lines": ["warn", 90],
     // "no-console": "warn",
     "no-duplicate-imports": "warn",
+    "no-multi-spaces": "warn",
+    "no-multiple-empty-lines": ["warn", { max: 1 }],
     "no-restricted-imports": [
       "error",
       {
@@ -123,6 +138,7 @@ module.exports = {
         ]
       }
     ],
+    "no-trailing-spaces": "warn",
     "no-unused-vars": "warn",
     "object-curly-spacing": [
       "warn",

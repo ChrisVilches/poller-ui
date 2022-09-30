@@ -77,7 +77,7 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
             Activity
           </Link>
         </div>
-        
+
         <div className="">
           <RuleLabel label={ endpoint.rule }/>
         </div>

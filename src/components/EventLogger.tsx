@@ -38,7 +38,6 @@ interface EventItemProps {
   data: EventInitialize | EventAttempt | EventSuccess;
 }
 
-
 // TODO: Event for error should also be included.
 const EventItem = ({ type, data }: EventItemProps) => {
   switch(type){
@@ -60,7 +59,7 @@ export const EventLogger = () => {
     <div className="rounded-xl bg-yellow-400 p-4">
 
       { isConnected ? <ConnectedDot/> : <DisconnectedDot/> }
-      
+
       <div className="mt-4 max-h-60 h-60 scroll-smooth overflow-y-scroll pr-4">
         { events.map(({ timestamp, type, data }: SocketEvent, idx: number) => (
           <div key={ idx } className="bg-yellow-500 rounded-md p-2 my-2 break-words">

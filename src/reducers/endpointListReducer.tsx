@@ -1,12 +1,12 @@
 import { Endpoint } from "../models/Endpoint";
 
 export type EndpointListReducerAction =
-| { type: "set_loading", payload?: null }
-| { type: "set_all", payload: Endpoint[] }
-| { type: "add_item", payload: Endpoint }
-| { type: "update_item", payload: { endpointId: number, endpoint: Endpoint } }
-| { type: "update_enabled", payload: { endpointId: number, enabled: boolean } }
-| { type: "remove_item", payload: { endpointId: number } }
+| { type: "set_loading"; payload?: null }
+| { type: "set_all"; payload: Endpoint[] }
+| { type: "add_item"; payload: Endpoint }
+| { type: "update_item"; payload: { endpointId: number; endpoint: Endpoint } }
+| { type: "update_enabled"; payload: { endpointId: number; enabled: boolean } }
+| { type: "remove_item"; payload: { endpointId: number } }
 
 export const endpointListReducer = (draft, action: EndpointListReducerAction) => {
   const { type, payload } = action;
