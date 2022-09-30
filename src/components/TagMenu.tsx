@@ -1,7 +1,7 @@
-import { Spinner } from "flowbite-react";
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
 import { CreateTag } from "./CreateTag";
+import { Spinner } from "./Spinner";
 import { TagLabel } from "./TagLabel";
 import { Tag } from "../models/Tag";
 import { useFindAllTagsQuery } from "../slices/tagSlice";
@@ -13,7 +13,7 @@ export const TagMenu = () => {
 
   const activeTagId = Number(match?.params?.id);
 
-  if(isLoading) {
+  if (isLoading) {
     return (
       <div role="status" className="max-w-sm animate-pulse">
         <div className="h-7 bg-slate-700 rounded-full w-3/4 mb-4"></div>
@@ -34,7 +34,9 @@ export const TagMenu = () => {
           <div className="grow">
             All
           </div>
-          <Spinner style={ { visibility: isFetching ? "visible" : "hidden" } }/>
+          <div style={ { visibility: isFetching ? "visible" : "hidden" } }>
+            <Spinner/>
+          </div>
         </div>
       </Link>
       { (tags || []).map((t: Tag) => (

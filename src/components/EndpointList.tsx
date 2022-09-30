@@ -1,10 +1,10 @@
-import { Spinner } from "flowbite-react";
 import { AnimatePresence } from "framer-motion";
 import React, { useContext, useState } from "react";
 import { CircleCount } from "./CircleCount";
 import { EndpointItem } from "./EndpointItem";
 import { EndpointOptionModals } from "./EndpointOptionModals";
 import { EndpointOptions } from "./EndpointOptions";
+import { Spinner } from "./Spinner";
 import { EndpointListContext, EndpointListDispatchContext } from "../contexts/EndpointListContext";
 import { Endpoint } from "../models/Endpoint";
 
@@ -14,14 +14,14 @@ export const EndpointList = () => {
 
   const [onlyEnabled, setOnlyEnabled] = useState(true);
 
-  if(isLoading) {
+  if (isLoading) {
     return <Spinner/>;
   }
 
   const applyFilters = (initialList: Endpoint[]) => {
     const filters: ((e: Endpoint) => boolean)[] = [];
 
-    if(onlyEnabled) {
+    if (onlyEnabled) {
       filters.push((e: Endpoint) => e.enabled);
     }
 

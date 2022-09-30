@@ -28,7 +28,7 @@ export const RemoveTagConfirmDialog = ({ show, tag, closeModal }: RemoveTagConfi
       toast.success(`Tag '${result.name}' removed!`);
       reloadTagMenu();
       navigate("/");
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);

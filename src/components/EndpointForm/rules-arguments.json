@@ -28,5 +28,15 @@
       "number",
       "comparisonOperator"
     ]
+  },
+  "defaultValues": {
+    "ContentEqualsRule": [
+      ""
+    ],
+    "HasOccurrencesRule": [
+      "",
+      0,
+      "=="
+    ]
   }
 }

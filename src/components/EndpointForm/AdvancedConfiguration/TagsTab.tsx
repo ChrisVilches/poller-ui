@@ -4,9 +4,8 @@ import { Tag } from "../../../models/Tag";
 import { useFindAllTagsQuery } from "../../../slices/tagSlice";
 import { TagLabel } from "../../TagLabel";
 
-// TODO: Should use a localization library.
 const tagsSelectedLabel = (count: number) => {
-  switch(count){
+  switch (count){
   case 0:
     return "No tags selected.";
   case 1:

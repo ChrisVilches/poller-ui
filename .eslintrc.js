@@ -99,6 +99,7 @@ module.exports = {
       "warn",
       "prefer-double"
     ],
+    "keyword-spacing": "warn",
     "max-len": [
       "warn",
       {

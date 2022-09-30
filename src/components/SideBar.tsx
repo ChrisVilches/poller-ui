@@ -1,9 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { Footer } from "flowbite-react";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ButtonIcon } from "./ButtonIcon";
+import { Footer } from "./Footer";
 import { TagMenu } from "./TagMenu";
 
 export const SideBar = () => {

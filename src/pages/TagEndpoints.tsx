@@ -1,10 +1,10 @@
-import { Spinner } from "flowbite-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { EndpointList } from "../components/EndpointList";
 import { HelmetTitle } from "../components/HelmetTitle";
 import { RemoveTagConfirmDialog } from "../components/RemoveTagConfirmDialog";
+import { Spinner } from "../components/Spinner";
 import { TagEdit } from "../components/TagEdit";
 import { TagLabel } from "../components/TagLabel";
 import { EndpointListContextProvider } from "../contexts/EndpointListContext";
@@ -41,11 +41,11 @@ export const TagEndpoints = () => {
   //
   //       The reason why it blinks could be related to other things as well, like some of the hooks
   //       I have. But I don't know yet.
-  if(isFetching) {
+  if (isFetching) {
     return <div><Spinner/></div>;
   }
 
-  if(!isFetching && error) {
+  if (!isFetching && error) {
     return <NotFound/>;
   }
 
@@ -58,7 +58,6 @@ export const TagEndpoints = () => {
           <TagEdit tag={ tag as Tag }
             onExitEditMode={ () => setEditMode(false) }
             onUpdated={ () => {
-              // TODO: This refetch could be done using optimistic updates.
               refetch();
               reloadTagMenu();
             } }/>

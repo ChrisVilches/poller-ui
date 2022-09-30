@@ -12,17 +12,12 @@ export const useEscapeKey = (
       }
     };
 
-    // TODO: Remove this (I think it's solved - the fix was to wrap the onEscapePressed
-    //       with useCallBack so that the hook is not executed so often).
-    console.log("doing this (if this prints often, wrap reset in useCallback)");
-
     const ref = inputRef.current;
 
-    if(editMode) {
+    if (editMode) {
       inputRef.current?.addEventListener("keydown", handle);
     }
 
-    // TODO: Not sure if this actually cleans the event.
     return () => {
       ref?.removeEventListener("keydown", handle);
     };

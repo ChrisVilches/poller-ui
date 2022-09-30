@@ -43,7 +43,7 @@ export const EndpointOptionModals = () => {
     reloadTagMenu();
   };
 
-  if(!selectedEndpoint) {
+  if (!selectedEndpoint) {
     return <></>;
   }
 

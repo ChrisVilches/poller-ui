@@ -1,6 +1,3 @@
-/* eslint-disable max-lines */
-// TODO: Enable max-lines rule (remove comment above)
-
 import React, { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { AdvancedConfiguration } from "./AdvancedConfiguration";
 import { RequiredFields } from "./RequiredFields";
@@ -26,19 +23,6 @@ const EndpointFormAux = ({ endpoint, onEndpointUpserted, formType, children }: E
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // TODO: I think this doesn't reload the correct data for the correct endpoint ID that's currently selected.
-  // This is most likely related to RTK Query Cache.
-  // How to reproduce.
-  // (1) Keep the console.log I have inside the hook below.
-  // (2) Update the tags for one endpoint.
-  // (3) Close, open another endpoint edit form, close, and open the endpoint you edited again.
-  // (4) You should see no Network activity (query result is cached), and the tags are the same as before.
-  //
-  // How to solve: Invalidate cache (manually) so that the query is reloaded.
-  // Since I'm using Axios for that query, it has to be done manually.
-  //
-  // Update: Solved by adding "reloadEndpointTags" after the Axios query.
-  //         Still needs to confirm if it's fixed or not. Monkey test some more.
   const { data: endpointTags, refetch: reloadEndpointTags } = useEndpointTagsQuery(endpoint.id, {
     skip: !endpoint.id
   });

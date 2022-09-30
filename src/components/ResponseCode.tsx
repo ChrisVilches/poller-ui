@@ -11,11 +11,11 @@ export const ResponseCode = ({ code }: ResponseCodeProps) => {
 
   const codeNumber = +code;
 
-  if(codeNumber >= 200 && codeNumber < 400) {
+  if (codeNumber >= 200 && codeNumber < 400) {
     return <span className="inline-block rounded-md p-2 bg-green-600 text-white">{ codeNumber }</span>;
   }
 
-  if(codeNumber >= 400) {
+  if (codeNumber >= 400) {
     return <span className="inline-block rounded-md p-2 bg-red-600 text-white">{ codeNumber }</span>;
   }
 

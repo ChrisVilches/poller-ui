@@ -21,7 +21,7 @@ export const TagEdit = ({ tag, onExitEditMode, onUpdated }: TagEditProps) => {
   }, []);
 
   useEffect(() => {
-    if(!updatingTag) {
+    if (!updatingTag) {
       autoFocus();
     }
   }, [updatingTag, autoFocus]);

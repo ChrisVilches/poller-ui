@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { EndpointFormContext, EndpointFormDispatchContext } from "../../../contexts/EndpointFormContext";
 
 interface NavigationsFormProps {
@@ -24,10 +24,6 @@ const NavigationsForm = ({ selectors, onChange }: NavigationsFormProps) => {
     newSelectors.splice(idx, 1);
     onChange(newSelectors);
   };
-
-  // TODO: This is just for testing.
-  const [val] = useState(Math.random());
-  console.log(val);
 
   return (
     <>

@@ -16,10 +16,6 @@ interface EndpointListContextProviderProps {
   children: ReactNode;
 }
 
-// TODO: The way to use this component is a bit strange. I think it'd be better to:
-//       1) Pass endpoints and isLoading from props
-//       2) Create a useEffect to set the set_all (reducer) to set the endpoints from props
-//       3) From the components that use this component, pass the data using RTK Query, because it's cuter than axios.
 export const EndpointListContextProvider = ({ children, endpointsFetch }: EndpointListContextProviderProps) => {
   const [
     { endpoints, isLoading },

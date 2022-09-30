@@ -12,10 +12,6 @@ export const endpointSlice = createApi({
     findAllEndpoints: builder.query<Endpoint[], void>({
       query: () => "/"
     }),
-    // TODO: This query is meant to be used for the pollings view, but what would happen
-    //       if it's called somewhere else? There's a chance the previously loaded
-    //       endpoint would appear for a moment. Maybe refactor and call it
-    //       something like "endpoint selected for polling view" (but choose a more compact name).
     findOneEndpoint: builder.query<Endpoint, number>({
       query: (id: number) => `/${id}`
     })

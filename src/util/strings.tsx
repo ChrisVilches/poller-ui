@@ -7,8 +7,8 @@ export const truncateString = (text: string, amount = 40) => {
 };
 
 export const includesAny = (text: string, patterns: string[]): boolean => {
-  for(const pattern of patterns) {
-    if(text.includes(pattern)) {
+  for (const pattern of patterns) {
+    if (text.includes(pattern)) {
       return true;
     }
   }

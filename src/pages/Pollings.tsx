@@ -1,12 +1,10 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
-// TODO: I'm only using the Spinner from Flowbite, so if I use my own spinner, then I can remove the library.
-//       I'm also using the skeleton, but is that really imported from Flowbite? I think it's not, but confirm.
-import { Spinner } from "flowbite-react";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { EndpointItemReadonly } from "../components/EndpointItemReadonly";
 import { HelmetTitle } from "../components/HelmetTitle";
+import { Spinner } from "../components/Spinner";
 import { PollingsTable } from "../components/Table/PollingsTable";
 import { Endpoint } from "../models/Endpoint";
 import { useFindOneEndpointQuery } from "../slices/endpointSlice";
@@ -18,12 +16,12 @@ export const Pollings = () => {
     skip: !endpointId
   });
 
-  if(endpointId) {
-    if(isFetching) {
+  if (endpointId) {
+    if (isFetching) {
       return <Spinner/>;
     }
 
-    if(error) {
+    if (error) {
       return <NotFound/>;
     }
   }

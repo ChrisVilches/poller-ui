@@ -7,7 +7,7 @@ import { SocketEvent, useSocketListen } from "../hooks/useSocketListen";
 import { EventAttempt, EventInitialize, EventSuccess } from "../interfaces/events";
 
 const formatter = (value, unit, suffix, _epochMilliseconds, nextFormatter) => {
-  if(unit === "second" && suffix === "ago" && value < 60) {
+  if (unit === "second" && suffix === "ago" && value < 60) {
     return "Just now";
   }
 
@@ -40,7 +40,7 @@ interface EventItemProps {
 
 // TODO: Event for error should also be included.
 const EventItem = ({ type, data }: EventItemProps) => {
-  switch(type){
+  switch (type){
   case "polling.initialize":
     return <EventInitializeItem message={ data as EventInitialize }/>;
   case "polling.attempt":

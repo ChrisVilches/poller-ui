@@ -25,7 +25,7 @@ export const TriggerPollingConfirmDialog = ({
     try {
       const result: Endpoint = await PollingService.enqueuePolling(endpoint.id);
       onTriggerComplete(result);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     } finally {
       setLoading(false);

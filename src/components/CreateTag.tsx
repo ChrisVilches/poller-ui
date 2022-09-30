@@ -12,12 +12,6 @@ export const CreateTag = () => {
 
   const [trigger, { isLoading }] = useCreateTagMutation();
 
-  // TODO: When the creation is over, it glitches a bit. I think it's because
-  //       it resets the form, and then hides the form.
-  //       There's a possibility this can't be fixed easily. The cause may be because
-  //       the form goes back to the initial state because the RTK Query ends, and after
-  //       that, I execute my custom ".then". The order is OK, but the RTK Query state is
-  //       reflected earlier. So there's nothing to do about it (other than some hack to "fix" it)
   const reset = useCallback(() => {
     setEditMode(false);
     setTagName("");
@@ -54,7 +48,7 @@ export const CreateTag = () => {
 
   useEscapeKey(reset, inputRef, editMode);
 
-  if(editMode) {
+  if (editMode) {
     return (
       <form onSubmit={ saveTag }>
         <div className="mb-4">

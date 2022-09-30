@@ -1,4 +1,3 @@
-import { Spinner } from "flowbite-react";
 import { motion } from "framer-motion";
 import React , { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,6 +5,7 @@ import TimeAgo from "react-timeago";
 import { EndpointTitle } from "./EndpointTitle";
 import { PairLabelValueCols } from "./PairLabelValueCols";
 import { RuleLabel } from "./RuleLabel";
+import { Spinner } from "./Spinner";
 import { Toggle } from "./Toggle";
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
@@ -59,8 +59,8 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
           left="Enabled"
           right={ (
             <>
-              <div className="absolute translate-x-12">
-                <Spinner style={ { visibility: loading ? "visible" : "hidden" } }/>
+              <div className="absolute translate-x-14" style={ { visibility: loading ? "visible" : "hidden" } }>
+                <Spinner/>
               </div>
               <Toggle
                 loading={ loading }

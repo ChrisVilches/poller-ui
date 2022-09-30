@@ -21,7 +21,7 @@ export const RemoveConfirmDialog = ({ show, closeModal, endpoint, onRemoved }: R
     try {
       const result: Endpoint = await EndpointService.remove(endpoint.id);
       onRemoved(result);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     } finally {
       setLoading(false);
