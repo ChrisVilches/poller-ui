@@ -13,7 +13,7 @@ export const collectPayload = (formType: string, endpoint: Endpoint) => {
   } = endpoint;
 
   return {
-    arguments: endpoint.arguments,
+    arguments: getSanitizedArgs(endpoint),
     method,
     navigations,
     not,
@@ -43,6 +43,10 @@ export const convertUsingType = (typeName: string, value: string) => {
   }
 };
 
+/**
+ * Returns an endpoint's argument array, using proper default values
+ * (for its rule) if the array is empty or not present.
+ */
 export const getSanitizedArgs = (endpoint: Endpoint) => {
   if (endpoint.arguments && endpoint.arguments.length) {
     return endpoint.arguments;
