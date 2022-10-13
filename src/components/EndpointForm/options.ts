@@ -4,4 +4,4 @@ export const methodOptions: MethodType[] = ["GET", "POST", "PUT", "PATCH", "DELE
 
 export const requestTypeOptions: RequestType[] = ["HTML", "DHTML", "JSON"];
 
-export const ruleOptions = ["ContentEqualsRule", "HasOccurrencesRule"];
+export const ruleOptions = ["ContentEqualsRule", "HasOccurrencesRule", "AlwaysRule"];

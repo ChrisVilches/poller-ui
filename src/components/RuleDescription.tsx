@@ -4,6 +4,7 @@ interface RuleDescriptionProps {
   ruleName: string;
 }
 
+// TODO: These texts can be moved to a JSON file.
 export const RuleDescription = ({ ruleName }: RuleDescriptionProps) => {
   switch (ruleName) {
   case "ContentEqualsRule":
@@ -16,6 +17,12 @@ export const RuleDescription = ({ ruleName }: RuleDescriptionProps) => {
     return (
       <i>
         This rule counts the occurrences of a string.
+      </i>
+    );
+  case "AlwaysRule":
+    return (
+      <i>
+        Always evaluates to true.
       </i>
     );
   default:

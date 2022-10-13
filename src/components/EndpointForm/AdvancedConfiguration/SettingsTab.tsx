@@ -3,6 +3,7 @@ import { EndpointFormContext, EndpointFormDispatchContext } from "../../../conte
 import { Toggle } from "../../Toggle";
 
 const ruleTokens = {
+  AlwaysRule: ["content"],
   ContentEqualsRule: ["content"],
   HasOccurrencesRule: ["count"]
 };
@@ -20,7 +21,7 @@ export const SettingsTab = () => {
 
         <input
           type="text"
-          value={ endpoint.notificationMessage }
+          value={ endpoint.notificationMessage || "" }
           onChange={ (ev) => dispatch({ payload: ev.currentTarget.value, type: "set_notif_msg" }) }
           placeholder="The website changed!"
           required

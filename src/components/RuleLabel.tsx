@@ -7,6 +7,10 @@ interface RuleLabelProps {
 
 export const RuleLabel = ({ label, bold = false }: RuleLabelProps) => {
   const colors = {
+    AlwaysRule: {
+      bold: "bg-red-700 font-bold",
+      normal: "bg-red-500"
+    },
     ContentEqualsRule: {
       bold: "bg-violet-700 font-bold",
       normal: "bg-violet-500"

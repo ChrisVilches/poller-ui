@@ -58,6 +58,14 @@ export const ArgumentsTab = () => {
   const dispatch = useContext(EndpointFormDispatchContext);
   const endpoint = useContext(EndpointFormContext);
 
+  if (rulesArgs.names[endpoint.rule].length === 0) {
+    return (
+      <i>
+        Cannot be configured.
+      </i>
+    );
+  }
+
   return (
     <>
       <div className="text-slate-100 mt-4 mb-8 text-sm">
