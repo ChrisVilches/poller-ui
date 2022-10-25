@@ -54,7 +54,7 @@ export const RequiredFields = () => {
           <label key={ idx } className="mr-6">
             <input
               type="radio"
-              className="mr-2 checkbox"
+              className="mr-2"
               checked={ endpoint.type === type }
               onChange={ () => dispatch({ payload: type, type: "set_type" }) }/>
             { type }

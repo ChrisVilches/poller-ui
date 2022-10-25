@@ -17,17 +17,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.checkbox {
-  @apply w-4;
-  @apply h-4;
-  @apply p-2;
-  @apply text-blue-500;
-  @apply bg-gray-100;
-  @apply rounded-full;
-  @apply border-gray-300;
-  @apply focus:text-blue-600;
-}
-
 table {
   border: 1px solid lightgray;
 }
