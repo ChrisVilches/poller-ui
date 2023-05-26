@@ -1,7 +1,8 @@
+import { ArrowTrendingUpIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import React , { useState } from "react";
-import { Link } from "react-router-dom";
 import TimeAgo from "react-timeago";
+import { ButtonIconLink } from "./ButtonIconLink";
 import { EndpointTitle } from "./EndpointTitle";
 import { PairLabelValueCols } from "./PairLabelValueCols";
 import { RuleLabel } from "./RuleLabel";
@@ -9,6 +10,7 @@ import { Spinner } from "./Spinner";
 import { Toggle } from "./Toggle";
 import { Endpoint } from "../models/Endpoint";
 import { EndpointService } from "../services/EndpointService";
+import { formatMinutes } from "../util/time";
 
 const transition = {
   animate: { opacity: 1, transition: { duration: 0.3 } },
@@ -42,7 +44,7 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
         <PairLabelValueCols
           smallScreenCenterItems={ true }
           left="Wait after notification"
-          right={ `${endpoint.waitAfterNotificationMinutes} minutes` }/>
+          right={ formatMinutes(endpoint.waitAfterNotificationMinutes) }/>
 
         { endpoint.timeout && endpoint.enabled ? (
           <PairLabelValueCols
@@ -71,16 +73,12 @@ export const EndpointItem = ({ endpoint, toggleEnable }: EndpointItemProps) => {
           ) }/>
       </div>
 
-      <div className="flex flex-row items-center">
-        <div className="grow">
-          <Link className="endpoint-item-link" to={ `/pollings/${endpoint.id}` }>
-            Activity
-          </Link>
-        </div>
+      <div className="flex justify-between">
+        <ButtonIconLink icon={ ArrowTrendingUpIcon } to={ `/pollings/${endpoint.id}` } className="endpoint-item-link">
+          Activity
+        </ButtonIconLink>
 
-        <div className="">
-          <RuleLabel label={ endpoint.rule }/>
-        </div>
+        <RuleLabel label={ endpoint.rule }/>
       </div>
     </motion.div>
   );
